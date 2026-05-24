@@ -955,10 +955,29 @@ textarea.admin-input{resize:vertical;min-height:100px}
 }
 
 @media(max-width:767px){
-  .main-nav ul{display:none;flex-direction:column}
+  .main-nav{position:relative;z-index:200}
+  .main-nav ul{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:#9cb96a;
+    z-index:201;
+    box-shadow:0 6px 16px rgba(0,0,0,0.25);
+  }
   .main-nav ul.open{display:flex}
   .burger-btn{display:block}
-  .main-nav ul li a{padding:10px 20px;border-bottom:1px solid rgba(255,255,255,0.15)}
+  .main-nav ul li a{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.2)}
+  /* overlay to close menu when tapping outside */
+  .nav-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:199;
+  }
+  .nav-overlay.open{display:block}
 
   .slide img{height:220px}
   .slider-btn{font-size:1.5rem;padding:6px 10px}

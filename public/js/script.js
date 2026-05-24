@@ -488,7 +488,17 @@ function setLang(lang) {
 
 function toggleMobileMenu() {
   const menu = document.getElementById('main-menu');
-  if (menu) menu.classList.toggle('open');
+  const overlay = document.getElementById('navOverlay');
+  if (!menu) return;
+  const isOpen = menu.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('open', isOpen);
+}
+
+function closeMobileMenu() {
+  const menu = document.getElementById('main-menu');
+  const overlay = document.getElementById('navOverlay');
+  if (menu) menu.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
 }
 
 let slideIndex = 0;
