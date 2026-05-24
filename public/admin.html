@@ -1270,7 +1270,7 @@ function addNews(e) {
 }
 
 /* ── GitHub API config ── */
-const GH_TOKEN  = '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';
+const GH_TOKEN  = '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';
 const GH_REPO   = 'Meir909/-';
 const GH_BRANCH = 'main';
 const GH_API    = 'https://api.github.com';
@@ -1305,10 +1305,26 @@ async function ghDelete(path, message, sha) {
   return r.json();
 }
 
+/* Декодировать base64 → UTF-8 строку (безопасно для кириллицы и спецсимволов) */
+function b64ToUtf8(b64) {
+  const bin = atob(b64.replace(/\n/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+/* Кодировать UTF-8 строку → base64 */
+function utf8ToB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+
 /* Получить SHA файла gallery.html для обновления */
 async function getGalleryHtmlSha() {
   const data = await ghGet('public/gallery.html');
-  return { sha: data.sha, content: atob(data.content.replace(/\n/g, '')) };
+  return { sha: data.sha, content: b64ToUtf8(data.content) };
 }
 
 /* ── Gallery render ── */
@@ -1381,16 +1397,41 @@ async function deleteGalleryItem(e, btn) {
     const fileData = await ghGet(ghPath);
     await ghDelete(ghPath, `Delete photo ${imgSrc}`, fileData.sha);
 
-    /* 2. Обновить gallery.html — убрать блок gallery-item с этим фото */
-    const fileName = imgSrc.replace('images/', '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    /* 2. Обновить gallery.html — построчно убрать блок с этим фото */
+    const fileName = imgSrc.replace('images/', '');
     const { sha, content } = await getGalleryHtmlSha();
-    const blockRe = new RegExp(
-      '\\s*<div class="gallery-item"[^>]*>\\s*<img src="images/' + fileName + '"[^>]*>\\s*<div class="gallery-zoom">[\\s\\S]*?<\\/div>\\s*<\\/div>',
-      'g'
-    );
-    const newContent = content.replace(blockRe, '');
-    const newBase64 = btoa(unescape(encodeURIComponent(newContent)));
-    await ghUpload('public/gallery.html', newBase64, `Remove ${fileName} from gallery`, sha);
+    const lines = content.split('\n');
+    const out = [];
+    let skip = 0;
+    for (const line of lines) {
+      if (skip === 0 && line.includes('class="gallery-item"')) {
+        // начало блока — проверим следующие несколько строк
+        skip = 4; // пропустим этот div и 3 строки внутри него
+        // но только если это наш файл — для этого буферим
+        out.push({ pending: true, lines: [line] });
+      } else if (skip > 0) {
+        const buf = out[out.length - 1];
+        buf.lines.push(line);
+        skip--;
+        if (skip === 0) {
+          // решаем: содержит ли буфер наш файл?
+          const blockText = buf.lines.join('\n');
+          if (blockText.includes(fileName)) {
+            out.pop(); // выбрасываем весь блок
+          } else {
+            // не наш — выписываем как есть
+            const saved = out.pop();
+            saved.lines.forEach(l => out.push(l));
+          }
+        }
+      } else {
+        out.push(line);
+      }
+    }
+    // финализируем — если остались pending буферы (незакрытые)
+    const finalLines = out.map(x => (typeof x === 'string' ? x : x.lines.join('\n')));
+    const newContent = finalLines.join('\n');
+    await ghUpload('public/gallery.html', utf8ToB64(newContent), `Remove ${fileName} from gallery`, sha);
 
     /* 3. Убрать из DOM */
     item.style.transition = 'opacity 0.2s, transform 0.2s';
@@ -1465,10 +1506,9 @@ async function addPhotoFromFile(input) {
 
   if (uploaded > 0) {
     /* Вставить новые фото в gallery.html перед закрытием galleryGrid */
-    const updated = galContent.replace(/(<\/div>\s*<\/div>\s*<\/section>)(?![\s\S]*<\/div>\s*<\/div>\s*<\/section>)/, newLines + '\n    </div>\n  </div>\n</section>');
-    const newBase64 = btoa(unescape(encodeURIComponent(updated)));
+    const updated = galContent.replace('    </div>\n  </div>\n</section>', newLines + '\n    </div>\n  </div>\n</section>');
     try {
-      await ghUpload('public/gallery.html', newBase64, `Add ${uploaded} photo(s) to gallery`, galSha);
+      await ghUpload('public/gallery.html', utf8ToB64(updated), `Add ${uploaded} photo(s) to gallery`, galSha);
       showToast(`✓ ${uploaded} фото загружено! Сайт обновится через ~30 сек.`);
     } catch(e) {
       showToast('Фото загружены, но gallery.html не обновился: ' + e.message, true);
