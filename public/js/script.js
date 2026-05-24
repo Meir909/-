@@ -10,12 +10,17 @@ const TRANSLATIONS = {
   kk: {
     // Nav
     'nav.home':        'Басты бет',
-    'nav.about':       'Біз туралы',
-    'nav.teachers':    'Тәрбиешілер',
-    'nav.gallery':     'Галерея',
     'nav.news':        'Жаңалықтар',
-    'nav.admissions':  'Қабылдау',
+    'nav.about':       'Балабақша туралы',
+    'nav.director':    'Басшы туралы ақпарат',
+    'nav.documents':   'Құжаттар',
+    'nav.gallery':     'Галерея',
     'nav.contacts':    'Байланыс',
+    'nav.consult':     'Консультациялық орталық',
+    'nav.attest':      'Аттестация',
+    // legacy keys kept for other pages
+    'nav.teachers':    'Тәрбиешілер',
+    'nav.admissions':  'Қабылдау',
 
     // Hero
     'hero.badge':      '✨ Жаңа жыл — жаңа достар',
@@ -116,13 +121,34 @@ const TRANSLATIONS = {
     'cta.sub':         'Сынақ күніне жазылыңыз — бәрін өз көзіңізбен көресіз.',
     'cta.btn':         'Өтінім қалдыру',
 
+    // Director page
+    'dir.eyebrow':     'БАСШЫ ТУРАЛЫ',
+    'dir.title':       'Ұйымды басқарушы туралы ақпарат',
+    'dir.sub':         'Балабақшамыздың жетекшісі туралы.',
+
+    // Documents page
+    'docs.eyebrow':    'ҚҰЖАТТАР',
+    'docs.title':      'Құжаттар',
+    'docs.sub':        'Балабақшаның нормативтік және ұйымдастырушылық құжаттары.',
+    'docs.soon':       'Құжаттар жүктеліп жатыр...',
+
+    // Consultation page
+    'consult.eyebrow': 'КОНСУЛЬТАЦИЯЛЫҚ ОРТАЛЫҚ',
+    'consult.title':   'Консультациялық орталық',
+    'consult.sub':     'Мамандардың кеңестері мен ата-аналарға арналған ақпарат.',
+
+    // Attestation page
+    'attest.eyebrow':  'АТТЕСТАЦИЯ',
+    'attest.title':    'Аттестация',
+    'attest.sub':      'Педагогикалық қызметкерлерді аттестациялау туралы ақпарат.',
+
     // Footer
     'footer.about':    'Happy Hearts — заманауи балабақша.',
     'footer.nav':      'Навигация',
     'footer.contact':  'Байланыс',
     'footer.social':   'Әлеуметтік желілер',
     'footer.copy':     '© 2026 Happy Hearts. Барлық құқықтар қорғалған.',
-    'footer.made':     '❤️ Алматыда жасалған',
+    'footer.made':     '❤️ Ақтауда жасалған',
 
     // Contact
     'contact.addr':    'Мекенжай',
@@ -192,12 +218,17 @@ const TRANSLATIONS = {
 
   ru: {
     'nav.home':        'Главная',
-    'nav.about':       'О нас',
-    'nav.teachers':    'Воспитатели',
-    'nav.gallery':     'Галерея',
     'nav.news':        'Новости',
-    'nav.admissions':  'Поступление',
+    'nav.about':       'О детском саде',
+    'nav.director':    'Информация о руководителе',
+    'nav.documents':   'Документы',
+    'nav.gallery':     'Галерея',
     'nav.contacts':    'Контакты',
+    'nav.consult':     'Консультационный пункт',
+    'nav.attest':      'Аттестация',
+    // legacy
+    'nav.teachers':    'Воспитатели',
+    'nav.admissions':  'Поступление',
 
     'hero.badge':      '✨ Новый год — новые друзья',
     'hero.title1':     'Счастливое детство —',
@@ -290,12 +321,33 @@ const TRANSLATIONS = {
     'cta.sub':         'Запишитесь на пробный день — увидите всё своими глазами.',
     'cta.btn':         'Оставить заявку',
 
+    // Director page
+    'dir.eyebrow':     'О РУКОВОДИТЕЛЕ',
+    'dir.title':       'Информация о руководителе',
+    'dir.sub':         'Руководство нашего детского сада.',
+
+    // Documents page
+    'docs.eyebrow':    'ДОКУМЕНТЫ',
+    'docs.title':      'Документы',
+    'docs.sub':        'Нормативные и организационные документы детского сада.',
+    'docs.soon':       'Документы загружаются...',
+
+    // Consultation page
+    'consult.eyebrow': 'КОНСУЛЬТАЦИОННЫЙ ПУНКТ',
+    'consult.title':   'Консультационный пункт',
+    'consult.sub':     'Консультации специалистов и информация для родителей.',
+
+    // Attestation page
+    'attest.eyebrow':  'АТТЕСТАЦИЯ',
+    'attest.title':    'Аттестация',
+    'attest.sub':      'Информация об аттестации педагогических работников.',
+
     'footer.about':    'Happy Hearts — современный детский сад.',
     'footer.nav':      'Навигация',
     'footer.contact':  'Контакты',
     'footer.social':   'Мы в соцсетях',
     'footer.copy':     '© 2026 Happy Hearts. Все права защищены.',
-    'footer.made':     '❤️ Сделано в Алматы',
+    'footer.made':     '❤️ Сделано в Актау',
 
     'contact.addr':    'Адрес',
     'contact.addr.v':  'Актау, мкр. Самал, 51',
@@ -355,149 +407,7 @@ const TRANSLATIONS = {
     'cont.form.send':  'Отправить',
   },
 
-  en: {
-    'nav.home':        'Home',
-    'nav.about':       'About',
-    'nav.teachers':    'Teachers',
-    'nav.gallery':     'Gallery',
-    'nav.news':        'News',
-    'nav.admissions':  'Admissions',
-    'nav.contacts':    'Contacts',
-
-    'hero.badge':      '✨ New Year — New Friends',
-    'hero.title1':     'Happy Childhood —',
-    'hero.title2':     'Bright Future',
-    'hero.lead':       'Happy Hearts is a premium kindergarten where we unlock every child\'s potential through play, creativity, and science.',
-    'hero.cta1':       'Enroll Your Child',
-    'hero.cta2':       'Programs',
-    'hero.stat1':      'Happy Children',
-    'hero.stat2':      'Teachers',
-    'hero.stat3':      'Years Experience',
-    'hero.card1.t':    'Safe Environment',
-    'hero.card1.s':    'CCTV 24/7',
-    'hero.card2.t':    'Healthy Meals',
-    'hero.card2.s':    '5 meals a day',
-
-    'feat.eyebrow':    'WHY US',
-    'feat.title':      'Why Parents Choose Happy Hearts',
-    'feat.sub':        'We combine love for children, modern methods and caring approach.',
-    'feat.1.t':        'Creative Development',
-    'feat.1.d':        'Drawing, music, dance and theatre — every child shines.',
-    'feat.2.t':        'STEM Program',
-    'feat.2.d':        'Logic, robotics and experiments — preparing for the future.',
-    'feat.3.t':        'Trilingual Environment',
-    'feat.3.d':        'Kazakh, Russian and English — daily learning.',
-    'feat.4.t':        'Health & Sports',
-    'feat.4.d':        'Yoga, swimming, PE and balanced nutrition.',
-
-    'prog.eyebrow':    'PROGRAMS',
-    'prog.title':      'Age-Based Programs',
-    'prog.sub':        'Each age — its own methodology.',
-    'prog.1.age':      '2–3 years',
-    'prog.1.t':        'Toddler Group',
-    'prog.1.d':        'Sensory development, stories and first socialization.',
-    'prog.2.age':      '3–5 years',
-    'prog.2.t':        'Middle Group',
-    'prog.2.d':        'Creative activities, language learning and music.',
-    'prog.3.age':      '5–7 years',
-    'prog.3.t':        'School Preparation',
-    'prog.3.d':        'Reading, writing, math and STEM subjects.',
-    'prog.more':       'Learn more',
-
-    'gal.eyebrow':     'MOMENTS',
-    'gal.title':       'Our Daily Life',
-    'gal.sub':         'Snapshots from happy days.',
-
-    'news.eyebrow':    'NEWS',
-    'news.title':      'Latest News & Events',
-    'news.sub':        'Life at our kindergarten.',
-    'news.cat.event':  'Event',
-    'news.cat.comp':   'Competition',
-    'news.cat.work':   'Workshop',
-    'news.1.t':        'New Academic Year Opened',
-    'news.1.d':        'We welcomed 2026 with new plans and new friends.',
-    'news.2.t':        'Robotics Competition',
-    'news.2.d':        'Our students won three prize places.',
-    'news.3.t':        'Parent Workshop',
-    'news.3.d':        'A useful meeting about children\'s emotional intelligence.',
-    'news.more':       'Read more',
-
-    'test.eyebrow':    'TESTIMONIALS',
-    'test.title':      'What Parents Say',
-    'test.1.q':        '"I bring all three of my children here — the youngest has noticeably improved speech."',
-    'test.1.n':        'Aidana Orazbai',
-    'test.1.r':        'Mom of 3 · 2GIS',
-    'test.2.q':        '"My niece happily goes to kindergarten and praises the teachers a lot."',
-    'test.2.n':        'Anastasia Lustina',
-    'test.2.r':        'Parent · 2GIS ★★★★★',
-    'test.3.q':        '"My daughter adapted quickly to Salima\'s group — the results are visible."',
-    'test.3.n':        'Nursaule Shegenbayeva',
-    'test.3.r':        'Parent · 2GIS ★★★★★',
-    'test.4.q':        '"We see progress in English and math. Fresh sea air is a bonus."',
-    'test.4.n':        'KAS',
-    'test.4.r':        'Parent · 2GIS ★★★★★',
-    'test.5.q':        '"Grateful for the child\'s development and the warm atmosphere."',
-    'test.5.n':        'Aktoty Utarbayeva',
-    'test.5.r':        'Parent · 2GIS ★★★★★',
-
-    'faq.eyebrow':     'FAQ',
-    'faq.title':       'Frequently Asked Questions',
-    'faq.1.q':         'What are the working hours?',
-    'faq.1.a':         'Monday to Friday from 07:30 to 19:00.',
-    'faq.2.q':         'How is nutrition organized?',
-    'faq.2.a':         '5 balanced meals per day.',
-    'faq.3.q':         'Is there a trial day?',
-    'faq.3.a':         'Yes, a free trial day — contact us.',
-    'faq.4.q':         'Which languages are taught?',
-    'faq.4.a':         'Kazakh, Russian and English.',
-
-    'cta.title':       'Your Child\'s Happy Future Starts Here',
-    'cta.sub':         'Sign up for a trial day — see everything for yourself.',
-    'cta.btn':         'Apply Now',
-
-    'footer.about':    'Happy Hearts — a modern kindergarten.',
-    'footer.nav':      'Navigation',
-    'footer.contact':  'Contact',
-    'footer.social':   'Follow Us',
-    'footer.copy':     '© 2026 Happy Hearts. All rights reserved.',
-    'footer.made':     '❤️ Made in Almaty',
-
-    'contact.addr':    'Address',
-    'contact.addr.v':  'Aktau, Samal district, 51',
-    'contact.phone':   'Phone',
-    'contact.phone.v': '+7 701 486 00 00',
-    'contact.email':   'Email',
-    'contact.email.v': 'happyhearts.aktau@gmail.com',
-    'contact.hours':   'Working Hours',
-    'contact.hours.v': 'Mon–Fri, 07:30–19:00',
-
-    'wa.msg':          'Hello! I would like to enroll my child in Happy Hearts kindergarten.',
-    'wa.tooltip':      'Chat on WhatsApp',
-
-    'about.eyebrow':   'ABOUT US',
-    'about.title':     'About Happy Hearts',
-    'about.sub':       'Combining love for children and professional expertise.',
-    'about.history.eyebrow': 'HISTORY',
-    'about.history.title':   'Our History',
-    'about.mission.eyebrow': 'MISSION',
-    'about.mission.title':   'Our Mission',
-    'about.values.eyebrow':  'VALUES',
-    'about.values.title':    'Our Values',
-    'about.methods.eyebrow': 'METHODS',
-    'about.methods.title':   'Teaching Methods',
-
-    'teach.eyebrow':   'OUR TEAM',
-    'teach.title':     'Our Teachers',
-    'teach.sub':       'Professional and caring team.',
-
-    'gallery.eyebrow': 'GALLERY',
-    'gallery.title':   'Photo Gallery',
-    'gallery.sub':     'Moments from our kindergarten.',
-
-    'newspage.eyebrow':'NEWS',
-    'newspage.title':  'News',
-    'newspage.sub':    'Latest events and news.',
-
+  en: { 'nav.home': 'Home',
     'adm.eyebrow':     'ADMISSIONS',
     'adm.title':       'Enroll Your Child',
     'adm.sub':         'Simple and convenient admission process.',

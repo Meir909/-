@@ -150,8 +150,8 @@ p{color:var(--text-muted);font-size:0.98rem}
 .logo:hover{opacity:0.9}
 .logo-icon{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.35)}
 .logo-icon svg{width:20px;height:20px;fill:#fff}
-.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
-.nav-links a{padding:7px 12px;border-radius:var(--r-md);font-weight:600;font-size:0.85rem;color:rgba(255,255,255,0.8);transition:all var(--t-fast)}
+.nav-links{display:flex;align-items:center;gap:1px;margin-left:8px;flex-wrap:nowrap}
+.nav-links a{padding:6px 8px;border-radius:var(--r-sm);font-weight:600;font-size:0.78rem;color:rgba(255,255,255,0.8);transition:all var(--t-fast);white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,0.15)}
 .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .lang-switch{display:flex;align-items:center;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.25);border-radius:var(--r-md);padding:3px;gap:2px}
