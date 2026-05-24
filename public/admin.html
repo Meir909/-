@@ -432,6 +432,11 @@
       color: #15803d;
       border: 1px solid #86efac;
     }
+    .admin-alert-danger {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
     .admin-alert-info {
       background: var(--primary-pale);
       color: var(--primary);
@@ -1064,18 +1069,18 @@
                 <div class="admin-form-group">
                   <label>Раздел</label>
                   <select class="admin-input" id="docCategory">
-                    <option>Учредительные документы</option>
-                    <option>Образовательные программы</option>
-                    <option>Внутренние документы</option>
-                    <option>Отчёты и планы</option>
+                    <option value="cat1">Учредительные документы</option>
+                    <option value="cat2">Образовательные программы</option>
+                    <option value="cat3">Внутренние документы</option>
+                    <option value="cat4">Отчёты и планы</option>
                   </select>
                 </div>
                 <div class="admin-form-group">
-                  <label>Ссылка на файл</label>
+                  <label>Ссылка на файл (необязательно)</label>
                   <input type="text" class="admin-input" id="docUrl" placeholder="docs/document.pdf">
                 </div>
               </div>
-              <button type="submit" class="admin-btn admin-btn-primary">
+              <button type="submit" class="admin-btn admin-btn-primary" id="docAddBtn">
                 <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Добавить документ
               </button>
@@ -1089,30 +1094,15 @@
               <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               Список документов
             </span>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="loadDocsList()" style="margin-left:auto">
+              <svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Обновить
+            </button>
           </div>
           <div class="admin-card-body" style="padding:0">
-            <table class="admin-table">
-              <thead>
-                <tr><th>Название</th><th>Раздел</th><th>Действия</th></tr>
-              </thead>
-              <tbody id="docsList">
-                <tr>
-                  <td>Свидетельство о государственной регистрации</td>
-                  <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
-                </tr>
-                <tr>
-                  <td>Устав частного учреждения «Happy Hearts»</td>
-                  <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
-                </tr>
-                <tr>
-                  <td>Лицензия на образовательную деятельность</td>
-                  <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
-                </tr>
-              </tbody>
-            </table>
+            <div id="docsListWrap">
+              <div style="padding:32px;text-align:center;color:var(--text-muted)">Загрузка...</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1236,6 +1226,8 @@ function showTab(name, link) {
     documents: 'Документы', attestation: 'Аттестация'
   };
   document.getElementById('adminPageTitle').textContent = titles[name] || name;
+  if (name === 'gallery') renderGallery();
+  if (name === 'documents') loadDocsList();
   if (window.innerWidth <= 900) {
     document.getElementById('adminSidebar').classList.remove('open');
   }
@@ -1595,23 +1587,139 @@ function saveContacts(e) {
   setTimeout(() => al.style.display = 'none', 3000);
 }
 
-function addDocument(e) {
+/* ── DOCUMENTS GITHUB API ── */
+
+const DOC_CAT_LABELS = {
+  cat1: 'Учредительные документы',
+  cat2: 'Образовательные программы',
+  cat3: 'Внутренние документы',
+  cat4: 'Отчёты и планы'
+};
+const DOC_CAT_BADGES = {
+  cat1: 'badge-blue', cat2: 'badge-green', cat3: 'badge-gray', cat4: 'badge-blue'
+};
+const DOC_CAT_ANCHORS = {
+  cat1: 'docs.cat1', cat2: 'docs.cat2', cat3: 'docs.cat3', cat4: 'docs.cat4'
+};
+
+async function loadDocsList() {
+  const wrap = document.getElementById('docsListWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">Загрузка...</div>';
+  try {
+    const data = await ghGet('public/documents.html');
+    const html = b64ToUtf8(data.content);
+    const items = parseDocItems(html);
+    if (!items.length) {
+      wrap.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">Документы не найдены</div>';
+      return;
+    }
+    let tableHtml = '<table class="admin-table"><thead><tr><th>Название</th><th>Раздел</th><th>Действия</th></tr></thead><tbody>';
+    items.forEach((item, idx) => {
+      const badge = DOC_CAT_BADGES[item.catKey] || 'badge-gray';
+      const label = DOC_CAT_LABELS[item.catKey] || item.catKey;
+      tableHtml += `<tr data-doc-idx="${idx}">
+        <td>${item.name}</td>
+        <td><span class="badge ${badge}">${label.split(' ')[0]}</span></td>
+        <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteDocument(${idx})">Удалить</button></td>
+      </tr>`;
+    });
+    tableHtml += '</tbody></table>';
+    wrap.innerHTML = tableHtml;
+    wrap._docItems = items;
+  } catch(err) {
+    wrap.innerHTML = `<div style="padding:32px;text-align:center;color:#e53935">Ошибка: ${err.message}</div>`;
+  }
+}
+
+function parseDocItems(html) {
+  const items = [];
+  const catKeys = ['cat1','cat2','cat3','cat4'];
+  const catAnchors = Object.values(DOC_CAT_ANCHORS);
+  const re = /<div class="doc-item">([\s\S]*?)<\/div>\s*<\/div>/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const block = m[0];
+    const blockStart = m.index;
+    const nameMatch = block.match(/class="doc-item-name"[^>]*>([^<]+)</);
+    const hrefMatch = block.match(/href="([^"#][^"]+)"/);
+    const name = nameMatch ? nameMatch[1].trim() : '';
+    if (!name) continue;
+    let catKey = 'cat1';
+    for (let i = catAnchors.length - 1; i >= 0; i--) {
+      const anchor = 'data-i18n="' + catAnchors[i] + '"';
+      const catIdx = html.lastIndexOf(anchor, blockStart);
+      if (catIdx !== -1) { catKey = catKeys[i]; break; }
+    }
+    items.push({ name, href: hrefMatch ? hrefMatch[1] : '#', block: m[0], catKey });
+  }
+  return items;
+}
+
+async function deleteDocument(idx) {
+  const wrap = document.getElementById('docsListWrap');
+  const items = wrap._docItems;
+  if (!items || !items[idx]) return;
+  const item = items[idx];
+  if (!confirm(`Удалить документ "${item.name}"?`)) return;
+  const btn = wrap.querySelector(`tr[data-doc-idx="${idx}"] button`);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  try {
+    const data = await ghGet('public/documents.html');
+    const sha = data.sha;
+    let content = b64ToUtf8(data.content);
+    const newContent = content.replace(item.block, '');
+    if (newContent === content) throw new Error('Блок не найден в файле');
+    await ghUpload('public/documents.html', utf8ToB64(newContent), sha, `Remove doc: ${item.name}`);
+    showAlert('docsAlert', `Документ "${item.name}" удалён и сохранён на сайте.`, 'success');
+    await loadDocsList();
+  } catch(err) {
+    showAlert('docsAlert', `Ошибка: ${err.message}`, 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Удалить'; }
+  }
+}
+
+async function addDocument(e) {
   e.preventDefault();
-  const name = document.getElementById('docName').value;
-  const cat = document.getElementById('docCategory').value;
-  const catBadge = cat.includes('Учред') ? 'badge-blue' : cat.includes('Образов') ? 'badge-green' : 'badge-gray';
-  const tbody = document.getElementById('docsList');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${name}</td>
-    <td><span class="badge ${catBadge}">${cat.split(' ')[0]}</span></td>
-    <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>`;
-  tbody.insertBefore(tr, tbody.firstChild);
-  const al = document.getElementById('docsAlert');
-  al.textContent = '✓ Документ "' + name + '" добавлен!';
-  al.style.display = 'block';
-  setTimeout(() => al.style.display = 'none', 3000);
-  e.target.reset();
+  const name = document.getElementById('docName').value.trim();
+  const catKey = document.getElementById('docCategory').value;
+  const url = document.getElementById('docUrl').value.trim() || '#';
+  if (!name) return;
+  const btn = document.getElementById('docAddBtn');
+  btn.disabled = true;
+  btn.textContent = 'Сохранение...';
+  try {
+    const data = await ghGet('public/documents.html');
+    const sha = data.sha;
+    let content = b64ToUtf8(data.content);
+    const anchor = DOC_CAT_ANCHORS[catKey];
+    const catLabel = DOC_CAT_LABELS[catKey];
+    const sectionTitleRe = new RegExp(`(<div class="docs-section-title">[\\s\\S]*?data-i18n="${anchor}"[\\s\\S]*?<\\/div>)`);
+    const match = sectionTitleRe.exec(content);
+    if (!match) throw new Error('Раздел не найден');
+    const newDocHtml = `\n      <div class="doc-item"><div class="doc-item-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="doc-item-name">${name}</span><a href="${url}" class="doc-item-dl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Скачать</span></a></div>`;
+    const insertAfter = match[0];
+    const insertPos = content.indexOf(insertAfter) + insertAfter.length;
+    const newContent = content.slice(0, insertPos) + newDocHtml + content.slice(insertPos);
+    await ghUpload('public/documents.html', utf8ToB64(newContent), sha, `Add doc: ${name}`);
+    showAlert('docsAlert', `Документ "${name}" добавлен в раздел "${catLabel}".`, 'success');
+    e.target.reset();
+    await loadDocsList();
+  } catch(err) {
+    showAlert('docsAlert', `Ошибка: ${err.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Добавить документ';
+  }
+}
+
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'admin-alert ' + (type === 'error' ? 'admin-alert-danger' : 'admin-alert-success');
+  el.textContent = (type === 'error' ? '✗ ' : '✓ ') + msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 4000);
 }
 
 function addAttest(e) {
