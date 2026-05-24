@@ -1385,60 +1385,82 @@ async function deleteGalleryItem(e, btn) {
   e.stopPropagation();
   const item = btn.closest('.admin-gallery-item');
   const ghPath = item.dataset.ghpath;
-  const imgSrc = item.dataset.src;
+  const delSrc = item.dataset.src;
 
-  if (!confirm('Удалить это фото? Оно исчезнет на всех устройствах.')) return;
+  if (!confirm('Удалить это фото? Оно заменится следующим на сайте.')) return;
+
+  /* Найти замену — следующее фото, или предыдущее если удаляем последнее */
+  const allItems = Array.from(document.querySelectorAll('#adminGalleryGrid .admin-gallery-item'));
+  const idx = allItems.indexOf(item);
+  const replItem = allItems[idx + 1] || allItems[idx - 1];
+  if (!replItem) { showToast('Нельзя удалить последнее фото.', true); return; }
+  const replSrc  = replItem.dataset.src;
+  const replPath = replItem.dataset.ghpath;
 
   item.style.opacity = '0.4';
   btn.disabled = true;
 
   try {
-    /* 1. Удалить файл изображения из репозитория */
+    /* 1. Удалить файл из репозитория */
     const fileData = await ghGet(ghPath);
-    await ghDelete(ghPath, `Delete photo ${imgSrc}`, fileData.sha);
+    await ghDelete(ghPath, `Delete ${delSrc}`, fileData.sha);
 
-    /* 2. Обновить gallery.html — построчно убрать блок с этим фото */
-    const fileName = imgSrc.replace('images/', '');
+    /* 2. В gallery.html: заменить src удалённого на src замены,
+          затем удалить блок замены (она теперь стоит на месте удалённой) */
+    const delName  = delSrc.replace('images/', '');
+    const replName = replSrc.replace('images/', '');
     const { sha, content } = await getGalleryHtmlSha();
-    const lines = content.split('\n');
-    const out = [];
-    let skip = 0;
-    for (const line of lines) {
-      if (skip === 0 && line.includes('class="gallery-item"')) {
-        // начало блока — проверим следующие несколько строк
-        skip = 4; // пропустим этот div и 3 строки внутри него
-        // но только если это наш файл — для этого буферим
-        out.push({ pending: true, lines: [line] });
-      } else if (skip > 0) {
-        const buf = out[out.length - 1];
-        buf.lines.push(line);
-        skip--;
-        if (skip === 0) {
-          // решаем: содержит ли буфер наш файл?
-          const blockText = buf.lines.join('\n');
-          if (blockText.includes(fileName)) {
-            out.pop(); // выбрасываем весь блок
-          } else {
-            // не наш — выписываем как есть
-            const saved = out.pop();
-            saved.lines.forEach(l => out.push(l));
-          }
-        }
-      } else {
-        out.push(line);
-      }
-    }
-    // финализируем — если остались pending буферы (незакрытые)
-    const finalLines = out.map(x => (typeof x === 'string' ? x : x.lines.join('\n')));
-    const newContent = finalLines.join('\n');
-    await ghUpload('public/gallery.html', utf8ToB64(newContent), `Remove ${fileName} from gallery`, sha);
 
-    /* 3. Убрать из DOM */
-    item.style.transition = 'opacity 0.2s, transform 0.2s';
-    item.style.opacity = '0';
-    item.style.transform = 'scale(0.85)';
-    setTimeout(() => { item.remove(); updateGalleryCount(); }, 200);
-    showToast('✓ Фото удалено! Сайт обновится через ~30 сек.');
+    /* Парсим все gallery-item блоки */
+    function parseBlocks(text) {
+      const result = [];
+      const re = /(<div class="gallery-item"[\s\S]*?<\/div>\s*<\/div>)/g;
+      let m;
+      while ((m = re.exec(text)) !== null) {
+        result.push({ full: m[0], index: m.index });
+      }
+      return result;
+    }
+
+    const blocks = parseBlocks(content);
+    const delBlock  = blocks.find(b => b.full.includes(delName));
+    const replBlock = blocks.find(b => b.full.includes(replName));
+    if (!delBlock || !replBlock) throw new Error('Блок не найден в gallery.html');
+
+    /* Заменяем src в блоке удалённого фото */
+    const escapedDel = delName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const newDelBlock = delBlock.full.replace(
+      new RegExp('src="images/' + escapedDel + '"'),
+      `src="${replSrc}"`
+    ).replace(
+      new RegExp('alt="[^"]*"'),
+      `alt="Фото"`
+    );
+
+    /* Строим новый контент: заменяем delBlock → newDelBlock, удаляем replBlock */
+    let newContent = content.replace(delBlock.full, newDelBlock);
+    newContent = newContent.replace(replBlock.full, '');
+
+    await ghUpload('public/gallery.html', utf8ToB64(newContent),
+      `Replace ${delName} with ${replName}`, sha);
+
+    /* 3. DOM: плавно меняем src на месте, удаляем replItem */
+    const imgEl = item.querySelector('img');
+    imgEl.style.transition = 'opacity 0.25s';
+    imgEl.style.opacity = '0';
+    setTimeout(() => {
+      imgEl.src = replSrc;
+      item.dataset.src = replSrc;
+      item.dataset.ghpath = replPath;
+      imgEl.style.opacity = '1';
+      item.classList.remove('selected');
+      item.style.opacity = '1';
+      btn.disabled = false;
+      replItem.remove();
+      updateGalleryCount();
+    }, 250);
+
+    showToast('✓ Фото заменено! Сайт обновится через ~30 сек.');
   } catch(err) {
     item.style.opacity = '1';
     btn.disabled = false;
