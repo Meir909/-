@@ -5,21 +5,649 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Админ-панель — Happy Hearts</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1565C0;
+      --primary-dark: #0D47A1;
+      --primary-pale: #E3F0FF;
+      --secondary: #00897B;
+      --grad-primary: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+      --grad-header: linear-gradient(135deg, #1565C0 0%, #00897B 100%);
+      --grad-hero: linear-gradient(135deg, #1565C0 0%, #7B1FA2 100%);
+      --surface: #ffffff;
+      --surface2: #f8faff;
+      --border: #e2e8f8;
+      --text: #1a2340;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(21,101,192,0.08);
+      --shadow-md: 0 4px 20px rgba(21,101,192,0.14);
+      --shadow-card: 0 4px 24px rgba(21,101,192,0.10);
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 20px;
+      --r-full: 999px;
+      --t-fast: 0.18s ease;
+      --t-mid: 0.28s ease;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4ff;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN SCREEN ── */
+    .admin-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--grad-hero);
+      position: relative;
+      overflow: hidden;
+    }
+    .admin-login::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+      top: -150px; right: -150px;
+    }
+    .admin-login::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+      bottom: -80px; left: -80px;
+    }
+    .admin-login-box {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--r-lg);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    }
+    .admin-login-logo {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+    }
+    .admin-login-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .admin-login-box .subtitle {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+      margin-bottom: 28px;
+    }
+    .admin-login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--r-md);
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border var(--t-fast), background var(--t-fast);
+    }
+    .admin-login-box input::placeholder { color: rgba(255,255,255,0.55); }
+    .admin-login-box input:focus {
+      border-color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.22);
+    }
+    .admin-login-box button[type="submit"] {
+      width: 100%;
+      padding: 13px;
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      border-radius: var(--r-md);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+    }
+    .admin-login-box button[type="submit"]:hover {
+      background: var(--primary-pale);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+    .login-error {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #fca5a5;
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      margin-top: 10px;
+    }
+
+    /* ── ADMIN PANEL LAYOUT ── */
+    .admin-wrap {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .admin-sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: var(--grad-header);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform var(--t-mid);
+    }
+    .admin-sidebar-logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .admin-sidebar-logo .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .admin-sidebar-logo .logo-icon {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .admin-sidebar-logo .logo-icon svg {
+      width: 18px; height: 18px;
+      fill: #fff;
+    }
+    .admin-sidebar-logo .logo-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .admin-sidebar-logo .logo-sub {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.75rem;
+    }
+
+    .admin-nav {
+      padding: 16px 12px;
+      flex: 1;
+    }
+    .admin-nav a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 14px;
+      border-radius: var(--r-md);
+      color: rgba(255,255,255,0.78);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background var(--t-fast), color var(--t-fast);
+      margin-bottom: 2px;
+    }
+    .admin-nav a svg {
+      width: 18px; height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+    .admin-nav a:hover, .admin-nav a.active {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .admin-nav a.active {
+      background: rgba(255,255,255,0.22);
+      font-weight: 700;
+    }
+
+    .admin-sidebar-footer {
+      padding: 16px 12px 24px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .admin-sidebar-footer a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--r-md);
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background var(--t-fast), color var(--t-fast);
+      margin-bottom: 2px;
+    }
+    .admin-sidebar-footer a svg {
+      width: 16px; height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .admin-sidebar-footer a:hover { background: rgba(255,255,255,0.14); color: #fff; }
+    .admin-sidebar-footer a.logout { color: #fca5a5; }
+    .admin-sidebar-footer a.logout:hover { background: rgba(239,68,68,0.18); }
+
+    /* ── MAIN AREA ── */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ── TOPBAR ── */
+    .admin-topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      box-shadow: var(--shadow-sm);
+    }
+    .admin-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .admin-topbar-left h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .topbar-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 38px; height: 38px;
+      border: none;
+      background: var(--surface2);
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .topbar-menu-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .admin-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .topbar-user-avatar {
+      width: 34px; height: 34px;
+      background: var(--grad-primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .topbar-user-avatar svg { width: 16px; height: 16px; fill: #fff; }
+    .topbar-logout {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #ef4444;
+      cursor: pointer;
+      transition: all var(--t-fast);
+      text-decoration: none;
+    }
+    .topbar-logout svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .topbar-logout:hover { background: #fef2f2; border-color: #ef4444; }
+
+    /* ── CONTENT ── */
+    .admin-content {
+      padding: 28px;
+      flex: 1;
+    }
+    .admin-tab-content { display: none; }
+    .admin-tab-content.active { display: block; }
+
+    /* ── STATS ── */
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .admin-stat-card {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2; }
+    .si-blue { background: linear-gradient(135deg,#1565C0,#1976D2); }
+    .si-teal { background: linear-gradient(135deg,#00897B,#00ACC1); }
+    .si-purple { background: linear-gradient(135deg,#7B1FA2,#9C27B0); }
+    .si-pink { background: linear-gradient(135deg,#E91E63,#F06292); }
+    .stat-info .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-info .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ── CARDS ── */
+    .admin-card {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .admin-card-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface2);
+    }
+    .admin-card-header span {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-card-header svg {
+      width: 17px; height: 17px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+    }
+    .admin-card-body { padding: 22px; }
+
+    /* ── ALERT ── */
+    .admin-alert {
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .admin-alert-success {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+    .admin-alert-info {
+      background: var(--primary-pale);
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+    }
+
+    /* ── FORM ── */
+    .admin-form-group { margin-bottom: 16px; }
+    .admin-form-group label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .admin-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text);
+      background: var(--surface);
+      transition: border var(--t-fast), box-shadow var(--t-fast);
+      outline: none;
+      resize: vertical;
+    }
+    .admin-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
+    }
+    .admin-input::placeholder { color: #94a3b8; }
+    textarea.admin-input { min-height: 90px; }
+    select.admin-input { cursor: pointer; }
+
+    /* ── BUTTONS ── */
+    .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border: none;
+      border-radius: var(--r-md);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--t-fast);
+    }
+    .admin-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .admin-btn-primary {
+      background: var(--grad-primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(21,101,192,0.3);
+    }
+    .admin-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(21,101,192,0.4); }
+    .admin-btn-danger {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1.5px solid #fecaca;
+    }
+    .admin-btn-danger:hover { background: #fee2e2; border-color: #ef4444; }
+    .admin-btn-outline {
+      background: var(--surface2);
+      color: var(--primary);
+      border: 1.5px solid var(--border);
+    }
+    .admin-btn-outline:hover { border-color: var(--primary); background: var(--primary-pale); }
+    .admin-btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+    /* ── TABLE ── */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .admin-table th {
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      color: var(--text);
+    }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: var(--surface2); }
+    .admin-table img { border-radius: var(--r-sm); border: 1px solid var(--border); }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--r-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-blue { background: var(--primary-pale); color: var(--primary); }
+    .badge-purple { background: #f3e8ff; color: #7c3aed; }
+    .badge-gray { background: #f1f5f9; color: #64748b; }
+
+    /* ── WELCOME CARD ── */
+    .welcome-card {
+      background: var(--grad-hero);
+      border-radius: var(--r-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .welcome-card::after {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      right: -40px; top: -60px;
+    }
+    .welcome-card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+    .welcome-card p { color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+
+    /* ── GALLERY GRID ── */
+    .admin-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .admin-gallery-item {
+      position: relative;
+      border-radius: var(--r-md);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      border: 1.5px solid var(--border);
+    }
+    .admin-gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .admin-gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(21,101,192,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--t-fast);
+    }
+    .admin-gallery-item:hover .admin-gallery-item-overlay { opacity: 1; }
+    .admin-gallery-item-overlay button {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background var(--t-fast);
+    }
+    .admin-gallery-item-overlay button:hover { background: rgba(239,68,68,0.6); }
+    .admin-gallery-item-overlay button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .admin-sidebar {
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        transform: translateX(-100%);
+      }
+      .admin-sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.18); }
+      .topbar-menu-btn { display: flex; }
+      .admin-stats { grid-template-columns: repeat(2, 1fr); }
+      .admin-content { padding: 18px; }
+    }
+    @media (max-width: 560px) {
+      .admin-stats { grid-template-columns: 1fr 1fr; }
+      .admin-card-body { padding: 16px; }
+      .topbar-user span { display: none; }
+    }
+    @media (max-width: 400px) {
+      .admin-login-box { padding: 36px 22px; }
+    }
+  </style>
 </head>
 <body>
 
 <!-- LOGIN SCREEN -->
 <div class="admin-login" id="loginScreen">
   <div class="admin-login-box">
-    <div style="font-size:2.5rem;color:#9cb96a;margin-bottom:12px"><i class="fa fa-lock"></i></div>
+    <div class="admin-login-logo">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+    </div>
     <h1>Happy Hearts</h1>
     <div class="subtitle">Вход в административную панель</div>
     <form onsubmit="adminLogin(event)">
       <input type="password" id="adminPass" placeholder="Введите пароль" autocomplete="current-password">
       <button type="submit">Войти</button>
-      <div class="error" id="loginError" style="display:none">Неверный пароль. Попробуйте ещё раз.</div>
+      <div class="login-error" id="loginError" style="display:none">Неверный пароль. Попробуйте ещё раз.</div>
     </form>
   </div>
 </div>
@@ -30,51 +658,79 @@
   <!-- Sidebar -->
   <div class="admin-sidebar" id="adminSidebar">
     <div class="admin-sidebar-logo">
-      <i class="fa fa-heart" style="color:#9cb96a"></i> Happy Hearts
-      <span>Административная панель</span>
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+        </div>
+        <span class="logo-name">Happy Hearts</span>
+      </div>
+      <div class="logo-sub">Административная панель</div>
     </div>
+
     <nav class="admin-nav">
-      <a href="#" class="active" onclick="showTab('dashboard', this)">
-        <i class="fa fa-dashboard"></i> Главная
+      <a href="#" class="active" onclick="showTab('dashboard',this);return false">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Главная
       </a>
-      <a href="#" onclick="showTab('news', this)">
-        <i class="fa fa-newspaper-o"></i> Новости
+      <a href="#" onclick="showTab('news',this);return false">
+        <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8z"/></svg>
+        Новости
       </a>
-      <a href="#" onclick="showTab('gallery', this)">
-        <i class="fa fa-picture-o"></i> Галерея
+      <a href="#" onclick="showTab('gallery',this);return false">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Галерея
       </a>
-      <a href="#" onclick="showTab('director', this)">
-        <i class="fa fa-user"></i> Руководитель
+      <a href="#" onclick="showTab('director',this);return false">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Руководитель
       </a>
-      <a href="#" onclick="showTab('contacts', this)">
-        <i class="fa fa-phone"></i> Контакты
+      <a href="#" onclick="showTab('contacts',this);return false">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Контакты
       </a>
-      <a href="#" onclick="showTab('documents', this)">
-        <i class="fa fa-file-text"></i> Документы
+      <a href="#" onclick="showTab('documents',this);return false">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Документы
       </a>
-      <a href="#" onclick="showTab('attestation', this)">
-        <i class="fa fa-certificate"></i> Аттестация
+      <a href="#" onclick="showTab('attestation',this);return false">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Аттестация
       </a>
     </nav>
-    <div class="admin-logout">
-      <a href="index.html"><i class="fa fa-globe"></i> Перейти на сайт</a>
-      <a href="#" onclick="adminLogout()" style="margin-top:8px"><i class="fa fa-sign-out"></i> Выйти</a>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Перейти на сайт
+      </a>
+      <a href="#" class="logout" onclick="adminLogout();return false">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Выйти
+      </a>
     </div>
   </div>
 
-  <!-- Main content -->
+  <!-- Main -->
   <div class="admin-main">
     <!-- Topbar -->
     <div class="admin-topbar">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button onclick="toggleAdminSidebar()" style="background:none;border:none;cursor:pointer;font-size:1.3rem;color:#666">
-          <i class="fa fa-bars"></i>
+      <div class="admin-topbar-left">
+        <button class="topbar-menu-btn" onclick="toggleAdminSidebar()">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <h1 id="adminPageTitle">Главная</h1>
       </div>
-      <div style="font-size:0.85rem;color:#888">
-        <i class="fa fa-user-circle"></i> Администратор &nbsp;|&nbsp;
-        <a href="#" onclick="adminLogout()" style="color:#d5585d"><i class="fa fa-sign-out"></i> Выйти</a>
+      <div class="admin-topbar-right">
+        <div class="topbar-user">
+          <div class="topbar-user-avatar">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <span>Администратор</span>
+        </div>
+        <a href="#" class="topbar-logout" onclick="adminLogout();return false">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Выйти
+        </a>
       </div>
     </div>
 
@@ -82,51 +738,58 @@
 
       <!-- DASHBOARD -->
       <div id="tab-dashboard" class="admin-tab-content active">
+        <div class="welcome-card">
+          <h2>Добро пожаловать в Happy Hearts!</h2>
+          <p>Используйте меню слева для управления содержимым сайта.</p>
+        </div>
+
         <div class="admin-stats">
           <div class="admin-stat-card">
-            <div class="admin-stat-num">14</div>
-            <div class="admin-stat-label"><i class="fa fa-picture-o"></i> Фото в галерее</div>
-          </div>
-          <div class="admin-stat-card blue">
-            <div class="admin-stat-num">6</div>
-            <div class="admin-stat-label"><i class="fa fa-newspaper-o"></i> Новостей</div>
-          </div>
-          <div class="admin-stat-card red">
-            <div class="admin-stat-num">11</div>
-            <div class="admin-stat-label"><i class="fa fa-file-text"></i> Документов</div>
+            <div class="stat-icon si-blue">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num">16</div>
+              <div class="stat-label">Фото в галерее</div>
+            </div>
           </div>
           <div class="admin-stat-card">
-            <div class="admin-stat-num">4</div>
-            <div class="admin-stat-label"><i class="fa fa-users"></i> Специалистов</div>
-          </div>
-        </div>
-
-        <div class="admin-card">
-          <div class="admin-card-header">
-            <span><i class="fa fa-info-circle"></i> Добро пожаловать в панель управления</span>
-          </div>
-          <div class="admin-card-body">
-            <div class="admin-alert admin-alert-success">
-              <i class="fa fa-check-circle"></i> Вы вошли в систему как администратор.
+            <div class="stat-icon si-teal">
+              <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2z"/><path d="M18 14h-8"/><path d="M15 18h-5"/></svg>
             </div>
-            <p style="margin-bottom:12px">Используйте меню слева для управления содержимым сайта «Happy Hearts»:</p>
-            <ul style="padding-left:20px;line-height:2">
-              <li><strong>Новости</strong> — добавление и редактирование новостей и событий</li>
-              <li><strong>Галерея</strong> — управление фотографиями</li>
-              <li><strong>Руководитель</strong> — информация о заведующем</li>
-              <li><strong>Контакты</strong> — обновление контактных данных</li>
-              <li><strong>Документы</strong> — загрузка и управление документами</li>
-              <li><strong>Аттестация</strong> — сведения об аттестации педагогов</li>
-            </ul>
-            <p style="margin-top:12px;color:#888;font-size:0.875rem"><i class="fa fa-info-circle"></i> Все изменения сохраняются немедленно.</p>
+            <div class="stat-info">
+              <div class="stat-num">6</div>
+              <div class="stat-label">Новостей</div>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon si-purple">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num">11</div>
+              <div class="stat-label">Документов</div>
+            </div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="stat-icon si-pink">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Специалистов</div>
+            </div>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-clock-o"></i> Последние действия</span>
+            <span>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Последние действия
+            </span>
           </div>
-          <div class="admin-card-body">
+          <div class="admin-card-body" style="padding:0">
             <table class="admin-table">
               <thead>
                 <tr>
@@ -139,7 +802,7 @@
                 <tr>
                   <td>24.05.2026</td>
                   <td>Вход в систему</td>
-                  <td><span class="badge badge-green">Система</span></td>
+                  <td><span class="badge badge-blue">Система</span></td>
                 </tr>
               </tbody>
             </table>
@@ -151,7 +814,10 @@
       <div id="tab-news" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-plus"></i> Добавить новость</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Добавить новость
+            </span>
           </div>
           <div class="admin-card-body">
             <form onsubmit="addNews(event)">
@@ -159,29 +825,37 @@
                 <label>Заголовок новости</label>
                 <input type="text" class="admin-input" id="newsTitle" placeholder="Введите заголовок..." required>
               </div>
-              <div class="admin-form-group">
-                <label>Дата публикации</label>
-                <input type="date" class="admin-input" id="newsDate" required>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group">
+                  <label>Дата публикации</label>
+                  <input type="date" class="admin-input" id="newsDate" required>
+                </div>
+                <div class="admin-form-group">
+                  <label>Фотография (путь)</label>
+                  <input type="text" class="admin-input" id="newsImg" placeholder="images/photo1.jpg">
+                </div>
               </div>
               <div class="admin-form-group">
                 <label>Краткое описание</label>
                 <textarea class="admin-input" id="newsText" placeholder="Краткий текст новости..." required></textarea>
               </div>
-              <div class="admin-form-group">
-                <label>Фотография (URL или путь)</label>
-                <input type="text" class="admin-input" id="newsImg" placeholder="images/photo1.jpg">
-              </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить новость</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Сохранить новость
+              </button>
             </form>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-list"></i> Список новостей</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Список новостей
+            </span>
           </div>
-          <div class="admin-card-body">
-            <div id="newsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+          <div class="admin-card-body" style="padding:0">
+            <div id="newsAlert" class="admin-alert admin-alert-success" style="display:none;margin:16px 16px 0"></div>
             <table class="admin-table">
               <thead>
                 <tr>
@@ -197,8 +871,8 @@
                   <td>Новый учебный год торжественно открыт</td>
                   <td><span class="badge badge-green">Опубликовано</span></td>
                   <td>
-                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
-                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                    <button class="admin-btn admin-btn-outline admin-btn-sm">Изменить</button>
+                    <button class="admin-btn admin-btn-danger admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()">Удалить</button>
                   </td>
                 </tr>
                 <tr>
@@ -206,8 +880,8 @@
                   <td>Праздник Наурыз в нашем детском саду</td>
                   <td><span class="badge badge-green">Опубликовано</span></td>
                   <td>
-                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
-                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                    <button class="admin-btn admin-btn-outline admin-btn-sm">Изменить</button>
+                    <button class="admin-btn admin-btn-danger admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()">Удалить</button>
                   </td>
                 </tr>
                 <tr>
@@ -215,8 +889,8 @@
                   <td>Наши воспитанники победили в городском конкурсе</td>
                   <td><span class="badge badge-green">Опубликовано</span></td>
                   <td>
-                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
-                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                    <button class="admin-btn admin-btn-outline admin-btn-sm">Изменить</button>
+                    <button class="admin-btn admin-btn-danger admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()">Удалить</button>
                   </td>
                 </tr>
               </tbody>
@@ -229,50 +903,58 @@
       <div id="tab-gallery" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-upload"></i> Добавить фото в галерею</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Добавить фото
+            </span>
           </div>
           <div class="admin-card-body">
             <form onsubmit="addPhoto(event)">
-              <div class="admin-form-group">
-                <label>Путь к фотографии</label>
-                <input type="text" class="admin-input" id="photoPath" placeholder="images/photo15.jpg" required>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group">
+                  <label>Путь к фотографии</label>
+                  <input type="text" class="admin-input" id="photoPath" placeholder="images/photo15.jpg" required>
+                </div>
+                <div class="admin-form-group">
+                  <label>Подпись к фото</label>
+                  <input type="text" class="admin-input" id="photoCaption" placeholder="Описание фотографии" required>
+                </div>
               </div>
-              <div class="admin-form-group">
-                <label>Подпись к фото</label>
-                <input type="text" class="admin-input" id="photoCaption" placeholder="Описание фотографии" required>
-              </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-plus"></i> Добавить фото</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Добавить фото
+              </button>
             </form>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-picture-o"></i> Фотографии (14 фото)</span>
+            <span>
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Фотографии (16 фото)
+            </span>
           </div>
           <div class="admin-card-body">
-            <div id="galleryAlert" class="admin-alert admin-alert-success" style="display:none"></div>
-            <table class="admin-table">
-              <thead>
-                <tr><th>Файл</th><th>Предпросмотр</th><th>Действия</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>photo1.jpg</td><td><img src="images/photo1.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo2.jpg</td><td><img src="images/photo2.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo3.jpg</td><td><img src="images/photo3.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo4.jpg</td><td><img src="images/photo4.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo5.jpg</td><td><img src="images/photo5.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo6.jpg</td><td><img src="images/photo6.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo7.jpg</td><td><img src="images/photo7.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo8.jpg</td><td><img src="images/photo8.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo9.jpg</td><td><img src="images/photo9.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo10.jpg</td><td><img src="images/photo10.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo11.jpg</td><td><img src="images/photo11.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo12.jpg</td><td><img src="images/photo12.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo13.jpg</td><td><img src="images/photo13.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-                <tr><td>photo14.jpg</td><td><img src="images/photo14.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
-              </tbody>
-            </table>
+            <div id="galleryAlert" class="admin-alert admin-alert-success" style="display:none;margin-bottom:16px"></div>
+            <div class="admin-gallery-grid" id="adminGalleryGrid">
+              <div class="admin-gallery-item"><img src="images/photo1.jpg" alt="photo1"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo2.jpg" alt="photo2"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo3.jpg" alt="photo3"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo4.jpg" alt="photo4"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo5.jpg" alt="photo5"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo6.jpg" alt="photo6"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo7.jpg" alt="photo7"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo8.jpg" alt="photo8"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo9.jpg" alt="photo9"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo10.jpg" alt="photo10"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo11.jpg" alt="photo11"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo12.jpg" alt="photo12"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo13.jpg" alt="photo13"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/photo14.jpg" alt="photo14"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg" alt="Новое фото 1"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg" alt="Новое фото 2"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -281,34 +963,39 @@
       <div id="tab-director" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-user"></i> Информация о руководителе</span>
+            <span>
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Информация о руководителе
+            </span>
           </div>
           <div class="admin-card-body">
             <div id="directorAlert" class="admin-alert admin-alert-success" style="display:none"></div>
             <form onsubmit="saveDirector(event)">
-              <div class="admin-form-group">
-                <label>ФИО руководителя</label>
-                <input type="text" class="admin-input" id="dirFio" placeholder="Иванова Мария Ивановна">
-              </div>
-              <div class="admin-form-group">
-                <label>Должность</label>
-                <input type="text" class="admin-input" id="dirPosition" value="Заведующий детским садом">
-              </div>
-              <div class="admin-form-group">
-                <label>Образование</label>
-                <input type="text" class="admin-input" id="dirEducation" value="Высшее педагогическое">
-              </div>
-              <div class="admin-form-group">
-                <label>Телефон</label>
-                <input type="tel" class="admin-input" id="dirPhone" value="+7 701 486 00 00">
-              </div>
-              <div class="admin-form-group">
-                <label>Email</label>
-                <input type="email" class="admin-input" id="dirEmail" value="happyhearts.aktau@gmail.com">
-              </div>
-              <div class="admin-form-group">
-                <label>Приёмные часы</label>
-                <input type="text" class="admin-input" id="dirHours" value="Понедельник – Пятница: 09:00 – 12:00">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group">
+                  <label>ФИО руководителя</label>
+                  <input type="text" class="admin-input" id="dirFio" placeholder="Иванова Мария Ивановна">
+                </div>
+                <div class="admin-form-group">
+                  <label>Должность</label>
+                  <input type="text" class="admin-input" id="dirPosition" value="Заведующий детским садом">
+                </div>
+                <div class="admin-form-group">
+                  <label>Образование</label>
+                  <input type="text" class="admin-input" id="dirEducation" value="Высшее педагогическое">
+                </div>
+                <div class="admin-form-group">
+                  <label>Телефон</label>
+                  <input type="tel" class="admin-input" id="dirPhone" value="+7 701 486 00 00">
+                </div>
+                <div class="admin-form-group">
+                  <label>Email</label>
+                  <input type="email" class="admin-input" id="dirEmail" value="happyhearts.aktau@gmail.com">
+                </div>
+                <div class="admin-form-group">
+                  <label>Приёмные часы</label>
+                  <input type="text" class="admin-input" id="dirHours" value="Понедельник – Пятница: 09:00 – 12:00">
+                </div>
               </div>
               <div class="admin-form-group">
                 <label>Краткая биография</label>
@@ -318,7 +1005,10 @@
                 <label>Фото (путь к файлу)</label>
                 <input type="text" class="admin-input" id="dirPhoto" placeholder="images/director.jpg">
               </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить изменения</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Сохранить изменения
+              </button>
             </form>
           </div>
         </div>
@@ -328,32 +1018,40 @@
       <div id="tab-contacts" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-phone"></i> Контактные данные</span>
+            <span>
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Контактные данные
+            </span>
           </div>
           <div class="admin-card-body">
             <div id="contactsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
             <form onsubmit="saveContacts(event)">
-              <div class="admin-form-group">
-                <label>Адрес</label>
-                <input type="text" class="admin-input" id="cAddr" value="г. Актау, мкр. Самал, 51">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group" style="grid-column:1/-1">
+                  <label>Адрес</label>
+                  <input type="text" class="admin-input" id="cAddr" value="г. Актау, мкр. Самал, 51">
+                </div>
+                <div class="admin-form-group">
+                  <label>Телефон</label>
+                  <input type="tel" class="admin-input" id="cPhone" value="+7 701 486 00 00">
+                </div>
+                <div class="admin-form-group">
+                  <label>Email</label>
+                  <input type="email" class="admin-input" id="cEmail" value="happyhearts.aktau@gmail.com">
+                </div>
+                <div class="admin-form-group">
+                  <label>WhatsApp (номер)</label>
+                  <input type="text" class="admin-input" id="cWhatsapp" value="77014860000">
+                </div>
+                <div class="admin-form-group">
+                  <label>Режим работы</label>
+                  <input type="text" class="admin-input" id="cHours" value="Понедельник – Пятница: 07:30 – 19:00">
+                </div>
               </div>
-              <div class="admin-form-group">
-                <label>Телефон</label>
-                <input type="tel" class="admin-input" id="cPhone" value="+7 701 486 00 00">
-              </div>
-              <div class="admin-form-group">
-                <label>Email</label>
-                <input type="email" class="admin-input" id="cEmail" value="happyhearts.aktau@gmail.com">
-              </div>
-              <div class="admin-form-group">
-                <label>WhatsApp</label>
-                <input type="text" class="admin-input" id="cWhatsapp" value="77014860000">
-              </div>
-              <div class="admin-form-group">
-                <label>Режим работы</label>
-                <input type="text" class="admin-input" id="cHours" value="Понедельник – Пятница: 07:30 – 19:00">
-              </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить изменения</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Сохранить изменения
+              </button>
             </form>
           </div>
         </div>
@@ -363,38 +1061,49 @@
       <div id="tab-documents" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-plus"></i> Добавить документ</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Добавить документ
+            </span>
           </div>
           <div class="admin-card-body">
             <div id="docsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
             <form onsubmit="addDocument(event)">
-              <div class="admin-form-group">
-                <label>Название документа</label>
-                <input type="text" class="admin-input" id="docName" placeholder="Название документа..." required>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group" style="grid-column:1/-1">
+                  <label>Название документа</label>
+                  <input type="text" class="admin-input" id="docName" placeholder="Название документа..." required>
+                </div>
+                <div class="admin-form-group">
+                  <label>Раздел</label>
+                  <select class="admin-input" id="docCategory">
+                    <option>Учредительные документы</option>
+                    <option>Образовательные программы</option>
+                    <option>Внутренние документы</option>
+                    <option>Отчёты и планы</option>
+                  </select>
+                </div>
+                <div class="admin-form-group">
+                  <label>Ссылка на файл</label>
+                  <input type="text" class="admin-input" id="docUrl" placeholder="docs/document.pdf">
+                </div>
               </div>
-              <div class="admin-form-group">
-                <label>Раздел</label>
-                <select class="admin-input" id="docCategory">
-                  <option>Учредительные документы</option>
-                  <option>Образовательные программы</option>
-                  <option>Внутренние документы</option>
-                  <option>Отчёты и планы</option>
-                </select>
-              </div>
-              <div class="admin-form-group">
-                <label>Ссылка на файл (URL или путь)</label>
-                <input type="text" class="admin-input" id="docUrl" placeholder="docs/document.pdf">
-              </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Добавить документ</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Добавить документ
+              </button>
             </form>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-list"></i> Список документов</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Список документов
+            </span>
           </div>
-          <div class="admin-card-body">
+          <div class="admin-card-body" style="padding:0">
             <table class="admin-table">
               <thead>
                 <tr><th>Название</th><th>Раздел</th><th>Действия</th></tr>
@@ -403,17 +1112,17 @@
                 <tr>
                   <td>Свидетельство о государственной регистрации</td>
                   <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
                 </tr>
                 <tr>
                   <td>Устав частного учреждения «Happy Hearts»</td>
                   <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
                 </tr>
                 <tr>
                   <td>Лицензия на образовательную деятельность</td>
                   <td><span class="badge badge-blue">Учредительные</span></td>
-                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                  <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>
                 </tr>
               </tbody>
             </table>
@@ -425,7 +1134,10 @@
       <div id="tab-attestation" class="admin-tab-content">
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-plus"></i> Добавить запись об аттестации</span>
+            <span>
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Добавить запись об аттестации
+            </span>
           </div>
           <div class="admin-card-body">
             <div id="attestAlert" class="admin-alert admin-alert-success" style="display:none"></div>
@@ -452,16 +1164,22 @@
                   <input type="text" class="admin-input" id="attPeriod" placeholder="до 01.09.2026">
                 </div>
               </div>
-              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Добавить запись</button>
+              <button type="submit" class="admin-btn admin-btn-primary">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Добавить запись
+              </button>
             </form>
           </div>
         </div>
 
         <div class="admin-card">
           <div class="admin-card-header">
-            <span><i class="fa fa-certificate"></i> Таблица аттестации</span>
+            <span>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Таблица аттестации
+            </span>
           </div>
-          <div class="admin-card-body">
+          <div class="admin-card-body" style="padding:0">
             <table class="admin-table">
               <thead>
                 <tr>
@@ -474,8 +1192,8 @@
               </thead>
               <tbody id="attestList">
                 <tr>
-                  <td colspan="5" style="text-align:center;color:#888;padding:20px">
-                    <i class="fa fa-info-circle"></i> Записи об аттестации не добавлены. Используйте форму выше.
+                  <td colspan="5" style="text-align:center;color:var(--text-muted);padding:28px">
+                    Записи не добавлены. Используйте форму выше.
                   </td>
                 </tr>
               </tbody>
@@ -489,7 +1207,6 @@
 </div><!-- /admin-wrap -->
 
 <script>
-/* ── Admin password check ── */
 const ADMIN_PASS = 'Damir2009';
 
 function adminLogin(e) {
@@ -515,157 +1232,128 @@ function adminLogout() {
   document.getElementById('adminPass').value = '';
 }
 
-/* Check if already logged in */
 if (sessionStorage.getItem('hh_admin') === '1') {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminPanel').style.display = 'flex';
 }
 
-/* ── Tab navigation ── */
 function showTab(name, link) {
   document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
   const tabEl = document.getElementById('tab-' + name);
   if (tabEl) tabEl.classList.add('active');
   if (link) link.classList.add('active');
-
   const titles = {
-    dashboard: 'Главная',
-    news: 'Новости',
-    gallery: 'Галерея',
-    director: 'Руководитель',
-    contacts: 'Контакты',
-    documents: 'Документы',
-    attestation: 'Аттестация',
+    dashboard: 'Главная', news: 'Новости', gallery: 'Галерея',
+    director: 'Руководитель', contacts: 'Контакты',
+    documents: 'Документы', attestation: 'Аттестация'
   };
   document.getElementById('adminPageTitle').textContent = titles[name] || name;
+  if (window.innerWidth <= 900) {
+    document.getElementById('adminSidebar').classList.remove('open');
+  }
 }
 
-/* ── Mobile sidebar toggle ── */
 function toggleAdminSidebar() {
   document.getElementById('adminSidebar').classList.toggle('open');
 }
 
-/* ── News form ── */
 function addNews(e) {
   e.preventDefault();
   const title = document.getElementById('newsTitle').value;
   const date = document.getElementById('newsDate').value;
-  const text = document.getElementById('newsText').value;
-  const img = document.getElementById('newsImg').value || 'images/photo1.jpg';
-
   const tbody = document.getElementById('newsList');
   const parts = date.split('-');
   const dateRu = parts.length === 3 ? `${parts[2]}.${parts[1]}.${parts[0]}` : date;
-
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td>${dateRu}</td>
     <td>${title}</td>
     <td><span class="badge badge-green">Опубликовано</span></td>
     <td>
-      <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
-      <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button>
+      <button class="admin-btn admin-btn-outline admin-btn-sm">Изменить</button>
+      <button class="admin-btn admin-btn-danger admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()">Удалить</button>
     </td>`;
   tbody.insertBefore(tr, tbody.firstChild);
-
-  const alert = document.getElementById('newsAlert');
-  alert.textContent = '✓ Новость "' + title + '" добавлена!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const al = document.getElementById('newsAlert');
+  al.textContent = '✓ Новость "' + title + '" добавлена!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
   e.target.reset();
 }
 
-/* ── Gallery form ── */
 function addPhoto(e) {
   e.preventDefault();
   const path = document.getElementById('photoPath').value;
-  const caption = document.getElementById('photoCaption').value;
-
-  const tbody = document.querySelector('#tab-gallery .admin-table tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${path}</td>
-    <td><img src="${path}" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd" onerror="this.style.display='none'"></td>
-    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i></button></td>`;
-  tbody.appendChild(tr);
-
-  const alert = document.getElementById('galleryAlert');
-  alert.textContent = '✓ Фото добавлено!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const grid = document.getElementById('adminGalleryGrid');
+  const div = document.createElement('div');
+  div.className = 'admin-gallery-item';
+  div.innerHTML = `<img src="${path}" alt="photo" onerror="this.style.background='#f1f5f9'"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div>`;
+  grid.appendChild(div);
+  const al = document.getElementById('galleryAlert');
+  al.textContent = '✓ Фото добавлено!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
   e.target.reset();
 }
 
-/* ── Director form ── */
 function saveDirector(e) {
   e.preventDefault();
-  const alert = document.getElementById('directorAlert');
-  alert.textContent = '✓ Данные о руководителе сохранены!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const al = document.getElementById('directorAlert');
+  al.textContent = '✓ Данные о руководителе сохранены!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
 }
 
-/* ── Contacts form ── */
 function saveContacts(e) {
   e.preventDefault();
-  const alert = document.getElementById('contactsAlert');
-  alert.textContent = '✓ Контактные данные сохранены!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const al = document.getElementById('contactsAlert');
+  al.textContent = '✓ Контактные данные сохранены!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
 }
 
-/* ── Documents form ── */
 function addDocument(e) {
   e.preventDefault();
   const name = document.getElementById('docName').value;
   const cat = document.getElementById('docCategory').value;
-  const url = document.getElementById('docUrl').value || '#';
-
   const catBadge = cat.includes('Учред') ? 'badge-blue' : cat.includes('Образов') ? 'badge-green' : 'badge-gray';
-
   const tbody = document.getElementById('docsList');
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td>${name}</td>
     <td><span class="badge ${catBadge}">${cat.split(' ')[0]}</span></td>
-    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button></td>`;
+    <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>`;
   tbody.insertBefore(tr, tbody.firstChild);
-
-  const alert = document.getElementById('docsAlert');
-  alert.textContent = '✓ Документ "' + name + '" добавлен!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const al = document.getElementById('docsAlert');
+  al.textContent = '✓ Документ "' + name + '" добавлен!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
   e.target.reset();
 }
 
-/* ── Attestation form ── */
 function addAttest(e) {
   e.preventDefault();
   const fio = document.getElementById('attFio').value;
   const pos = document.getElementById('attPosition').value;
   const cat = document.getElementById('attCategory').value;
   const period = document.getElementById('attPeriod').value;
-
   const tbody = document.getElementById('attestList');
   const empty = tbody.querySelector('td[colspan]');
   if (empty) empty.closest('tr').remove();
-
   const catBadge = cat.includes('Высш') ? 'badge-blue' : cat.includes('Перв') ? 'badge-green' : 'badge-gray';
-
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td>${fio}</td>
     <td>${pos}</td>
     <td><span class="badge ${catBadge}">${cat}</span></td>
     <td>${period}</td>
-    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button></td>`;
+    <td><button class="admin-btn admin-btn-danger admin-btn-sm" onclick="this.closest('tr').remove()">Удалить</button></td>`;
   tbody.appendChild(tr);
-
-  const alert = document.getElementById('attestAlert');
-  alert.textContent = '✓ Запись для "' + fio + '" добавлена!';
-  alert.style.display = 'block';
-  setTimeout(() => alert.style.display = 'none', 3000);
+  const al = document.getElementById('attestAlert');
+  al.textContent = '✓ Запись для "' + fio + '" добавлена!';
+  al.style.display = 'block';
+  setTimeout(() => al.style.display = 'none', 3000);
   e.target.reset();
 }
 </script>
