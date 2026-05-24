@@ -4,37 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Контакты — Happy Hearts</title>
-  <meta name="description" content="Контакты детского сада Happy Hearts в Актау. Адрес, телефон, электронная почта.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
   <div class="container-md">
     <div class="row" style="align-items:center;margin:0">
-      <div class="header-logo">
-        <a href="index.html">
-          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
-        </a>
-      </div>
+      <div class="header-logo"><a href="index.html"><img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div></a></div>
       <div class="header-name">
-        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <div class="org-type" data-i18n="hdr.orgtype">Частное учреждение дошкольного образования</div>
         <h2>«Happy Hearts»</h2>
-        <div class="dept">Детский сад г. Актау</div>
+        <div class="dept" data-i18n="hdr.dept">Детский сад г. Актау</div>
       </div>
-      <div class="header-lang">
-        <ul class="lang-list">
-          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
-          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
-        </ul>
-      </div>
+      <div class="header-lang"><ul class="lang-list"><li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li><li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li></ul></div>
     </div>
   </div>
 </header>
-
 <nav class="main-nav">
   <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
   <ul id="main-menu">
@@ -49,102 +36,60 @@
     <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
   </ul>
 </nav>
-
 <div class="container-md">
   <div class="content-wrap">
     <div class="left-block">
-      <div class="banners">
-        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
-        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
-        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
-      </div>
+      <div class="banners"><div class="banner-item"><img src="images/photo6.jpg" alt=""></div><div class="banner-item"><img src="images/photo7.jpg" alt=""></div><div class="banner-item"><img src="images/photo8.jpg" alt="" style="width:75%"></div></div>
       <div class="contact-block">
-        <h3><i class="fa fa-phone"></i> Контакты</h3>
-        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <h3><i class="fa fa-phone"></i> <span data-i18n="side.contacts">Контакты</span></h3>
+        <p><i class="fa fa-map-marker"></i> <span data-i18n="side.addr">г. Актау, мкр. Самал, 51</span></p>
         <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
         <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
-        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><i class="fa fa-clock-o"></i> <span data-i18n="side.hours">Пн–Пт: 07:30–19:00</span></p>
         <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
       </div>
     </div>
-
     <div class="info-block">
-      <div class="breadcrumb">
-        <a href="index.html">Главная</a> <span>›</span> Контакты
-      </div>
-      <h2 class="page-title">Контактная информация</h2>
-
+      <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Главная</a> <span>›</span> <span data-i18n="contacts.breadcrumb">Контакты</span></div>
+      <h2 class="page-title" data-i18n="contacts.title">Контактная информация</h2>
       <table class="contacts-table">
-        <tr>
-          <td>Полное наименование</td>
-          <td>Частное учреждение «Happy Hearts»</td>
-        </tr>
-        <tr>
-          <td>Адрес</td>
-          <td>г. Актау, мкр. Самал, дом 51</td>
-        </tr>
-        <tr>
-          <td>Телефон</td>
-          <td><a href="tel:+77014860000">+7 701 486 00 00</a></td>
-        </tr>
-        <tr>
-          <td>Электронная почта</td>
-          <td><a href="mailto:happyhearts.aktau@gmail.com">happyhearts.aktau@gmail.com</a></td>
-        </tr>
-        <tr>
-          <td>WhatsApp</td>
-          <td><a href="https://wa.me/77014860000" target="_blank">+7 701 486 00 00</a></td>
-        </tr>
-        <tr>
-          <td>Режим работы</td>
-          <td>Понедельник – Пятница: 07:30 – 19:00</td>
-        </tr>
-        <tr>
-          <td>Приёмные часы руководителя</td>
-          <td>Понедельник – Пятница: 09:00 – 12:00</td>
-        </tr>
+        <tr><td data-i18n="contacts.r1c1">Полное наименование</td><td data-i18n="contacts.r1c2">Частное учреждение «Happy Hearts»</td></tr>
+        <tr><td data-i18n="contacts.r2c1">Адрес</td><td data-i18n="contacts.r2c2">г. Актау, мкр. Самал, дом 51</td></tr>
+        <tr><td data-i18n="contacts.r3c1">Телефон</td><td><a href="tel:+77014860000">+7 701 486 00 00</a></td></tr>
+        <tr><td data-i18n="contacts.r4c1">Электронная почта</td><td><a href="mailto:happyhearts.aktau@gmail.com">happyhearts.aktau@gmail.com</a></td></tr>
+        <tr><td data-i18n="contacts.r5c1">WhatsApp</td><td><a href="https://wa.me/77014860000" target="_blank">+7 701 486 00 00</a></td></tr>
+        <tr><td data-i18n="contacts.r6c1">Режим работы</td><td data-i18n="contacts.r6c2">Понедельник – Пятница: 07:30 – 19:00</td></tr>
+        <tr><td data-i18n="contacts.r7c1">Приёмные часы руководителя</td><td data-i18n="contacts.r7c2">Понедельник – Пятница: 09:00 – 12:00</td></tr>
       </table>
-
-      <h3 style="margin-top:24px;margin-bottom:14px">Напишите нам</h3>
+      <h3 style="margin-top:24px;margin-bottom:14px" data-i18n="contacts.form">Напишите нам</h3>
+      <p style="color:#555;margin-bottom:16px" data-i18n="contacts.formdesc">Для записи обратитесь по телефону или лично в детский сад в рабочие дни.</p>
       <form class="contact-form" onsubmit="submitContactForm(event)">
         <div class="form-group">
-          <label for="cf-name">Ваше имя *</label>
-          <input type="text" id="cf-name" class="form-control" placeholder="Введите ваше имя" required>
+          <label data-i18n="contacts.name">Ваше имя *</label>
+          <input type="text" class="form-control" data-i18n-placeholder="contacts.nameplaceholder" placeholder="Введите ваше имя" required>
         </div>
         <div class="form-group">
-          <label for="cf-phone">Телефон *</label>
-          <input type="tel" id="cf-phone" class="form-control" placeholder="+7 (___) ___-__-__" required>
+          <label data-i18n="contacts.phone">Телефон *</label>
+          <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
         </div>
         <div class="form-group">
-          <label for="cf-email">Email</label>
-          <input type="email" id="cf-email" class="form-control" placeholder="example@mail.com">
+          <label data-i18n="contacts.email">Email</label>
+          <input type="email" class="form-control" placeholder="example@mail.com">
         </div>
         <div class="form-group">
-          <label for="cf-msg">Сообщение *</label>
-          <textarea id="cf-msg" class="form-control" placeholder="Напишите ваш вопрос или сообщение..." required></textarea>
+          <label data-i18n="contacts.msg">Сообщение *</label>
+          <textarea class="form-control" data-i18n-placeholder="contacts.msgplaceholder" placeholder="Напишите ваш вопрос..." required></textarea>
         </div>
-        <button type="submit" class="btn-submit">Отправить</button>
+        <button type="submit" class="btn-submit" data-i18n="contacts.send">Отправить</button>
       </form>
-
       <div class="map-wrap" style="margin-top:24px">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2732.5!2d51.1694!3d43.6526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDM5JzA5LjQiTiA1McKwMTAnMDkuOCJF!5e0!3m2!1sru!2skz!4v1600000000000"
-          allowfullscreen="" loading="lazy" title="Карта Happy Hearts"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2732.5!2d51.1694!3d43.6526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDM5JzA5LjQiTiA1McKwMTAnMDkuOCJF!5e0!3m2!1sru!2skz!4v1600000000000" allowfullscreen="" loading="lazy" title="Карта"></iframe>
       </div>
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container-md">
-    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
-  </div>
-</footer>
-
-<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <i class="fa fa-whatsapp"></i>
-</a>
-
+<footer class="footer"><div class="container-md"><p data-i18n="footer.copy">© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p></div></footer>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
 <script src="js/script.js"></script>
 </body>
 </html>

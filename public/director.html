@@ -10,31 +10,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
   <div class="container-md">
     <div class="row" style="align-items:center;margin:0">
-      <div class="header-logo">
-        <a href="index.html">
-          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
-        </a>
-      </div>
+      <div class="header-logo"><a href="index.html"><img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div></a></div>
       <div class="header-name">
-        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <div class="org-type" data-i18n="hdr.orgtype">Частное учреждение дошкольного образования</div>
         <h2>«Happy Hearts»</h2>
-        <div class="dept">Детский сад г. Актау</div>
+        <div class="dept" data-i18n="hdr.dept">Детский сад г. Актау</div>
       </div>
-      <div class="header-lang">
-        <ul class="lang-list">
-          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
-          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
-        </ul>
-      </div>
+      <div class="header-lang"><ul class="lang-list"><li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li><li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li></ul></div>
     </div>
   </div>
 </header>
-
 <nav class="main-nav">
   <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
   <ul id="main-menu">
@@ -49,84 +37,64 @@
     <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
   </ul>
 </nav>
-
 <div class="container-md">
   <div class="content-wrap">
     <div class="left-block">
-      <div class="banners">
-        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
-        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
-        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
-      </div>
+      <div class="banners"><div class="banner-item"><img src="images/photo6.jpg" alt=""></div><div class="banner-item"><img src="images/photo7.jpg" alt=""></div><div class="banner-item"><img src="images/photo8.jpg" alt="" style="width:75%"></div></div>
       <div class="contact-block">
-        <h3><i class="fa fa-phone"></i> Контакты</h3>
-        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <h3><i class="fa fa-phone"></i> <span data-i18n="side.contacts">Контакты</span></h3>
+        <p><i class="fa fa-map-marker"></i> <span data-i18n="side.addr">г. Актау, мкр. Самал, 51</span></p>
         <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
         <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
-        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><i class="fa fa-clock-o"></i> <span data-i18n="side.hours">Пн–Пт: 07:30–19:00</span></p>
         <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
       </div>
     </div>
-
     <div class="info-block">
-      <div class="breadcrumb">
-        <a href="index.html">Главная</a> <span>›</span> О руководителе
-      </div>
-      <h2 class="page-title">О руководителе</h2>
-
+      <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Главная</a> <span>›</span> <span data-i18n="director.breadcrumb">О руководителе</span></div>
+      <h2 class="page-title" data-i18n="director.title">О руководителе</h2>
       <div class="director-card">
         <div class="director-photo">
           <div class="director-photo-placeholder">
             <i class="fa fa-user"></i>
-            <span>Фото руководителя</span>
+            <span data-i18n="director.placeholder">Руководитель</span>
           </div>
         </div>
         <div class="director-info">
-          <h2>Информация будет добавлена</h2>
-          <div class="position">Заведующий детским садом «Happy Hearts»</div>
-
+          <h2 data-i18n="director.placeholderorg">Happy Hearts</h2>
+          <div class="position" data-i18n="director.positionval">Заведующий детским садом «Happy Hearts»</div>
           <table class="director-table">
             <tr>
-              <td>Должность</td>
-              <td>Заведующий детским садом</td>
+              <td data-i18n="director.positionlabel">Должность</td>
+              <td data-i18n="director.positionval">Заведующий детским садом</td>
             </tr>
             <tr>
-              <td>Образование</td>
-              <td>Высшее педагогическое</td>
+              <td data-i18n="director.edulabel">Образование</td>
+              <td data-i18n="director.eduval">Высшее педагогическое</td>
             </tr>
             <tr>
-              <td>Телефон</td>
+              <td data-i18n="director.phonelabel">Телефон</td>
               <td><a href="tel:+77014860000">+7 701 486 00 00</a></td>
             </tr>
             <tr>
-              <td>Email</td>
+              <td data-i18n="director.emaillabel">Email</td>
               <td><a href="mailto:happyhearts.aktau@gmail.com">happyhearts.aktau@gmail.com</a></td>
             </tr>
             <tr>
-              <td>Приёмные часы</td>
-              <td>Понедельник – Пятница: 09:00 – 12:00</td>
+              <td data-i18n="director.hourslabel">Приёмные часы</td>
+              <td data-i18n="director.hoursval">Понедельник – Пятница: 09:00 – 12:00</td>
             </tr>
           </table>
-
           <div class="bio-text">
-            <p>Информация о руководителе детского сада будет размещена здесь. Пожалуйста, предоставьте данные для заполнения этого раздела.</p>
+            <p data-i18n="director.biotext">Информация о руководителе детского сада будет размещена здесь. Пожалуйста, предоставьте данные для заполнения этого раздела.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container-md">
-    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
-  </div>
-</footer>
-
-<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <i class="fa fa-whatsapp"></i>
-</a>
-
+<footer class="footer"><div class="container-md"><p data-i18n="footer.copy">© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p></div></footer>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
 <script src="js/script.js"></script>
 </body>
 </html>

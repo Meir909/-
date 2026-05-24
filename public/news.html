@@ -4,37 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Новости — Happy Hearts</title>
-  <meta name="description" content="Новости и события детского сада Happy Hearts в Актау.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
   <div class="container-md">
     <div class="row" style="align-items:center;margin:0">
-      <div class="header-logo">
-        <a href="index.html">
-          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
-        </a>
-      </div>
+      <div class="header-logo"><a href="index.html"><img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div></a></div>
       <div class="header-name">
-        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <div class="org-type" data-i18n="hdr.orgtype">Частное учреждение дошкольного образования</div>
         <h2>«Happy Hearts»</h2>
-        <div class="dept">Детский сад г. Актау</div>
+        <div class="dept" data-i18n="hdr.dept">Детский сад г. Актау</div>
       </div>
-      <div class="header-lang">
-        <ul class="lang-list">
-          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
-          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
-        </ul>
-      </div>
+      <div class="header-lang"><ul class="lang-list"><li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li><li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li></ul></div>
     </div>
   </div>
 </header>
-
 <nav class="main-nav">
   <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
   <ul id="main-menu">
@@ -49,108 +36,84 @@
     <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
   </ul>
 </nav>
-
 <div class="container-md">
   <div class="content-wrap">
     <div class="left-block">
-      <div class="banners">
-        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
-        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
-        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
-      </div>
+      <div class="banners"><div class="banner-item"><img src="images/photo6.jpg" alt=""></div><div class="banner-item"><img src="images/photo7.jpg" alt=""></div><div class="banner-item"><img src="images/photo8.jpg" alt="" style="width:75%"></div></div>
       <div class="contact-block">
-        <h3><i class="fa fa-phone"></i> Контакты</h3>
-        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <h3><i class="fa fa-phone"></i> <span data-i18n="side.contacts">Контакты</span></h3>
+        <p><i class="fa fa-map-marker"></i> <span data-i18n="side.addr">г. Актау, мкр. Самал, 51</span></p>
         <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
         <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
-        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><i class="fa fa-clock-o"></i> <span data-i18n="side.hours">Пн–Пт: 07:30–19:00</span></p>
         <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
       </div>
     </div>
-
     <div class="info-block">
-      <div class="breadcrumb">
-        <a href="index.html">Главная</a> <span>›</span> Новости
-      </div>
-      <h2 class="page-title">Новости и события</h2>
-
+      <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Главная</a> <span>›</span> <span data-i18n="news.breadcrumb">Новости</span></div>
+      <h2 class="page-title" data-i18n="news.title">Новости и события</h2>
       <ul class="news-list">
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo14.jpg" alt="Новый учебный год"></div>
+          <div class="news-thumb"><img src="images/photo14.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">01.09.2026</div>
-            <div class="news-title">Новый учебный год торжественно открыт</div>
-            <p class="news-intro">Мы с радостью встретили новый 2026–2027 учебный год! Торжественная линейка прошла в тёплой и праздничной атмосфере. Дети, родители и педагоги были рады видеть друг друга после летних каникул.</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.1.title">Новый учебный год торжественно открыт</div>
+            <p class="news-intro" data-i18n="news.1.intro">Мы с радостью встретили новый 2026–2027 учебный год! Торжественная линейка прошла в тёплой и праздничной атмосфере.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo9.jpg" alt="Наурыз"></div>
+          <div class="news-thumb"><img src="images/photo9.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">22.03.2026</div>
-            <div class="news-title">Праздник Наурыз в нашем детском саду</div>
-            <p class="news-intro">Дети и воспитатели с радостью отметили праздник Наурыз. Дети исполняли национальные танцы, пели казахские песни и знакомились с традициями своего народа.</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.2.title">Праздник Наурыз в нашем детском саду</div>
+            <p class="news-intro" data-i18n="news.2.intro">Дети и воспитатели с радостью отметили праздник Наурыз. Дети исполняли национальные танцы, пели казахские песни.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo5.jpg" alt="Конкурс"></div>
+          <div class="news-thumb"><img src="images/photo5.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">15.10.2025</div>
-            <div class="news-title">Наши воспитанники победили в городском конкурсе</div>
-            <p class="news-intro">Воспитанники Happy Hearts заняли призовые места в городском конкурсе детского творчества «Мир глазами детей». Поздравляем наших маленьких талантов!</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.3.title">Наши воспитанники победили в городском конкурсе</div>
+            <p class="news-intro" data-i18n="news.3.intro">Воспитанники Happy Hearts заняли призовые места в городском конкурсе детского творчества.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo3.jpg" alt="Мастер-класс"></div>
+          <div class="news-thumb"><img src="images/photo3.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">05.10.2025</div>
-            <div class="news-title">Творческий мастер-класс по рисованию</div>
-            <p class="news-intro">В нашем детском саду прошёл увлекательный мастер-класс по рисованию. Дети создавали настоящие шедевры под руководством опытного педагога.</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.4.title">Творческий мастер-класс по рисованию</div>
+            <p class="news-intro" data-i18n="news.4.intro">В нашем детском саду прошёл увлекательный мастер-класс по рисованию под руководством опытного педагога.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo2.jpg" alt="Шахматы"></div>
+          <div class="news-thumb"><img src="images/photo2.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">20.09.2025</div>
-            <div class="news-title">Шахматный турнир среди воспитанников</div>
-            <p class="news-intro">В Happy Hearts прошёл первый шахматный турнир среди воспитанников старших групп. Юные шахматисты продемонстрировали отличные знания и логическое мышление.</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.5.title">Шахматный турнир среди воспитанников</div>
+            <p class="news-intro" data-i18n="news.5.intro">В Happy Hearts прошёл первый шахматный турнир среди воспитанников старших групп.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
         <li class="news-item">
-          <div class="news-thumb"><img src="images/photo13.jpg" alt="Родительское собрание"></div>
+          <div class="news-thumb"><img src="images/photo13.jpg" alt=""></div>
           <div class="news-body">
             <div class="news-date">03.09.2025</div>
-            <div class="news-title">Родительское собрание: новый учебный год</div>
-            <p class="news-intro">Состоялось традиционное родительское собрание, на котором педагоги рассказали о планах на новый учебный год, образовательных программах и предстоящих мероприятиях.</p>
-            <a href="#" class="read-more">Читать далее »</a>
+            <div class="news-title" data-i18n="news.6.title">Родительское собрание: новый учебный год</div>
+            <p class="news-intro" data-i18n="news.6.intro">Состоялось родительское собрание, на котором педагоги рассказали о планах на новый учебный год.</p>
+            <a href="#" class="read-more" data-i18n="index.readmore">Читать далее »</a>
           </div>
         </li>
       </ul>
-
-      <div class="pagination">
-        <span class="active">1</span>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">Следующая »</a>
-      </div>
+      <div class="pagination"><span class="active">1</span><a href="#" data-i18n="news.next">Следующая »</a></div>
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container-md">
-    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
-  </div>
-</footer>
-
-<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <i class="fa fa-whatsapp"></i>
-</a>
-
+<footer class="footer"><div class="container-md"><p data-i18n="footer.copy">© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p></div></footer>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
 <script src="js/script.js"></script>
 </body>
 </html>

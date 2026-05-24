@@ -10,31 +10,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
   <div class="container-md">
     <div class="row" style="align-items:center;margin:0">
-      <div class="header-logo">
-        <a href="index.html">
-          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
-        </a>
-      </div>
+      <div class="header-logo"><a href="index.html"><img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div></a></div>
       <div class="header-name">
-        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <div class="org-type" data-i18n="hdr.orgtype">Частное учреждение дошкольного образования</div>
         <h2>«Happy Hearts»</h2>
-        <div class="dept">Детский сад г. Актау</div>
+        <div class="dept" data-i18n="hdr.dept">Детский сад г. Актау</div>
       </div>
-      <div class="header-lang">
-        <ul class="lang-list">
-          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
-          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
-        </ul>
-      </div>
+      <div class="header-lang"><ul class="lang-list"><li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li><li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li></ul></div>
     </div>
   </div>
 </header>
-
 <nav class="main-nav">
   <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
   <ul id="main-menu">
@@ -49,136 +37,119 @@
     <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
   </ul>
 </nav>
-
 <div class="container-md">
   <div class="content-wrap">
     <div class="left-block">
-      <div class="banners">
-        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
-        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
-        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
-      </div>
+      <div class="banners"><div class="banner-item"><img src="images/photo6.jpg" alt=""></div><div class="banner-item"><img src="images/photo7.jpg" alt=""></div><div class="banner-item"><img src="images/photo8.jpg" alt="" style="width:75%"></div></div>
       <div class="contact-block">
-        <h3><i class="fa fa-phone"></i> Контакты</h3>
-        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <h3><i class="fa fa-phone"></i> <span data-i18n="side.contacts">Контакты</span></h3>
+        <p><i class="fa fa-map-marker"></i> <span data-i18n="side.addr">г. Актау, мкр. Самал, 51</span></p>
         <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
         <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
-        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><i class="fa fa-clock-o"></i> <span data-i18n="side.hours">Пн–Пт: 07:30–19:00</span></p>
         <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
       </div>
     </div>
-
     <div class="info-block">
-      <div class="breadcrumb">
-        <a href="index.html">Главная</a> <span>›</span> Документы
-      </div>
-      <h2 class="page-title">Документы</h2>
-      <p style="margin-bottom:24px">Нормативные и организационные документы детского сада «Happy Hearts».</p>
+      <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Главная</a> <span>›</span> <span data-i18n="docs.breadcrumb">Документы</span></div>
+      <h2 class="page-title" data-i18n="docs.title">Документы</h2>
+      <p style="margin-bottom:24px" data-i18n="docs.desc">Нормативные и организационные документы детского сада «Happy Hearts».</p>
 
       <div class="doc-section">
-        <div class="doc-section-title"><i class="fa fa-folder-open"></i> Учредительные документы</div>
+        <div class="doc-section-title"><i class="fa fa-folder-open"></i> <span data-i18n="docs.cat1">Учредительные документы</span></div>
         <div class="doc-list-items">
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Свидетельство о государственной регистрации</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d1.1">Свидетельство о государственной регистрации</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Устав частного учреждения «Happy Hearts»</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d1.2">Устав частного учреждения «Happy Hearts»</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Лицензия на образовательную деятельность</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d1.3">Лицензия на образовательную деятельность</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
         </div>
       </div>
 
       <div class="doc-section">
-        <div class="doc-section-title"><i class="fa fa-book"></i> Образовательные программы</div>
+        <div class="doc-section-title"><i class="fa fa-book"></i> <span data-i18n="docs.cat2">Образовательные программы</span></div>
         <div class="doc-list-items">
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Основная образовательная программа дошкольного образования</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d2.1">Основная образовательная программа дошкольного образования</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Рабочая программа воспитания</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d2.2">Рабочая программа воспитания</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Учебный план на 2025–2026 учебный год</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d2.3">Учебный план на 2025–2026 учебный год</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Расписание занятий</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d2.4">Расписание занятий</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
         </div>
       </div>
 
       <div class="doc-section">
-        <div class="doc-section-title"><i class="fa fa-file-text"></i> Внутренние документы</div>
+        <div class="doc-section-title"><i class="fa fa-file-text"></i> <span data-i18n="docs.cat3">Внутренние документы</span></div>
         <div class="doc-list-items">
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Правила внутреннего трудового распорядка</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d3.1">Правила внутреннего трудового распорядка</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Положение о порядке приёма детей</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d3.2">Положение о порядке приёма детей</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Публичный договор оказания образовательных услуг</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d3.3">Публичный договор оказания образовательных услуг</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Антикоррупционная политика</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d3.4">Антикоррупционная политика</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
         </div>
       </div>
 
       <div class="doc-section">
-        <div class="doc-section-title"><i class="fa fa-bar-chart"></i> Отчёты и планы</div>
+        <div class="doc-section-title"><i class="fa fa-bar-chart"></i> <span data-i18n="docs.cat4">Отчёты и планы</span></div>
         <div class="doc-list-items">
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Годовой план работы на 2025–2026 учебный год</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d4.1">Годовой план работы на 2025–2026 учебный год</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
           <div class="doc-row">
             <span class="doc-icon-pdf"><i class="fa fa-file-pdf-o"></i></span>
-            <span class="doc-name">Отчёт о самообследовании за 2024–2025 учебный год</span>
-            <a href="#" class="doc-download"><i class="fa fa-download"></i> Скачать</a>
+            <span class="doc-name" data-i18n="docs.d4.2">Отчёт о самообследовании за 2024–2025 учебный год</span>
+            <a href="#" class="doc-download"><i class="fa fa-download"></i> <span data-i18n="docs.download">Скачать</span></a>
           </div>
         </div>
       </div>
 
-      <p style="color:#888;font-size:0.9rem;margin-top:8px"><i class="fa fa-info-circle"></i> Для получения оригиналов документов обращайтесь в администрацию детского сада.</p>
+      <p style="color:#888;font-size:0.9rem;margin-top:8px"><i class="fa fa-info-circle"></i> <span data-i18n="docs.note">Для получения оригиналов документов обращайтесь в администрацию детского сада.</span></p>
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container-md">
-    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
-  </div>
-</footer>
-
-<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <i class="fa fa-whatsapp"></i>
-</a>
-
+<footer class="footer"><div class="container-md"><p data-i18n="footer.copy">© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p></div></footer>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
 <script src="js/script.js"></script>
 </body>
 </html>
