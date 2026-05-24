@@ -588,29 +588,6 @@
       object-fit: cover;
       display: block;
     }
-    .admin-gallery-item-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(21,101,192,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity var(--t-fast);
-    }
-    .admin-gallery-item:hover .admin-gallery-item-overlay { opacity: 1; }
-    .admin-gallery-item-overlay button {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.4);
-      color: #fff;
-      border-radius: 50%;
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: background var(--t-fast);
-    }
-    .admin-gallery-item-overlay button:hover { background: rgba(239,68,68,0.6); }
-    .admin-gallery-item-overlay button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -904,56 +881,28 @@
         <div class="admin-card">
           <div class="admin-card-header">
             <span>
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Добавить фото
-            </span>
-          </div>
-          <div class="admin-card-body">
-            <form onsubmit="addPhoto(event)">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                <div class="admin-form-group">
-                  <label>Путь к фотографии</label>
-                  <input type="text" class="admin-input" id="photoPath" placeholder="images/photo15.jpg" required>
-                </div>
-                <div class="admin-form-group">
-                  <label>Подпись к фото</label>
-                  <input type="text" class="admin-input" id="photoCaption" placeholder="Описание фотографии" required>
-                </div>
-              </div>
-              <button type="submit" class="admin-btn admin-btn-primary">
-                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Добавить фото
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <div class="admin-card">
-          <div class="admin-card-header">
-            <span>
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               Фотографии (16 фото)
             </span>
           </div>
           <div class="admin-card-body">
-            <div id="galleryAlert" class="admin-alert admin-alert-success" style="display:none;margin-bottom:16px"></div>
-            <div class="admin-gallery-grid" id="adminGalleryGrid">
-              <div class="admin-gallery-item"><img src="images/photo1.jpg" alt="photo1"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo2.jpg" alt="photo2"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo3.jpg" alt="photo3"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo4.jpg" alt="photo4"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo5.jpg" alt="photo5"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo6.jpg" alt="photo6"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo7.jpg" alt="photo7"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo8.jpg" alt="photo8"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo9.jpg" alt="photo9"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo10.jpg" alt="photo10"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo11.jpg" alt="photo11"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo12.jpg" alt="photo12"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo13.jpg" alt="photo13"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/photo14.jpg" alt="photo14"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg" alt="Новое фото 1"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
-              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg" alt="Новое фото 2"><div class="admin-gallery-item-overlay"><button onclick="this.closest('.admin-gallery-item').remove()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></div></div>
+            <div class="admin-gallery-grid">
+              <div class="admin-gallery-item"><img src="images/photo1.jpg" alt="photo1"></div>
+              <div class="admin-gallery-item"><img src="images/photo2.jpg" alt="photo2"></div>
+              <div class="admin-gallery-item"><img src="images/photo3.jpg" alt="photo3"></div>
+              <div class="admin-gallery-item"><img src="images/photo4.jpg" alt="photo4"></div>
+              <div class="admin-gallery-item"><img src="images/photo5.jpg" alt="photo5"></div>
+              <div class="admin-gallery-item"><img src="images/photo6.jpg" alt="photo6"></div>
+              <div class="admin-gallery-item"><img src="images/photo7.jpg" alt="photo7"></div>
+              <div class="admin-gallery-item"><img src="images/photo8.jpg" alt="photo8"></div>
+              <div class="admin-gallery-item"><img src="images/photo9.jpg" alt="photo9"></div>
+              <div class="admin-gallery-item"><img src="images/photo10.jpg" alt="photo10"></div>
+              <div class="admin-gallery-item"><img src="images/photo11.jpg" alt="photo11"></div>
+              <div class="admin-gallery-item"><img src="images/photo12.jpg" alt="photo12"></div>
+              <div class="admin-gallery-item"><img src="images/photo13.jpg" alt="photo13"></div>
+              <div class="admin-gallery-item"><img src="images/photo14.jpg" alt="photo14"></div>
+              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg" alt="Новое фото 1"></div>
+              <div class="admin-gallery-item"><img src="images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg" alt="Новое фото 2"></div>
             </div>
           </div>
         </div>
