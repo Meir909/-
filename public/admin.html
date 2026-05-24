@@ -635,6 +635,7 @@
     }
     .gi-add-btn:hover { border-color: var(--primary); background: var(--primary-pale); color: var(--primary); }
     .gi-add-btn svg { width: 28px; height: 28px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+    #adminGalleryGrid.drag-over { outline: 3px dashed var(--primary); outline-offset: 4px; background: var(--primary-pale); border-radius: var(--r-md); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -934,88 +935,8 @@
             <small style="color:var(--text-muted);font-size:0.78rem;font-weight:400">Нажмите на фото чтобы удалить</small>
           </div>
           <div class="admin-card-body">
-            <input type="file" id="galleryFileInput" accept="image/*" style="display:none" onchange="addPhotoFromFile(this)">
+            <input type="file" id="galleryFileInput" accept="image/*,video/*" multiple style="display:none" onchange="addPhotoFromFile(this)">
             <div class="admin-gallery-grid" id="adminGalleryGrid">
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo1.jpg" alt="photo1">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo2.jpg" alt="photo2">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo3.jpg" alt="photo3">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo4.jpg" alt="photo4">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo5.jpg" alt="photo5">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo6.jpg" alt="photo6">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo7.jpg" alt="photo7">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo8.jpg" alt="photo8">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo9.jpg" alt="photo9">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo10.jpg" alt="photo10">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo11.jpg" alt="photo11">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo12.jpg" alt="photo12">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo13.jpg" alt="photo13">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/photo14.jpg" alt="photo14">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg" alt="Новое фото 1">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
-              <div class="admin-gallery-item" onclick="toggleGalleryItem(this)">
-                <img src="images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg" alt="Новое фото 2">
-                <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
-              </div>
               <button class="gi-add-btn" onclick="document.getElementById('galleryFileInput').click()">
                 <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                 Добавить фото
@@ -1348,6 +1269,61 @@ function addNews(e) {
   e.target.reset();
 }
 
+/* ── Gallery ── */
+const STATIC_PHOTOS = [
+  'images/photo1.jpg','images/photo2.jpg','images/photo3.jpg','images/photo4.jpg',
+  'images/photo5.jpg','images/photo6.jpg','images/photo7.jpg','images/photo8.jpg',
+  'images/photo9.jpg','images/photo10.jpg','images/photo11.jpg','images/photo12.jpg',
+  'images/photo13.jpg','images/photo14.jpg',
+  'images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg',
+  'images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg'
+];
+
+function getExtraPhotos() {
+  try { return JSON.parse(localStorage.getItem('hh_extra_photos') || '[]'); } catch { return []; }
+}
+function saveExtraPhotos(arr) {
+  try { localStorage.setItem('hh_extra_photos', JSON.stringify(arr)); } catch(e) {
+    alert('Недостаточно места в памяти браузера. Попробуйте удалить старые фото.'); }
+}
+function getDeletedPhotos() {
+  try { return JSON.parse(localStorage.getItem('hh_deleted_photos') || '[]'); } catch { return []; }
+}
+function saveDeletedPhotos(arr) {
+  localStorage.setItem('hh_deleted_photos', JSON.stringify(arr));
+}
+
+function buildGalleryItem(src, isExtra, key) {
+  const div = document.createElement('div');
+  div.className = 'admin-gallery-item';
+  div.dataset.key = key || src;
+  div.dataset.extra = isExtra ? '1' : '0';
+  div.onclick = function() { toggleGalleryItem(this); };
+  div.innerHTML = `
+    <img src="${src}" alt="photo">
+    <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <button class="gi-delete" onclick="deleteGalleryItem(event,this)">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    </button>`;
+  return div;
+}
+
+function renderGallery() {
+  const grid = document.getElementById('adminGalleryGrid');
+  const addBtn = grid.querySelector('.gi-add-btn');
+  grid.querySelectorAll('.admin-gallery-item').forEach(el => el.remove());
+  const deleted = getDeletedPhotos();
+  STATIC_PHOTOS.forEach(src => {
+    if (!deleted.includes(src)) {
+      grid.insertBefore(buildGalleryItem(src, false, src), addBtn);
+    }
+  });
+  getExtraPhotos().forEach((item, i) => {
+    grid.insertBefore(buildGalleryItem(item.data, true, 'extra_' + i), addBtn);
+  });
+  updateGalleryCount();
+}
+
 function toggleGalleryItem(el) {
   el.classList.toggle('selected');
 }
@@ -1355,10 +1331,25 @@ function toggleGalleryItem(el) {
 function deleteGalleryItem(e, btn) {
   e.stopPropagation();
   const item = btn.closest('.admin-gallery-item');
+  const key = item.dataset.key;
+  const isExtra = item.dataset.extra === '1';
   item.style.transition = 'opacity 0.2s, transform 0.2s';
   item.style.opacity = '0';
   item.style.transform = 'scale(0.85)';
-  setTimeout(() => { item.remove(); updateGalleryCount(); }, 200);
+  setTimeout(() => {
+    item.remove();
+    if (isExtra) {
+      const extras = getExtraPhotos();
+      const idx = parseInt(key.replace('extra_', ''));
+      extras.splice(idx, 1);
+      saveExtraPhotos(extras);
+      renderGallery();
+    } else {
+      const deleted = getDeletedPhotos();
+      if (!deleted.includes(key)) { deleted.push(key); saveDeletedPhotos(deleted); }
+    }
+    updateGalleryCount();
+  }, 200);
 }
 
 function updateGalleryCount() {
@@ -1370,22 +1361,39 @@ function updateGalleryCount() {
 function addPhotoFromFile(input) {
   const files = input.files;
   if (!files || !files.length) return;
-  const grid = document.getElementById('adminGalleryGrid');
-  const addBtn = grid.querySelector('.gi-add-btn');
+  const extras = getExtraPhotos();
+  let processed = 0;
   Array.from(files).forEach(file => {
-    const url = URL.createObjectURL(file);
-    const div = document.createElement('div');
-    div.className = 'admin-gallery-item';
-    div.setAttribute('onclick', 'toggleGalleryItem(this)');
-    div.innerHTML = `
-      <img src="${url}" alt="${file.name}">
-      <div class="gi-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <button class="gi-delete" onclick="deleteGalleryItem(event,this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>`;
-    grid.insertBefore(div, addBtn);
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      extras.push({ data: ev.target.result, name: file.name });
+      processed++;
+      if (processed === files.length) {
+        saveExtraPhotos(extras);
+        renderGallery();
+      }
+    };
+    reader.readAsDataURL(file);
   });
-  updateGalleryCount();
   input.value = '';
 }
+
+/* drag-and-drop on add button */
+document.addEventListener('DOMContentLoaded', function() {
+  renderGallery();
+  const grid = document.getElementById('adminGalleryGrid');
+  if (!grid) return;
+  grid.addEventListener('dragover', e => { e.preventDefault(); grid.classList.add('drag-over'); });
+  grid.addEventListener('dragleave', () => grid.classList.remove('drag-over'));
+  grid.addEventListener('drop', e => {
+    e.preventDefault();
+    grid.classList.remove('drag-over');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    if (!files.length) return;
+    const fakeInput = { files };
+    addPhotoFromFile(fakeInput);
+  });
+});
 
 function saveDirector(e) {
   e.preventDefault();
