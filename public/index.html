@@ -1,157 +1,578 @@
-<!DOCTYPE html>
-<html lang="ru">
+﻿<!DOCTYPE html>
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Hearts — Детский сад в Актау</title>
-  <meta name="description" content="Частный детский сад Happy Hearts в Актау. Развитие, образование, забота о детях.">
+  <title>Happy Hearts — Премиальный детский сад в Алматы</title>
+  <meta name="description" content="Happy Hearts — современный частный детский сад с трёхъязычной средой, STEM, творчеством и заботой о каждом ребёнке.">
+  <meta property="og:title" content="Happy Hearts Kindergarten">
+  <meta property="og:description" content="Премиальный детский сад с любовью и заботой.">
+  <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
-<header>
-  <div class="container-md">
-    <div class="row" style="align-items:center;margin:0">
-      <div class="header-logo">
-        <a href="index.html">
-          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
-        </a>
+<!-- Scroll progress -->
+<div class="progress-bar"></div>
+
+<!-- Loader -->
+<div class="loader">
+  <div class="loader-logo">💜 Happy Hearts</div>
+  <div class="loader-dots">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
       </div>
-      <div class="header-name">
-        <div class="org-type" data-i18n="hdr.orgtype">Частное учреждение дошкольного образования</div>
-        <h2>«Happy Hearts»</h2>
-        <div class="dept" data-i18n="hdr.dept">Детский сад г. Актау</div>
+      Happy Hearts
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active" data-i18n="nav.home">Главная</a></li>
+      <li><a href="about.html" data-i18n="nav.about">О нас</a></li>
+      <li><a href="teachers.html" data-i18n="nav.teachers">Воспитатели</a></li>
+      <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
+      <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
+      <li><a href="admissions.html" data-i18n="nav.admissions">Поступление</a></li>
+      <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang="kk">KZ</button>
+        <button data-lang="ru" class="active">RU</button>
+        <button data-lang="en">EN</button>
       </div>
-      <div class="header-lang">
-        <ul class="lang-list">
-          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
-          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
-        </ul>
-      </div>
+      <button class="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
 
-<nav class="main-nav">
-  <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
-  <ul id="main-menu">
-    <li class="active"><a href="index.html" data-i18n="nav.home">Главная</a></li>
-    <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
-    <li><a href="about.html" data-i18n="nav.about">О детском саде</a></li>
-    <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
-    <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
-    <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
-    <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-    <li><a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a></li>
-    <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
-  </ul>
+<!-- Mobile menu -->
+<nav class="mobile-menu">
+  <a href="index.html" class="active" data-i18n="nav.home">Главная</a>
+  <a href="about.html" data-i18n="nav.about">О нас</a>
+  <a href="teachers.html" data-i18n="nav.teachers">Воспитатели</a>
+  <a href="gallery.html" data-i18n="nav.gallery">Галерея</a>
+  <a href="news.html" data-i18n="nav.news">Новости</a>
+  <a href="admissions.html" data-i18n="nav.admissions">Поступление</a>
+  <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
+  <div class="mobile-menu-footer">
+    <div class="lang-switch">
+      <button data-lang="kk">KZ</button>
+      <button data-lang="ru" class="active">RU</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
 </nav>
-<div id="navOverlay" class="nav-overlay" onclick="closeMobileMenu()"></div>
 
-<div class="slider-wrap">
-  <div class="slider-track" id="sliderTrack">
-    <div class="slide"><img src="images/photo1.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo2.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo3.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo4.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo5.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo9.jpg" alt="Happy Hearts"></div>
-    <div class="slide"><img src="images/photo14.jpg" alt="Happy Hearts"></div>
-  </div>
-  <button class="slider-btn slider-prev" onclick="slideMove(-1)">&#8249;</button>
-  <button class="slider-btn slider-next" onclick="slideMove(1)">&#8250;</button>
-</div>
-
-<div class="container-md">
-  <div class="content-wrap">
-    <div class="left-block">
-      <div class="banners">
-        <div class="banner-item"><img src="images/photo6.jpg" alt="Happy Hearts" style="width:100%"></div>
-        <div class="banner-item"><img src="images/photo7.jpg" alt="Happy Hearts" style="width:100%"></div>
-        <div class="banner-item"><img src="images/photo8.jpg" alt="Happy Hearts" style="width:75%"></div>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="container hero-inner">
+    <!-- Text -->
+    <div class="hero-text">
+      <span class="hero-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span data-i18n="hero.badge">✨ Новый год — новые друзья</span>
+      </span>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title1">Счастливое детство —</span><br>
+        <span class="accent" data-i18n="hero.title2">светлое будущее</span>
+      </h1>
+      <p class="hero-lead" data-i18n="hero.lead">Happy Hearts — премиальный детский сад, где через игру, творчество и науку мы раскрываем таланты каждого ребёнка.</p>
+      <div class="hero-cta">
+        <a href="admissions.html" class="btn btn-primary" data-i18n="hero.cta1">Записать ребёнка</a>
+        <a href="#programs" class="btn btn-ghost" data-i18n="hero.cta2">Программы</a>
       </div>
-      <div class="contact-block">
-        <h3><i class="fa fa-phone"></i> <span data-i18n="side.contacts">Контакты</span></h3>
-        <p><i class="fa fa-map-marker"></i> <span data-i18n="side.addr">г. Актау, мкр. Самал, 51</span></p>
-        <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
-        <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
-        <p><i class="fa fa-clock-o"></i> <span data-i18n="side.hours">Пн–Пт: 07:30–19:00</span></p>
-        <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" data-count="320"><span class="count-num">0</span><span>+</span></div>
+          <div class="stat-label" data-i18n="hero.stat1">Счастливых детей</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="28"><span class="count-num">0</span></div>
+          <div class="stat-label" data-i18n="hero.stat2">Воспитателей</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="11"><span class="count-num">0</span></div>
+          <div class="stat-label" data-i18n="hero.stat3">Лет опыта</div>
+        </div>
       </div>
     </div>
-
-    <div class="info-block">
-      <div class="breadcrumb">
-        <a href="index.html" data-i18n="nav.home">Главная</a>
+    <!-- Visual -->
+    <div class="hero-visual">
+      <div class="hero-img-main">
+        <img src="images/photo9.jpg" alt="Наурыз — дети в казахских костюмах" loading="lazy">
       </div>
-      <h2 class="page-title" data-i18n="index.title">Добро пожаловать в Happy Hearts!</h2>
-      <p data-i18n="index.p1">Частный детский сад «Happy Hearts» — это место, где каждый ребёнок чувствует себя любимым, защищённым и счастливым. Мы создаём условия для гармоничного развития детей в атмосфере тепла и заботы.</p>
-      <p data-i18n="index.p2">Наш детский сад расположен в г. Актау и принимает детей от 2 до 7 лет. Мы предлагаем разнообразные образовательные программы, направленные на всестороннее развитие личности каждого ребёнка.</p>
-      <h3 data-i18n="index.adv">Наши преимущества</h3>
-      <ul style="padding-left:20px;margin-bottom:14px">
-        <li data-i18n="index.adv1">Опытные и заботливые педагоги</li>
-        <li data-i18n="index.adv2">Двуязычное обучение (казахский, русский)</li>
-        <li data-i18n="index.adv3">Современные методики дошкольного образования</li>
-        <li data-i18n="index.adv4">Сбалансированное 5-разовое питание</li>
-        <li data-i18n="index.adv5">Безопасная развивающая среда</li>
-        <li data-i18n="index.adv6">Спортивные и творческие занятия</li>
-        <li data-i18n="index.adv7">Регулярные праздники и мероприятия</li>
-      </ul>
-      <h3 data-i18n="index.latestnews">Последние новости</h3>
-      <ul class="news-list">
-        <li class="news-item">
-          <div class="news-thumb"><img src="images/photo14.jpg" alt=""></div>
-          <div class="news-body">
-            <div class="news-date">01.09.2026</div>
-            <a href="news.html" class="news-title" data-i18n="news.1.title">Новый учебный год торжественно открыт</a>
-            <p class="news-intro" data-i18n="news.1.intro">Мы с радостью встретили новый 2026–2027 учебный год! Торжественная линейка прошла в тёплой и праздничной атмосфере.</p>
-            <a href="news.html" class="read-more" data-i18n="index.readmore">Читать далее »</a>
-          </div>
-        </li>
-        <li class="news-item">
-          <div class="news-thumb"><img src="images/photo9.jpg" alt=""></div>
-          <div class="news-body">
-            <div class="news-date">22.03.2026</div>
-            <a href="news.html" class="news-title" data-i18n="news.2.title">Праздник Наурыз в нашем детском саду</a>
-            <p class="news-intro" data-i18n="news.2.intro">Дети и воспитатели с радостью отметили праздник Наурыз. Дети исполняли национальные танцы, пели казахские песни.</p>
-            <a href="news.html" class="read-more" data-i18n="index.readmore">Читать далее »</a>
-          </div>
-        </li>
-        <li class="news-item">
-          <div class="news-thumb"><img src="images/photo5.jpg" alt=""></div>
-          <div class="news-body">
-            <div class="news-date">15.10.2025</div>
-            <a href="news.html" class="news-title" data-i18n="news.3.title">Наши воспитанники победили в городском конкурсе</a>
-            <p class="news-intro" data-i18n="news.3.intro">Воспитанники Happy Hearts заняли призовые места в городском конкурсе детского творчества «Мир глазами детей».</p>
-            <a href="news.html" class="read-more" data-i18n="index.readmore">Читать далее »</a>
-          </div>
-        </li>
-      </ul>
-      <div style="text-align:center;margin-top:10px">
-        <a href="news.html" style="color:#05578b;font-weight:700;text-decoration:underline" data-i18n="index.allnews">Все новости »</a>
+      <div class="hero-img-second">
+        <img src="images/photo1.jpg" alt="Урок английского в Happy Hearts" loading="lazy">
+      </div>
+      <!-- Floating cards -->
+      <div class="hero-card hero-card-1">
+        <div class="hero-card-icon" style="background:linear-gradient(135deg,#C9B8FF,#7C6FD4)">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="hero-card-title" data-i18n="hero.card1.t">Безопасная среда</div>
+          <div class="hero-card-sub" data-i18n="hero.card1.s">Видеонаблюдение 24/7</div>
+        </div>
+      </div>
+      <div class="hero-card hero-card-2">
+        <div class="hero-card-icon" style="background:linear-gradient(135deg,#B5EAD7,#2DC98C)">
+          <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <div>
+          <div class="hero-card-title" data-i18n="hero.card2.t">Здоровое питание</div>
+          <div class="hero-card-sub" data-i18n="hero.card2.s">5 раз в день</div>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Wave -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="var(--bg)">
+      <path d="M0,40 C360,80 720,0 1440,50 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="feat.eyebrow">ПОЧЕМУ МЫ</span>
+    <h2 class="section-title reveal" data-i18n="feat.title">Почему родители выбирают Happy Hearts</h2>
+    <p class="section-subtitle reveal" data-i18n="feat.sub">Мы объединяем любовь к детям, современные методики и заботливый уход.</p>
+  </div>
+  <div class="container features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-1">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <h3 data-i18n="feat.1.t">Творческое развитие</h3>
+      <p data-i18n="feat.1.d">Рисование, музыка, танцы и театр — каждый ребёнок раскрывает себя.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-2">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <h3 data-i18n="feat.2.t">Программа STEM</h3>
+      <p data-i18n="feat.2.d">Логика, робототехника и эксперименты — готовим к будущему.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-3">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h3 data-i18n="feat.3.t">Трёхъязычная среда</h3>
+      <p data-i18n="feat.3.d">Казахский, русский и английский — ежедневное обучение.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-4">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <h3 data-i18n="feat.4.t">Здоровье и спорт</h3>
+      <p data-i18n="feat.4.d">Йога, плавание, физкультура и сбалансированное питание.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROGRAMS ═══ -->
+<section class="section section--alt" id="programs">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="prog.eyebrow">ПРОГРАММЫ</span>
+    <h2 class="section-title reveal" data-i18n="prog.title">Программы по возрастам</h2>
+    <p class="section-subtitle reveal" data-i18n="prog.sub">Каждый возраст — своя методика.</p>
+  </div>
+  <div class="container programs-grid">
+    <article class="program-card reveal">
+      <div class="program-img">
+        <img src="images/photo7.jpg" alt="Развивающее занятие для малышей" loading="lazy">
+        <span class="program-age" style="background:linear-gradient(135deg,#FFB3C6,#FF6B9D)" data-i18n="prog.1.age">2–3 года</span>
+      </div>
+      <div class="program-body">
+        <h3 data-i18n="prog.1.t">Группа малышей</h3>
+        <p data-i18n="prog.1.d">Сенсорное развитие, сказки и первая социализация.</p>
+        <a href="about.html" class="program-link">
+          <span data-i18n="prog.more">Подробнее</span>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+    </article>
+    <article class="program-card reveal">
+      <div class="program-img">
+        <img src="images/photo3.jpg" alt="Творческие занятия — средняя группа" loading="lazy">
+        <span class="program-age" style="background:linear-gradient(135deg,#C9B8FF,#7C6FD4)" data-i18n="prog.2.age">3–5 лет</span>
+      </div>
+      <div class="program-body">
+        <h3 data-i18n="prog.2.t">Средняя группа</h3>
+        <p data-i18n="prog.2.d">Творческие занятия, изучение языков и музыка.</p>
+        <a href="about.html" class="program-link">
+          <span data-i18n="prog.more">Подробнее</span>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+    </article>
+    <article class="program-card reveal">
+      <div class="program-img">
+        <img src="images/photo6.jpg" alt="Подготовка к школе — абакус и счёт" loading="lazy">
+        <span class="program-age" style="background:linear-gradient(135deg,#B5EAD7,#2DC98C)" data-i18n="prog.3.age">5–7 лет</span>
+      </div>
+      <div class="program-body">
+        <h3 data-i18n="prog.3.t">Подготовка к школе</h3>
+        <p data-i18n="prog.3.d">Чтение, письмо, математика и STEM-предметы.</p>
+        <a href="about.html" class="program-link">
+          <span data-i18n="prog.more">Подробнее</span>
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ GALLERY PREVIEW ═══ -->
+<section class="section">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="gal.eyebrow">МОМЕНТЫ</span>
+    <h2 class="section-title reveal" data-i18n="gal.title">Наша повседневная жизнь</h2>
+    <p class="section-subtitle reveal" data-i18n="gal.sub">Кадры из счастливых будней.</p>
+  </div>
+  <div class="container reveal">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="images/photo11.jpg" alt="Занятие в English room" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/photo2.jpg" alt="Шахматы — групповое занятие" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/photo13.jpg" alt="Творческое занятие" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/photo4.jpg" alt="Обед на свежем воздухе" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/photo14.jpg" alt="Новогодний утренник" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/photo9.jpg" alt="Наурыз — казахские традиции" loading="lazy">
+        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+    </div>
+    <div class="text-center mt-32">
+      <a href="gallery.html" class="btn btn-outline" data-i18n="gal.eyebrow">Вся галерея</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" role="dialog" aria-modal="true">
+  <img class="lightbox-img" src="" alt="">
+  <button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <button class="lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <button class="lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
 </div>
 
+<!-- ═══ NEWS ═══ -->
+<section class="section section--alt">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="news.eyebrow">НОВОСТИ</span>
+    <h2 class="section-title reveal" data-i18n="news.title">Последние новости и события</h2>
+    <p class="section-subtitle reveal" data-i18n="news.sub">Жизнь нашего детского сада.</p>
+  </div>
+  <div class="container news-grid">
+    <article class="news-card reveal">
+      <div class="news-img"><img src="images/photo14.jpg" alt="Новогодний утренник" loading="lazy"></div>
+      <div class="news-body">
+        <div class="news-meta">
+          <span class="news-cat" data-i18n="news.cat.event">Событие</span>
+          <span class="news-date">01.09.2026</span>
+        </div>
+        <h3 data-i18n="news.1.t">Новый учебный год торжественно открыт</h3>
+        <p data-i18n="news.1.d">Мы встретили 2026 год новыми планами и новыми друзьями.</p>
+        <a href="news.html" class="program-link"><span data-i18n="news.more">Подробнее</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+    </article>
+    <article class="news-card reveal">
+      <div class="news-img"><img src="images/photo5.jpg" alt="Шахматный конкурс" loading="lazy"></div>
+      <div class="news-body">
+        <div class="news-meta">
+          <span class="news-cat" data-i18n="news.cat.comp">Конкурс</span>
+          <span class="news-date">15.10.2026</span>
+        </div>
+        <h3 data-i18n="news.2.t">Конкурс по робототехнике</h3>
+        <p data-i18n="news.2.d">Наши воспитанники заняли три призовых места.</p>
+        <a href="news.html" class="program-link"><span data-i18n="news.more">Подробнее</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+    </article>
+    <article class="news-card reveal">
+      <div class="news-img"><img src="images/photo6.jpg" alt="Семинар по абакусу" loading="lazy"></div>
+      <div class="news-body">
+        <div class="news-meta">
+          <span class="news-cat" data-i18n="news.cat.work">Семинар</span>
+          <span class="news-date">05.11.2026</span>
+        </div>
+        <h3 data-i18n="news.3.t">Семинар для родителей</h3>
+        <p data-i18n="news.3.d">Полезная встреча об эмоциональном интеллекте детей.</p>
+        <a href="news.html" class="program-link"><span data-i18n="news.more">Подробнее</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="section">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="test.eyebrow">ОТЗЫВЫ</span>
+    <h2 class="section-title reveal" data-i18n="test.title">Что говорят родители</h2>
+  </div>
+  <div class="container">
+    <div class="testimonials-wrap reveal">
+      <div class="testimonials-track">
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="t-quote" data-i18n="test.1.q">"Троих детей вожу в этот садик — у младшего заметно улучшилась речь."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="t-avatar-letter">А</div></div>
+            <div>
+              <div class="t-name" data-i18n="test.1.n">Айдана Оразбай</div>
+              <div class="t-role" data-i18n="test.1.r">Мама троих детей · 2GIS</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="t-quote" data-i18n="test.2.q">"Племянница с радостью ходит в садик, очень хвалит воспитателей."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="t-avatar-letter">А</div></div>
+            <div>
+              <div class="t-name" data-i18n="test.2.n">Анастасия Лустина</div>
+              <div class="t-role" data-i18n="test.2.r">Родитель · 2GIS ★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="t-quote" data-i18n="test.3.q">"Дочка быстро адаптировалась к группе Салимы апай, результат виден."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="t-avatar-letter">N</div></div>
+            <div>
+              <div class="t-name" data-i18n="test.3.n">Nursaule Shegenbayeva</div>
+              <div class="t-role" data-i18n="test.3.r">Родитель · 2GIS ★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="t-quote" data-i18n="test.4.q">"Виден результат в английском и математике. Чистый воздух у моря — отдельный плюс."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="t-avatar-letter">K</div></div>
+            <div>
+              <div class="t-name" data-i18n="test.4.n">KAS</div>
+              <div class="t-role" data-i18n="test.4.r">Родитель · 2GIS ★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="t-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="t-quote" data-i18n="test.5.q">"Благодарны за развитие ребёнка и тёплую атмосферу в садике."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="t-avatar-letter">А</div></div>
+            <div>
+              <div class="t-name" data-i18n="test.5.n">Актоты Утарбаева</div>
+              <div class="t-role" data-i18n="test.5.r">Родитель · 2GIS ★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="slider-dots"></div>
+      <button class="slider-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="section section--alt">
+  <div class="container text-center">
+    <span class="section-eyebrow reveal" data-i18n="faq.eyebrow">ВОПРОСЫ</span>
+    <h2 class="section-title reveal" data-i18n="faq.title">Ответы на ваши вопросы</h2>
+  </div>
+  <div class="container reveal">
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q open">
+          <span data-i18n="faq.1.q">Какой режим работы?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a open"><p data-i18n="faq.1.a">С понедельника по пятницу с 07:30 до 19:00.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.2.q">Как организовано питание?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><p data-i18n="faq.2.a">5-разовое сбалансированное питание.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.3.q">Пробный день?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><p data-i18n="faq.3.a">Да, бесплатный пробный день — свяжитесь с нами.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.4.q">Языки обучения?</span>
+          <span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><p data-i18n="faq.4.a">Казахский, русский и английский.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-block reveal">
+      <h2 data-i18n="cta.title">Счастливое будущее вашего ребёнка начинается здесь</h2>
+      <p data-i18n="cta.sub">Запишитесь на пробный день — увидите всё своими глазами.</p>
+      <a href="admissions.html" class="btn btn-white" data-i18n="cta.btn">Оставить заявку</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
 <footer class="footer">
-  <div class="container-md">
-    <p data-i18n="footer.copy">© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+        Happy Hearts
+      </a>
+      <p class="footer-desc" data-i18n="footer.about">Happy Hearts — современный детский сад.</p>
+      <div class="footer-socials">
+        <a href="#" class="footer-social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="footer-social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="footer-social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        </a>
+        <a href="#" class="footer-social-btn" aria-label="Telegram">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.nav">Навигация</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="nav.about">О нас</a></li>
+        <li><a href="teachers.html" data-i18n="nav.teachers">Воспитатели</a></li>
+        <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
+        <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
+        <li><a href="admissions.html" data-i18n="nav.admissions">Поступление</a></li>
+        <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.contact">Контакты</h4>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-i18n="contact.addr.v">Актау, мкр. Самал, 51</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="contact.phone.v">+7 701 486 00 00</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span data-i18n="contact.email.v">happyhearts.aktau@gmail.com</span>
+        </li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.social">Мы в соцсетях</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">Telegram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span data-i18n="footer.copy">© 2026 Happy Hearts. Все права защищены.</span>
+    <span data-i18n="footer.made">❤️ Сделано в Алматы</span>
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <i class="fa fa-whatsapp"></i>
+<!-- WhatsApp -->
+<a class="wa-btn" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <div class="wa-icon">
+    <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4.1-3.6-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1.1 1-1.1 2.5 1.1 2.9 1.3 3.1c.2.3 2.2 3.4 5.4 4.8.7.3 1.3.5 1.8.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3c1.4.7 3 1.1 4.7 1.1 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+  </div>
+  <span class="wa-tooltip" data-i18n="wa.tooltip">Написать в WhatsApp</span>
 </a>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img class="lightbox-img" id="lightboxImg" src="" alt="">
-  <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
-</div>
+<!-- Back to top -->
+<button class="back-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
 <script src="js/script.js"></script>
 </body>
 </html>
+
+
