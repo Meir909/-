@@ -1269,35 +1269,54 @@ function addNews(e) {
   e.target.reset();
 }
 
-/* ── Gallery ── */
-const STATIC_PHOTOS = [
-  'images/photo1.jpg','images/photo2.jpg','images/photo3.jpg','images/photo4.jpg',
-  'images/photo5.jpg','images/photo6.jpg','images/photo7.jpg','images/photo8.jpg',
-  'images/photo9.jpg','images/photo10.jpg','images/photo11.jpg','images/photo12.jpg',
-  'images/photo13.jpg','images/photo14.jpg',
-  'images/WhatsApp Image 2026-05-24 at 22.54.18.jpeg',
-  'images/WhatsApp Image 2026-05-24 at 22.54.25.jpeg'
-];
+/* ── GitHub API config ── */
+const GH_TOKEN  = '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';
+const GH_REPO   = 'Meir909/-';
+const GH_BRANCH = 'main';
+const GH_API    = 'https://api.github.com';
 
-function getExtraPhotos() {
-  try { return JSON.parse(localStorage.getItem('hh_extra_photos') || '[]'); } catch { return []; }
-}
-function saveExtraPhotos(arr) {
-  try { localStorage.setItem('hh_extra_photos', JSON.stringify(arr)); } catch(e) {
-    alert('Недостаточно места в памяти браузера. Попробуйте удалить старые фото.'); }
-}
-function getDeletedPhotos() {
-  try { return JSON.parse(localStorage.getItem('hh_deleted_photos') || '[]'); } catch { return []; }
-}
-function saveDeletedPhotos(arr) {
-  localStorage.setItem('hh_deleted_photos', JSON.stringify(arr));
+async function ghGet(path) {
+  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`, {
+    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
 }
 
-function buildGalleryItem(src, isExtra, key) {
+async function ghUpload(path, base64content, message, sha) {
+  const body = { message, content: base64content, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+async function ghDelete(path, message, sha) {
+  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+    method: 'DELETE',
+    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, sha, branch: GH_BRANCH })
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+/* Получить SHA файла gallery.html для обновления */
+async function getGalleryHtmlSha() {
+  const data = await ghGet('public/gallery.html');
+  return { sha: data.sha, content: atob(data.content.replace(/\n/g, '')) };
+}
+
+/* ── Gallery render ── */
+function buildGalleryItem(src, ghPath) {
   const div = document.createElement('div');
   div.className = 'admin-gallery-item';
-  div.dataset.key = key || src;
-  div.dataset.extra = isExtra ? '1' : '0';
+  div.dataset.src = src;
+  div.dataset.ghpath = ghPath || '';
   div.onclick = function() { toggleGalleryItem(this); };
   div.innerHTML = `
     <img src="${src}" alt="photo">
@@ -1308,48 +1327,82 @@ function buildGalleryItem(src, isExtra, key) {
   return div;
 }
 
-function renderGallery() {
+async function renderGallery() {
   const grid = document.getElementById('adminGalleryGrid');
   const addBtn = grid.querySelector('.gi-add-btn');
   grid.querySelectorAll('.admin-gallery-item').forEach(el => el.remove());
-  const deleted = getDeletedPhotos();
-  STATIC_PHOTOS.forEach(src => {
-    if (!deleted.includes(src)) {
-      grid.insertBefore(buildGalleryItem(src, false, src), addBtn);
-    }
-  });
-  getExtraPhotos().forEach((item, i) => {
-    grid.insertBefore(buildGalleryItem(item.data, true, 'extra_' + i), addBtn);
-  });
+
+  showGallerySpinner(true);
+  try {
+    const files = await ghGet('public/images');
+    const imgs = files.filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f.name));
+    imgs.forEach(f => {
+      const src = 'images/' + f.name;
+      grid.insertBefore(buildGalleryItem(src, f.path), addBtn);
+    });
+  } catch(e) {
+    console.warn('Gallery load error:', e);
+  }
+  showGallerySpinner(false);
   updateGalleryCount();
+}
+
+function showGallerySpinner(on) {
+  let sp = document.getElementById('gallerySpinner');
+  if (!sp) {
+    sp = document.createElement('div');
+    sp.id = 'gallerySpinner';
+    sp.style.cssText = 'grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted);font-size:0.9rem';
+    sp.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;display:block;margin:0 auto 8px"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>Загрузка...';
+    const grid = document.getElementById('adminGalleryGrid');
+    const addBtn = grid.querySelector('.gi-add-btn');
+    grid.insertBefore(sp, addBtn);
+  }
+  sp.style.display = on ? 'block' : 'none';
 }
 
 function toggleGalleryItem(el) {
   el.classList.toggle('selected');
 }
 
-function deleteGalleryItem(e, btn) {
+async function deleteGalleryItem(e, btn) {
   e.stopPropagation();
   const item = btn.closest('.admin-gallery-item');
-  const key = item.dataset.key;
-  const isExtra = item.dataset.extra === '1';
-  item.style.transition = 'opacity 0.2s, transform 0.2s';
-  item.style.opacity = '0';
-  item.style.transform = 'scale(0.85)';
-  setTimeout(() => {
-    item.remove();
-    if (isExtra) {
-      const extras = getExtraPhotos();
-      const idx = parseInt(key.replace('extra_', ''));
-      extras.splice(idx, 1);
-      saveExtraPhotos(extras);
-      renderGallery();
-    } else {
-      const deleted = getDeletedPhotos();
-      if (!deleted.includes(key)) { deleted.push(key); saveDeletedPhotos(deleted); }
-    }
-    updateGalleryCount();
-  }, 200);
+  const ghPath = item.dataset.ghpath;
+  const imgSrc = item.dataset.src;
+
+  if (!confirm('Удалить это фото? Оно исчезнет на всех устройствах.')) return;
+
+  item.style.opacity = '0.4';
+  btn.disabled = true;
+
+  try {
+    /* 1. Удалить файл изображения из репозитория */
+    const fileData = await ghGet(ghPath);
+    await ghDelete(ghPath, `Delete photo ${imgSrc}`, fileData.sha);
+
+    /* 2. Обновить gallery.html — убрать блок gallery-item с этим фото */
+    const fileName = imgSrc.replace('images/', '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const { sha, content } = await getGalleryHtmlSha();
+    const blockRe = new RegExp(
+      '\\s*<div class="gallery-item"[^>]*>\\s*<img src="images/' + fileName + '"[^>]*>\\s*<div class="gallery-zoom">[\\s\\S]*?<\\/div>\\s*<\\/div>',
+      'g'
+    );
+    const newContent = content.replace(blockRe, '');
+    const newBase64 = btoa(unescape(encodeURIComponent(newContent)));
+    await ghUpload('public/gallery.html', newBase64, `Remove ${fileName} from gallery`, sha);
+
+    /* 3. Убрать из DOM */
+    item.style.transition = 'opacity 0.2s, transform 0.2s';
+    item.style.opacity = '0';
+    item.style.transform = 'scale(0.85)';
+    setTimeout(() => { item.remove(); updateGalleryCount(); }, 200);
+    showToast('✓ Фото удалено! Сайт обновится через ~30 сек.');
+  } catch(err) {
+    item.style.opacity = '1';
+    btn.disabled = false;
+    showToast('Ошибка: ' + err.message, true);
+  }
 }
 
 function updateGalleryCount() {
@@ -1358,27 +1411,92 @@ function updateGalleryCount() {
   if (el) el.textContent = '(' + count + ' фото)';
 }
 
-function addPhotoFromFile(input) {
-  const files = input.files;
-  if (!files || !files.length) return;
-  const extras = getExtraPhotos();
-  let processed = 0;
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      extras.push({ data: ev.target.result, name: file.name });
-      processed++;
-      if (processed === files.length) {
-        saveExtraPhotos(extras);
-        renderGallery();
-      }
-    };
-    reader.readAsDataURL(file);
-  });
+async function addPhotoFromFile(input) {
+  const files = Array.from(input.files || []).filter(f => f.type.startsWith('image/'));
+  if (!files.length) return;
   input.value = '';
+
+  const grid = document.getElementById('adminGalleryGrid');
+  const addBtn = grid.querySelector('.gi-add-btn');
+  addBtn.style.opacity = '0.5';
+  addBtn.style.pointerEvents = 'none';
+
+  /* Получить текущий gallery.html один раз */
+  let galSha, galContent;
+  try {
+    const g = await getGalleryHtmlSha();
+    galSha = g.sha; galContent = g.content;
+  } catch(e) {
+    showToast('Ошибка получения gallery.html: ' + e.message, true);
+    addBtn.style.opacity = ''; addBtn.style.pointerEvents = '';
+    return;
+  }
+
+  let uploaded = 0;
+  let newLines = '';
+
+  for (const file of files) {
+    const base64 = await new Promise(res => {
+      const r = new FileReader();
+      r.onload = ev => res(ev.target.result.split(',')[1]);
+      r.readAsDataURL(file);
+    });
+
+    /* Генерируем уникальное имя */
+    const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+    const ts = Date.now() + uploaded;
+    const ghPath = `public/images/upload_${ts}.${ext}`;
+    const imgName = `upload_${ts}.${ext}`;
+    const imgSrc  = `images/${imgName}`;
+
+    try {
+      await ghUpload(ghPath, base64, `Add photo ${imgName}`);
+
+      /* Добавить в DOM сразу */
+      const div = buildGalleryItem(imgSrc, ghPath);
+      grid.insertBefore(div, addBtn);
+
+      newLines += `\n      <div class="gallery-item" data-cat="play">\n        <img src="${imgSrc}" alt="Фото" loading="lazy">\n        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>\n      </div>`;
+      uploaded++;
+    } catch(e) {
+      showToast('Не удалось загрузить ' + file.name + ': ' + e.message, true);
+    }
+  }
+
+  if (uploaded > 0) {
+    /* Вставить новые фото в gallery.html перед закрытием galleryGrid */
+    const updated = galContent.replace(/(<\/div>\s*<\/div>\s*<\/section>)(?![\s\S]*<\/div>\s*<\/div>\s*<\/section>)/, newLines + '\n    </div>\n  </div>\n</section>');
+    const newBase64 = btoa(unescape(encodeURIComponent(updated)));
+    try {
+      await ghUpload('public/gallery.html', newBase64, `Add ${uploaded} photo(s) to gallery`, galSha);
+      showToast(`✓ ${uploaded} фото загружено! Сайт обновится через ~30 сек.`);
+    } catch(e) {
+      showToast('Фото загружены, но gallery.html не обновился: ' + e.message, true);
+    }
+    updateGalleryCount();
+  }
+
+  addBtn.style.opacity = ''; addBtn.style.pointerEvents = '';
 }
 
-/* drag-and-drop on add button */
+/* ── Toast notification ── */
+function showToast(msg, isError) {
+  let t = document.getElementById('adminToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'adminToast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 22px;border-radius:99px;font-size:0.9rem;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.18);transition:opacity 0.3s;white-space:nowrap;max-width:90vw;text-align:center';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = isError ? '#ef4444' : '#15803d';
+  t.style.color = '#fff';
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.opacity = '0', 4000);
+}
+
+/* ── Drag & drop ── */
 document.addEventListener('DOMContentLoaded', function() {
   renderGallery();
   const grid = document.getElementById('adminGalleryGrid');
@@ -1390,10 +1508,14 @@ document.addEventListener('DOMContentLoaded', function() {
     grid.classList.remove('drag-over');
     const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
     if (!files.length) return;
-    const fakeInput = { files };
-    addPhotoFromFile(fakeInput);
+    addPhotoFromFile({ files });
   });
 });
+
+/* spin animation */
+const styleEl = document.createElement('style');
+styleEl.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(styleEl);
 
 function saveDirector(e) {
   e.preventDefault();
