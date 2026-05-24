@@ -1,225 +1,167 @@
-﻿<!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>О нас — Happy Hearts Kindergarten</title>
-  <meta name="description" content="История, миссия, ценности и методики обучения Happy Hearts.">
+  <title>О детском саде — Happy Hearts</title>
+  <meta name="description" content="О детском саде Happy Hearts в Актау. Наша миссия, программы и коллектив.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="progress-bar"></div>
-<div class="loader"><div class="loader-logo">💜 Happy Hearts</div><div class="loader-dots"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div></div>
 
-<header class="header">
-  <div class="container nav">
-    <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>Happy Hearts</a>
-    <ul class="nav-links">
-      <li><a href="index.html" data-i18n="nav.home">Главная</a></li>
-      <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
-      <li><a href="about.html" class="active" data-i18n="nav.about">О детском саде</a></li>
-      <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
-      <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
-      <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
-      <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-      <li><a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a></li>
-      <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
-    </ul>
-    <div class="nav-actions">
-      <div class="lang-switch"><button data-lang="kk">KZ</button><button data-lang="ru" class="active">RU</button></div>
-      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+<header>
+  <div class="container-md">
+    <div class="row" style="align-items:center;margin:0">
+      <div class="header-logo">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
+        </a>
+      </div>
+      <div class="header-name">
+        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <h2>«Happy Hearts»</h2>
+        <div class="dept">Детский сад г. Актау</div>
+      </div>
+      <div class="header-lang">
+        <ul class="lang-list">
+          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
+          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </header>
-<nav class="mobile-menu">
-  <a href="index.html" data-i18n="nav.home">Главная</a>
-  <a href="news.html" data-i18n="nav.news">Новости</a>
-  <a href="about.html" class="active" data-i18n="nav.about">О детском саде</a>
-  <a href="director.html" data-i18n="nav.director">О руководителе</a>
-  <a href="documents.html" data-i18n="nav.documents">Документы</a>
-  <a href="gallery.html" data-i18n="nav.gallery">Галерея</a>
-  <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
-  <a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a>
-  <a href="attest.html" data-i18n="nav.attest">Аттестация</a>
-  <div class="mobile-menu-footer"><div class="lang-switch"><button data-lang="kk">KZ</button><button data-lang="ru" class="active">RU</button></div></div>
+
+<nav class="main-nav">
+  <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
+  <ul id="main-menu">
+    <li><a href="index.html" data-i18n="nav.home">Главная</a></li>
+    <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
+    <li class="active"><a href="about.html" data-i18n="nav.about">О детском саде</a></li>
+    <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
+    <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
+    <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
+    <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
+    <li><a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a></li>
+    <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
+  </ul>
 </nav>
 
-<!-- Page Hero -->
-<section class="page-hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="container">
-    <div class="breadcrumb">
-      <a href="index.html" data-i18n="nav.home">Главная</a>
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      <span data-i18n="nav.about">О нас</span>
+<div class="container-md">
+  <div class="content-wrap">
+    <div class="left-block">
+      <div class="banners">
+        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
+        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
+        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
+      </div>
+      <div class="contact-block">
+        <h3><i class="fa fa-phone"></i> Контакты</h3>
+        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
+        <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
+        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
+      </div>
     </div>
-    <span class="section-eyebrow" data-i18n="about.eyebrow">О НАС</span>
-    <h1 data-i18n="about.title">О Happy Hearts</h1>
-    <p data-i18n="about.sub">Объединяем любовь к детям и профессиональный опыт.</p>
-  </div>
-</section>
 
-<!-- History -->
-<section class="section">
-  <div class="container">
-    <div class="about-split">
-      <div class="reveal-left">
-        <div class="about-img-wrap">
-          <img src="images/photo12.jpg" alt="Здание Happy Hearts" loading="lazy">
-          <div class="about-img-badge">
-            <div class="about-num">11</div>
-            <div class="about-lbl">лет опыта</div>
-          </div>
-        </div>
+    <div class="info-block">
+      <div class="breadcrumb">
+        <a href="index.html">Главная</a> <span>›</span> О детском саде
       </div>
-      <div class="reveal-right">
-        <span class="section-eyebrow" data-i18n="about.history.eyebrow">ИСТОРИЯ</span>
-        <h2 data-i18n="about.history.title">Наша история</h2>
-        <p style="margin-bottom:16px">Детский сад Happy Hearts был основан в 2015 году с одной простой целью — создать место, где каждый ребёнок чувствует себя любимым, безопасным и способным достигать всего.</p>
-        <p style="margin-bottom:16px">Мы начали с небольшой группы из 20 детей и выросли до премиального учреждения с более чем 320 воспитанниками. Наш подход сочетает лучшие международные методики с казахстанскими культурными ценностями.</p>
-        <p>Сегодня Happy Hearts — это не просто детский сад, это сообщество заботливых педагогов, счастливых детей и доверяющих нам родителей.</p>
-        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:28px">
-          <div class="glass-card" style="padding:20px 24px;flex:1;min-width:120px;text-align:center">
-            <div class="stat-num" data-count="320"><span class="count-num">0</span><span>+</span></div>
-            <div class="stat-label" data-i18n="hero.stat1">Счастливых детей</div>
-          </div>
-          <div class="glass-card" style="padding:20px 24px;flex:1;min-width:120px;text-align:center">
-            <div class="stat-num" data-count="28"><span class="count-num">0</span></div>
-            <div class="stat-label" data-i18n="hero.stat2">Воспитателей</div>
-          </div>
-          <div class="glass-card" style="padding:20px 24px;flex:1;min-width:120px;text-align:center">
-            <div class="stat-num" data-count="11"><span class="count-num">0</span></div>
-            <div class="stat-label" data-i18n="hero.stat3">Лет опыта</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      <h2 class="page-title">О детском саде «Happy Hearts»</h2>
 
-<!-- Mission -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="about-split" style="direction:ltr">
-      <div class="reveal-left">
-        <span class="section-eyebrow" data-i18n="about.mission.eyebrow">МИССИЯ</span>
-        <h2 data-i18n="about.mission.title">Наша миссия</h2>
-        <p style="margin-bottom:16px">Наша миссия — создать безопасное, радостное и вдохновляющее пространство, где дети могут свободно исследовать мир, развивать свои таланты и строить основу для успешного будущего.</p>
-        <p style="margin-bottom:24px">Мы верим, что каждый ребёнок уникален и заслуживает индивидуального подхода. Наши педагоги работают с любовью и профессионализмом, чтобы раскрыть потенциал каждого малыша.</p>
-        <a href="admissions.html" class="btn btn-primary" data-i18n="cta.btn">Оставить заявку</a>
-      </div>
-      <div class="reveal-right">
-        <div class="about-img-wrap">
-          <img src="images/photo11.jpg" alt="Занятие в Happy Hearts" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      <p>Частный детский сад <strong>«Happy Hearts»</strong> — это современное дошкольное учреждение в г. Актау, созданное с целью обеспечения качественного дошкольного образования и воспитания детей в возрасте от 2 до 7 лет.</p>
 
-<!-- Values -->
-<section class="section">
-  <div class="container text-center">
-    <span class="section-eyebrow reveal" data-i18n="about.values.eyebrow">ЦЕННОСТИ</span>
-    <h2 class="section-title reveal" data-i18n="about.values.title">Наши ценности</h2>
-  </div>
-  <div class="container" style="max-width:860px">
-    <div class="values-grid">
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#FFB3C6,#FF6B9D)"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
-        <div class="value-text"><h4>Любовь и забота</h4><p>Каждый ребёнок чувствует тепло и внимание.</p></div>
-      </div>
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#A8D8F0,#4EADD4)"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-        <div class="value-text"><h4>Открытость</h4><p>Прозрачность в общении с родителями.</p></div>
-      </div>
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#B5EAD7,#2DC98C)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <div class="value-text"><h4>Развитие</h4><p>Непрерывное обучение и рост каждого ребёнка.</p></div>
-      </div>
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#C9B8FF,#7C6FD4)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="value-text"><h4>Безопасность</h4><p>Защищённая среда для полноценного развития.</p></div>
-      </div>
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#FFE082,#FFB300)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="value-text"><h4>Многообразие</h4><p>Уважение к культурам и языкам.</p></div>
-      </div>
-      <div class="value-item reveal">
-        <div class="value-icon" style="background:linear-gradient(135deg,#FDBCB4,#F7794B)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div class="value-text"><h4>Команда</h4><p>Педагоги, дети и родители — единая семья.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+      <p>Наш детский сад работает в соответствии с государственными образовательными стандартами Республики Казахстан и реализует программы, направленные на всестороннее развитие личности каждого ребёнка.</p>
 
-<!-- Methods -->
-<section class="section section--alt">
-  <div class="container text-center">
-    <span class="section-eyebrow reveal" data-i18n="about.methods.eyebrow">МЕТОДИКИ</span>
-    <h2 class="section-title reveal" data-i18n="about.methods.title">Методики обучения</h2>
-    <p class="section-subtitle reveal">Мы используем лучшие международные практики дошкольного образования.</p>
-  </div>
-  <div class="container features-grid">
-    <div class="feature-card reveal">
-      <div class="feature-icon fi-1"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-      <h3>Монтессори</h3>
-      <p>Самостоятельное исследование мира через специально подготовленную среду.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon fi-2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <h3>Вальдорфская педагогика</h3>
-      <p>Развитие через ритм, искусство и природосообразность.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon fi-3"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
-      <h3>Реджио-Эмилия</h3>
-      <p>Проектная деятельность и художественное самовыражение.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon fi-4"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <h3>STEM-подход</h3>
-      <p>Наука, технологии, инженерия и математика с раннего возраста.</p>
-    </div>
-  </div>
-</section>
+      <h3>Наша миссия</h3>
+      <p>Создать для каждого ребёнка условия, в которых он сможет раскрыть свой потенциал, развить творческие способности, получить первые навыки общения и познания мира в безопасной и любящей среде.</p>
 
-<!-- CTA -->
-<section class="section">
-  <div class="container">
-    <div class="cta-block reveal">
-      <h2 data-i18n="cta.title">Счастливое будущее вашего ребёнка начинается здесь</h2>
-      <p data-i18n="cta.sub">Запишитесь на пробный день — увидите всё своими глазами.</p>
-      <a href="admissions.html" class="btn btn-white" data-i18n="cta.btn">Оставить заявку</a>
+      <h3>Образовательные программы</h3>
+      <table class="contacts-table" style="margin-bottom:20px">
+        <tr>
+          <td>Возрастная группа</td>
+          <td>Название группы</td>
+          <td>Возраст</td>
+        </tr>
+        <tr>
+          <td>Ясельная группа</td>
+          <td>«Солнышко»</td>
+          <td>2–3 года</td>
+        </tr>
+        <tr>
+          <td>Младшая группа</td>
+          <td>«Ромашка»</td>
+          <td>3–4 года</td>
+        </tr>
+        <tr>
+          <td>Средняя группа</td>
+          <td>«Радуга»</td>
+          <td>4–5 лет</td>
+        </tr>
+        <tr>
+          <td>Старшая группа</td>
+          <td>«Звёздочки»</td>
+          <td>5–6 лет</td>
+        </tr>
+        <tr>
+          <td>Подготовительная группа</td>
+          <td>«Будущие школьники»</td>
+          <td>6–7 лет</td>
+        </tr>
+      </table>
+
+      <h3>Направления работы</h3>
+      <ul style="padding-left:20px;margin-bottom:14px">
+        <li>Физическое воспитание и здоровьесбережение</li>
+        <li>Познавательное и речевое развитие</li>
+        <li>Художественно-эстетическое развитие</li>
+        <li>Социально-коммуникативное развитие</li>
+        <li>Трёхъязычное обучение (казахский, русский)</li>
+        <li>Музыкальное воспитание</li>
+        <li>Хореография и театр</li>
+      </ul>
+
+      <h3>Условия пребывания</h3>
+      <p>Детский сад оснащён современными игровыми комнатами, спортивным залом, музыкальным залом, прогулочными площадками и медицинским кабинетом. Питание организовано 5 раз в день по сбалансированному меню, утверждённому врачом-диетологом.</p>
+
+      <h3>Режим работы</h3>
+      <table class="contacts-table">
+        <tr>
+          <td>Режим работы</td>
+          <td>Понедельник – Пятница: 07:30 – 19:00</td>
+        </tr>
+        <tr>
+          <td>Утренний приём</td>
+          <td>07:30 – 08:30</td>
+        </tr>
+        <tr>
+          <td>Дневной сон</td>
+          <td>13:00 – 15:00</td>
+        </tr>
+        <tr>
+          <td>Вечерний уход</td>
+          <td>До 19:00</td>
+        </tr>
+      </table>
     </div>
   </div>
-</section>
+</div>
 
-<!-- Footer -->
 <footer class="footer">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>Happy Hearts</a>
-      <p class="footer-desc" data-i18n="footer.about">Happy Hearts — современный детский сад.</p>
-      <div class="footer-socials">
-        <a href="#" class="footer-social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-        <a href="#" class="footer-social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-        <a href="#" class="footer-social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
-        <a href="#" class="footer-social-btn" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></a>
-      </div>
-    </div>
-    <div class="footer-col"><h4 data-i18n="footer.nav">Навигация</h4><ul><li><a href="about.html" data-i18n="nav.about">О нас</a></li><li><a href="teachers.html" data-i18n="nav.teachers">Воспитатели</a></li><li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li><li><a href="news.html" data-i18n="nav.news">Новости</a></li><li><a href="admissions.html" data-i18n="nav.admissions">Поступление</a></li><li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer.contact">Контакты</h4><ul><li><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="contact.addr.v">Актау, мкр. Самал, 51</span></li><li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span data-i18n="contact.phone.v">+7 701 486 00 00</span></li><li><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-i18n="contact.email.v">happyhearts.aktau@gmail.com</span></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer.social">Мы в соцсетях</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">YouTube</a></li><li><a href="#">Telegram</a></li></ul></div>
+  <div class="container-md">
+    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
   </div>
-  <div class="container footer-bottom"><span data-i18n="footer.copy">© 2026 Happy Hearts. Все права защищены.</span><span data-i18n="footer.made">❤️ Сделано в Алматы</span></div>
 </footer>
 
-<a class="wa-btn" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp"><div class="wa-icon"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4.1-3.6-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1.1 1-1.1 2.5 1.1 2.9 1.3 3.1c.2.3 2.2 3.4 5.4 4.8.7.3 1.3.5 1.8.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3c1.4.7 3 1.1 4.7 1.1 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg></div><span class="wa-tooltip" data-i18n="wa.tooltip">Написать в WhatsApp</span></a>
-<button class="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa fa-whatsapp"></i>
+</a>
+
 <script src="js/script.js"></script>
 </body>
 </html>
-

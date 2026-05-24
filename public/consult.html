@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,149 +7,132 @@
   <meta name="description" content="Консультационный пункт детского сада Happy Hearts. Консультации специалистов для родителей.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="progress-bar"></div>
-<div class="loader"><div class="loader-logo">💜 Happy Hearts</div><div class="loader-dots"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div></div>
 
-<header class="header">
-  <div class="container nav">
-    <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>Happy Hearts</a>
-    <ul class="nav-links">
-      <li><a href="index.html" data-i18n="nav.home">Главная</a></li>
-      <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
-      <li><a href="about.html" data-i18n="nav.about">О детском саде</a></li>
-      <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
-      <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
-      <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
-      <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-      <li><a href="consult.html" class="active" data-i18n="nav.consult">Консультационный пункт</a></li>
-      <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
-    </ul>
-    <div class="nav-actions">
-      <div class="lang-switch"><button data-lang="kk">KZ</button><button data-lang="ru" class="active">RU</button></div>
-      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+<header>
+  <div class="container-md">
+    <div class="row" style="align-items:center;margin:0">
+      <div class="header-logo">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Happy Hearts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;width:100px;height:80px;background:#9cb96a;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;text-align:center;padding:5px">Happy Hearts</div>
+        </a>
+      </div>
+      <div class="header-name">
+        <div class="org-type">Частное учреждение дошкольного образования</div>
+        <h2>«Happy Hearts»</h2>
+        <div class="dept">Детский сад г. Актау</div>
+      </div>
+      <div class="header-lang">
+        <ul class="lang-list">
+          <li id="lang-kk"><a href="#" onclick="setLang('kk');return false;">ҚАЗ</a></li>
+          <li id="lang-ru" class="lang-active"><a href="#" onclick="setLang('ru');return false;">РУС</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </header>
-<nav class="mobile-menu">
-  <a href="index.html" data-i18n="nav.home">Главная</a>
-  <a href="news.html" data-i18n="nav.news">Новости</a>
-  <a href="about.html" data-i18n="nav.about">О детском саде</a>
-  <a href="director.html" data-i18n="nav.director">О руководителе</a>
-  <a href="documents.html" data-i18n="nav.documents">Документы</a>
-  <a href="gallery.html" data-i18n="nav.gallery">Галерея</a>
-  <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
-  <a href="consult.html" class="active" data-i18n="nav.consult">Консультационный пункт</a>
-  <a href="attest.html" data-i18n="nav.attest">Аттестация</a>
-  <div class="mobile-menu-footer"><div class="lang-switch"><button data-lang="kk">KZ</button><button data-lang="ru" class="active">RU</button></div></div>
+
+<nav class="main-nav">
+  <button class="burger-btn" onclick="toggleMobileMenu()">Меню <span class="burger-icon">&#9776;</span></button>
+  <ul id="main-menu">
+    <li><a href="index.html" data-i18n="nav.home">Главная</a></li>
+    <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
+    <li><a href="about.html" data-i18n="nav.about">О детском саде</a></li>
+    <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
+    <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
+    <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
+    <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
+    <li class="active"><a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a></li>
+    <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
+  </ul>
 </nav>
 
-<section class="page-hero">
-  <div class="blob blob-1"></div><div class="blob blob-2"></div>
-  <div class="container">
-    <div class="breadcrumb">
-      <a href="index.html" data-i18n="nav.home">Главная</a>
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      <span data-i18n="nav.consult">Консультационный пункт</span>
+<div class="container-md">
+  <div class="content-wrap">
+    <div class="left-block">
+      <div class="banners">
+        <div class="banner-item"><img src="images/photo6.jpg" alt="Программа обучения"></div>
+        <div class="banner-item"><img src="images/photo7.jpg" alt="Детский сад"></div>
+        <div class="banner-item"><img src="images/photo8.jpg" alt="Воспитанники" style="width:75%"></div>
+      </div>
+      <div class="contact-block">
+        <h3><i class="fa fa-phone"></i> Контакты</h3>
+        <p><i class="fa fa-map-marker"></i> г. Актау, мкр. Самал, 51</p>
+        <p><i class="fa fa-phone"></i> +7 701 486 00 00</p>
+        <p><i class="fa fa-envelope"></i> happyhearts.aktau@gmail.com</p>
+        <p><i class="fa fa-clock-o"></i> Пн–Пт: 07:30–19:00</p>
+        <p><a href="https://wa.me/77014860000" target="_blank" style="color:white;text-decoration:underline"><i class="fa fa-whatsapp"></i> WhatsApp</a></p>
+      </div>
     </div>
-    <span class="section-eyebrow" data-i18n="consult.eyebrow">КОНСУЛЬТАЦИОННЫЙ ПУНКТ</span>
-    <h1 data-i18n="consult.title">Консультационный пункт</h1>
-    <p data-i18n="consult.sub">Консультации специалистов и информация для родителей.</p>
+
+    <div class="info-block">
+      <div class="breadcrumb">
+        <a href="index.html">Главная</a> <span>›</span> Консультационный пункт
+      </div>
+      <h2 class="page-title">Консультационный пункт</h2>
+
+      <p>Консультационный пункт <strong>«Happy Hearts»</strong> оказывает бесплатную методическую, психолого-педагогическую, диагностическую и консультативную помощь родителям (законным представителям) детей дошкольного возраста.</p>
+      <p>Консультации проводятся опытными специалистами нашего детского сада в соответствии с утверждённым графиком.</p>
+
+      <h3 style="margin-top:20px;margin-bottom:14px">Наши специалисты</h3>
+
+      <div class="specialist-card">
+        <div class="specialist-icon"><i class="fa fa-heart"></i></div>
+        <div class="specialist-body">
+          <div class="specialist-name">Педагог-психолог</div>
+          <div class="specialist-desc">Консультации по вопросам психологического развития ребёнка, адаптации к детскому саду, детско-родительских отношений, поведенческих особенностей.</div>
+          <div class="specialist-hours"><i class="fa fa-clock-o"></i> Понедельник, Среда: 10:00 – 12:00</div>
+        </div>
+      </div>
+
+      <div class="specialist-card">
+        <div class="specialist-icon"><i class="fa fa-comments"></i></div>
+        <div class="specialist-body">
+          <div class="specialist-name">Учитель-логопед</div>
+          <div class="specialist-desc">Диагностика и коррекция речевых нарушений. Консультирование родителей по вопросам развития речи, звукопроизношения и фонематического слуха у детей.</div>
+          <div class="specialist-hours"><i class="fa fa-clock-o"></i> Вторник, Четверг: 10:00 – 12:00</div>
+        </div>
+      </div>
+
+      <div class="specialist-card">
+        <div class="specialist-icon"><i class="fa fa-users"></i></div>
+        <div class="specialist-body">
+          <div class="specialist-name">Педагог-воспитатель</div>
+          <div class="specialist-desc">Консультации по вопросам воспитания, обучения и подготовки ребёнка к школе. Практические рекомендации для родителей по развитию дошкольников.</div>
+          <div class="specialist-hours"><i class="fa fa-clock-o"></i> Пятница: 10:00 – 12:00</div>
+        </div>
+      </div>
+
+      <div class="specialist-card">
+        <div class="specialist-icon"><i class="fa fa-plus-square"></i></div>
+        <div class="specialist-body">
+          <div class="specialist-name">Медицинский работник</div>
+          <div class="specialist-desc">Консультации по вопросам здоровья, питания и физического развития детей дошкольного возраста. Рекомендации по профилактике заболеваний.</div>
+          <div class="specialist-hours"><i class="fa fa-clock-o"></i> Понедельник – Пятница: 09:00 – 11:00</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px;margin-bottom:12px">Запись на консультацию</h3>
+      <p>Для записи на консультацию обратитесь по телефону или лично в детский сад в рабочие дни с 08:00 до 17:00.</p>
+      <p><i class="fa fa-phone"></i> <a href="tel:+77014860000" style="color:#05578b;font-weight:700">+7 701 486 00 00</a></p>
+      <p><i class="fa fa-whatsapp"></i> <a href="https://wa.me/77014860000" target="_blank" style="color:#05578b;font-weight:700">WhatsApp</a></p>
+    </div>
   </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div style="background:var(--primary-pale);border-radius:var(--r-lg);padding:32px;margin-bottom:48px;border-left:4px solid var(--primary)" class="reveal">
-      <h2 style="color:var(--primary);margin-bottom:16px">О консультационном пункте</h2>
-      <p style="color:var(--text);line-height:1.8;margin:0">Консультационный пункт Happy Hearts оказывает бесплатную методическую, психолого-педагогическую, диагностическую и консультативную помощь родителям (законным представителям) детей дошкольного возраста. Консультации проводятся опытными специалистами нашего детского сада.</p>
-    </div>
-
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon fi-1">
-          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <h3>Психолог</h3>
-        <p>Консультации по вопросам психологического развития ребёнка, адаптации к детскому саду, детско-родительских отношений.</p>
-        <div style="margin-top:16px;font-size:0.875rem;color:var(--primary);font-weight:600">Пн, Ср: 10:00–12:00</div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon fi-2">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3>Логопед</h3>
-        <p>Диагностика и коррекция речевых нарушений, консультирование родителей по развитию речи ребёнка.</p>
-        <div style="margin-top:16px;font-size:0.875rem;color:var(--primary);font-weight:600">Вт, Чт: 10:00–12:00</div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon fi-3">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3>Педагог-воспитатель</h3>
-        <p>Консультации по вопросам воспитания, обучения и подготовки ребёнка к школе.</p>
-        <div style="margin-top:16px;font-size:0.875rem;color:var(--primary);font-weight:600">Пт: 10:00–12:00</div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon fi-4">
-          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        </div>
-        <h3>Медицинский работник</h3>
-        <p>Консультации по вопросам здоровья, питания и физического развития детей дошкольного возраста.</p>
-        <div style="margin-top:16px;font-size:0.875rem;color:var(--primary);font-weight:600">Пн–Пт: 09:00–11:00</div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px;margin-top:48px" class="reveal">
-      <h2 style="margin-bottom:24px;color:var(--text)">Запись на консультацию</h2>
-      <p style="color:var(--text-muted);margin-bottom:24px">Для записи на консультацию обратитесь по телефону или лично в детский сад в рабочие дни.</p>
-      <div style="display:flex;gap:16px;flex-wrap:wrap">
-        <a href="tel:+77014860000" class="btn btn-primary">+7 701 486 00 00</a>
-        <a href="https://wa.me/77014860000" class="btn btn-ghost" target="_blank">WhatsApp</a>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <footer class="footer">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>Happy Hearts</a>
-      <p class="footer-desc" data-i18n="footer.about">Happy Hearts — современный детский сад.</p>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.nav">Навигация</h4>
-      <ul>
-        <li><a href="news.html" data-i18n="nav.news">Новости</a></li>
-        <li><a href="about.html" data-i18n="nav.about">О детском саде</a></li>
-        <li><a href="director.html" data-i18n="nav.director">О руководителе</a></li>
-        <li><a href="documents.html" data-i18n="nav.documents">Документы</a></li>
-        <li><a href="gallery.html" data-i18n="nav.gallery">Галерея</a></li>
-        <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-        <li><a href="consult.html" data-i18n="nav.consult">Консультационный пункт</a></li>
-        <li><a href="attest.html" data-i18n="nav.attest">Аттестация</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.contact">Контакты</h4>
-      <ul>
-        <li><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="contact.addr.v">Актау, мкр. Самал, 51</span></li>
-        <li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span data-i18n="contact.phone.v">+7 701 486 00 00</span></li>
-      </ul>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <span data-i18n="footer.copy">© 2026 Happy Hearts. Все права защищены.</span>
-    <span data-i18n="footer.made">❤️ Сделано в Актау</span>
+  <div class="container-md">
+    <p>© 2026 ЧУ «Happy Hearts». Все права защищены. | г. Актау, мкр. Самал, 51 | +7 701 486 00 00</p>
   </div>
 </footer>
 
-<a class="wa-btn" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <div class="wa-icon"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4.1-3.6-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1.1 1-1.1 2.5 1.1 2.9 1.3 3.1c.2.3 2.2 3.4 5.4 4.8.7.3 1.3.5 1.8.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3c1.4.7 3 1.1 4.7 1.1 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.4 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg></div>
-  <span class="wa-tooltip" data-i18n="wa.tooltip">Написать в WhatsApp</span>
+<a class="wa-float" href="https://wa.me/77014860000" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa fa-whatsapp"></i>
 </a>
-<button class="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
 <script src="js/script.js"></script>
 </body>
 </html>

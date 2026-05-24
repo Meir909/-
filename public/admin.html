@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель — Happy Hearts</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌸%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login" id="loginScreen">
+  <div class="admin-login-box">
+    <div style="font-size:2.5rem;color:#9cb96a;margin-bottom:12px"><i class="fa fa-lock"></i></div>
+    <h1>Happy Hearts</h1>
+    <div class="subtitle">Вход в административную панель</div>
+    <form onsubmit="adminLogin(event)">
+      <input type="password" id="adminPass" placeholder="Введите пароль" autocomplete="current-password">
+      <button type="submit">Войти</button>
+      <div class="error" id="loginError" style="display:none">Неверный пароль. Попробуйте ещё раз.</div>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="adminPanel" style="display:none">
+
+  <!-- Sidebar -->
+  <div class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-logo">
+      <i class="fa fa-heart" style="color:#9cb96a"></i> Happy Hearts
+      <span>Административная панель</span>
+    </div>
+    <nav class="admin-nav">
+      <a href="#" class="active" onclick="showTab('dashboard', this)">
+        <i class="fa fa-dashboard"></i> Главная
+      </a>
+      <a href="#" onclick="showTab('news', this)">
+        <i class="fa fa-newspaper-o"></i> Новости
+      </a>
+      <a href="#" onclick="showTab('gallery', this)">
+        <i class="fa fa-picture-o"></i> Галерея
+      </a>
+      <a href="#" onclick="showTab('director', this)">
+        <i class="fa fa-user"></i> Руководитель
+      </a>
+      <a href="#" onclick="showTab('contacts', this)">
+        <i class="fa fa-phone"></i> Контакты
+      </a>
+      <a href="#" onclick="showTab('documents', this)">
+        <i class="fa fa-file-text"></i> Документы
+      </a>
+      <a href="#" onclick="showTab('attestation', this)">
+        <i class="fa fa-certificate"></i> Аттестация
+      </a>
+    </nav>
+    <div class="admin-logout">
+      <a href="index.html"><i class="fa fa-globe"></i> Перейти на сайт</a>
+      <a href="#" onclick="adminLogout()" style="margin-top:8px"><i class="fa fa-sign-out"></i> Выйти</a>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="admin-main">
+    <!-- Topbar -->
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onclick="toggleAdminSidebar()" style="background:none;border:none;cursor:pointer;font-size:1.3rem;color:#666">
+          <i class="fa fa-bars"></i>
+        </button>
+        <h1 id="adminPageTitle">Главная</h1>
+      </div>
+      <div style="font-size:0.85rem;color:#888">
+        <i class="fa fa-user-circle"></i> Администратор &nbsp;|&nbsp;
+        <a href="#" onclick="adminLogout()" style="color:#d5585d"><i class="fa fa-sign-out"></i> Выйти</a>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- DASHBOARD -->
+      <div id="tab-dashboard" class="admin-tab-content active">
+        <div class="admin-stats">
+          <div class="admin-stat-card">
+            <div class="admin-stat-num">14</div>
+            <div class="admin-stat-label"><i class="fa fa-picture-o"></i> Фото в галерее</div>
+          </div>
+          <div class="admin-stat-card blue">
+            <div class="admin-stat-num">6</div>
+            <div class="admin-stat-label"><i class="fa fa-newspaper-o"></i> Новостей</div>
+          </div>
+          <div class="admin-stat-card red">
+            <div class="admin-stat-num">11</div>
+            <div class="admin-stat-label"><i class="fa fa-file-text"></i> Документов</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-num">4</div>
+            <div class="admin-stat-label"><i class="fa fa-users"></i> Специалистов</div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-info-circle"></i> Добро пожаловать в панель управления</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="admin-alert admin-alert-success">
+              <i class="fa fa-check-circle"></i> Вы вошли в систему как администратор.
+            </div>
+            <p style="margin-bottom:12px">Используйте меню слева для управления содержимым сайта «Happy Hearts»:</p>
+            <ul style="padding-left:20px;line-height:2">
+              <li><strong>Новости</strong> — добавление и редактирование новостей и событий</li>
+              <li><strong>Галерея</strong> — управление фотографиями</li>
+              <li><strong>Руководитель</strong> — информация о заведующем</li>
+              <li><strong>Контакты</strong> — обновление контактных данных</li>
+              <li><strong>Документы</strong> — загрузка и управление документами</li>
+              <li><strong>Аттестация</strong> — сведения об аттестации педагогов</li>
+            </ul>
+            <p style="margin-top:12px;color:#888;font-size:0.875rem"><i class="fa fa-info-circle"></i> Все изменения сохраняются немедленно.</p>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-clock-o"></i> Последние действия</span>
+          </div>
+          <div class="admin-card-body">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Действие</th>
+                  <th>Раздел</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>24.05.2026</td>
+                  <td>Вход в систему</td>
+                  <td><span class="badge badge-green">Система</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS TAB -->
+      <div id="tab-news" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-plus"></i> Добавить новость</span>
+          </div>
+          <div class="admin-card-body">
+            <form onsubmit="addNews(event)">
+              <div class="admin-form-group">
+                <label>Заголовок новости</label>
+                <input type="text" class="admin-input" id="newsTitle" placeholder="Введите заголовок..." required>
+              </div>
+              <div class="admin-form-group">
+                <label>Дата публикации</label>
+                <input type="date" class="admin-input" id="newsDate" required>
+              </div>
+              <div class="admin-form-group">
+                <label>Краткое описание</label>
+                <textarea class="admin-input" id="newsText" placeholder="Краткий текст новости..." required></textarea>
+              </div>
+              <div class="admin-form-group">
+                <label>Фотография (URL или путь)</label>
+                <input type="text" class="admin-input" id="newsImg" placeholder="images/photo1.jpg">
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить новость</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-list"></i> Список новостей</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="newsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Заголовок</th>
+                  <th>Статус</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="newsList">
+                <tr>
+                  <td>01.09.2026</td>
+                  <td>Новый учебный год торжественно открыт</td>
+                  <td><span class="badge badge-green">Опубликовано</span></td>
+                  <td>
+                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
+                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>22.03.2026</td>
+                  <td>Праздник Наурыз в нашем детском саду</td>
+                  <td><span class="badge badge-green">Опубликовано</span></td>
+                  <td>
+                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
+                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>15.10.2025</td>
+                  <td>Наши воспитанники победили в городском конкурсе</td>
+                  <td><span class="badge badge-green">Опубликовано</span></td>
+                  <td>
+                    <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
+                    <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px"><i class="fa fa-trash"></i> Удалить</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY TAB -->
+      <div id="tab-gallery" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-upload"></i> Добавить фото в галерею</span>
+          </div>
+          <div class="admin-card-body">
+            <form onsubmit="addPhoto(event)">
+              <div class="admin-form-group">
+                <label>Путь к фотографии</label>
+                <input type="text" class="admin-input" id="photoPath" placeholder="images/photo15.jpg" required>
+              </div>
+              <div class="admin-form-group">
+                <label>Подпись к фото</label>
+                <input type="text" class="admin-input" id="photoCaption" placeholder="Описание фотографии" required>
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-plus"></i> Добавить фото</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-picture-o"></i> Фотографии (14 фото)</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="galleryAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <table class="admin-table">
+              <thead>
+                <tr><th>Файл</th><th>Предпросмотр</th><th>Действия</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>photo1.jpg</td><td><img src="images/photo1.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo2.jpg</td><td><img src="images/photo2.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo3.jpg</td><td><img src="images/photo3.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo4.jpg</td><td><img src="images/photo4.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo5.jpg</td><td><img src="images/photo5.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo6.jpg</td><td><img src="images/photo6.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo7.jpg</td><td><img src="images/photo7.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo8.jpg</td><td><img src="images/photo8.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo9.jpg</td><td><img src="images/photo9.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo10.jpg</td><td><img src="images/photo10.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo11.jpg</td><td><img src="images/photo11.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo12.jpg</td><td><img src="images/photo12.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo13.jpg</td><td><img src="images/photo13.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+                <tr><td>photo14.jpg</td><td><img src="images/photo14.jpg" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd"></td><td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECTOR TAB -->
+      <div id="tab-director" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-user"></i> Информация о руководителе</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="directorAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <form onsubmit="saveDirector(event)">
+              <div class="admin-form-group">
+                <label>ФИО руководителя</label>
+                <input type="text" class="admin-input" id="dirFio" placeholder="Иванова Мария Ивановна">
+              </div>
+              <div class="admin-form-group">
+                <label>Должность</label>
+                <input type="text" class="admin-input" id="dirPosition" value="Заведующий детским садом">
+              </div>
+              <div class="admin-form-group">
+                <label>Образование</label>
+                <input type="text" class="admin-input" id="dirEducation" value="Высшее педагогическое">
+              </div>
+              <div class="admin-form-group">
+                <label>Телефон</label>
+                <input type="tel" class="admin-input" id="dirPhone" value="+7 701 486 00 00">
+              </div>
+              <div class="admin-form-group">
+                <label>Email</label>
+                <input type="email" class="admin-input" id="dirEmail" value="happyhearts.aktau@gmail.com">
+              </div>
+              <div class="admin-form-group">
+                <label>Приёмные часы</label>
+                <input type="text" class="admin-input" id="dirHours" value="Понедельник – Пятница: 09:00 – 12:00">
+              </div>
+              <div class="admin-form-group">
+                <label>Краткая биография</label>
+                <textarea class="admin-input" id="dirBio" placeholder="Краткое описание опыта и достижений руководителя..."></textarea>
+              </div>
+              <div class="admin-form-group">
+                <label>Фото (путь к файлу)</label>
+                <input type="text" class="admin-input" id="dirPhoto" placeholder="images/director.jpg">
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить изменения</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACTS TAB -->
+      <div id="tab-contacts" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-phone"></i> Контактные данные</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="contactsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <form onsubmit="saveContacts(event)">
+              <div class="admin-form-group">
+                <label>Адрес</label>
+                <input type="text" class="admin-input" id="cAddr" value="г. Актау, мкр. Самал, 51">
+              </div>
+              <div class="admin-form-group">
+                <label>Телефон</label>
+                <input type="tel" class="admin-input" id="cPhone" value="+7 701 486 00 00">
+              </div>
+              <div class="admin-form-group">
+                <label>Email</label>
+                <input type="email" class="admin-input" id="cEmail" value="happyhearts.aktau@gmail.com">
+              </div>
+              <div class="admin-form-group">
+                <label>WhatsApp</label>
+                <input type="text" class="admin-input" id="cWhatsapp" value="77014860000">
+              </div>
+              <div class="admin-form-group">
+                <label>Режим работы</label>
+                <input type="text" class="admin-input" id="cHours" value="Понедельник – Пятница: 07:30 – 19:00">
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Сохранить изменения</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS TAB -->
+      <div id="tab-documents" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-plus"></i> Добавить документ</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="docsAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <form onsubmit="addDocument(event)">
+              <div class="admin-form-group">
+                <label>Название документа</label>
+                <input type="text" class="admin-input" id="docName" placeholder="Название документа..." required>
+              </div>
+              <div class="admin-form-group">
+                <label>Раздел</label>
+                <select class="admin-input" id="docCategory">
+                  <option>Учредительные документы</option>
+                  <option>Образовательные программы</option>
+                  <option>Внутренние документы</option>
+                  <option>Отчёты и планы</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Ссылка на файл (URL или путь)</label>
+                <input type="text" class="admin-input" id="docUrl" placeholder="docs/document.pdf">
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Добавить документ</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-list"></i> Список документов</span>
+          </div>
+          <div class="admin-card-body">
+            <table class="admin-table">
+              <thead>
+                <tr><th>Название</th><th>Раздел</th><th>Действия</th></tr>
+              </thead>
+              <tbody id="docsList">
+                <tr>
+                  <td>Свидетельство о государственной регистрации</td>
+                  <td><span class="badge badge-blue">Учредительные</span></td>
+                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                </tr>
+                <tr>
+                  <td>Устав частного учреждения «Happy Hearts»</td>
+                  <td><span class="badge badge-blue">Учредительные</span></td>
+                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                </tr>
+                <tr>
+                  <td>Лицензия на образовательную деятельность</td>
+                  <td><span class="badge badge-blue">Учредительные</span></td>
+                  <td><button class="admin-btn admin-btn-red admin-btn-sm"><i class="fa fa-trash"></i> Удалить</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATTESTATION TAB -->
+      <div id="tab-attestation" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-plus"></i> Добавить запись об аттестации</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="attestAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+            <form onsubmit="addAttest(event)">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="admin-form-group">
+                  <label>ФИО педагога</label>
+                  <input type="text" class="admin-input" id="attFio" placeholder="Иванова Мария Ивановна" required>
+                </div>
+                <div class="admin-form-group">
+                  <label>Должность</label>
+                  <input type="text" class="admin-input" id="attPosition" placeholder="Воспитатель" required>
+                </div>
+                <div class="admin-form-group">
+                  <label>Квалификационная категория</label>
+                  <select class="admin-input" id="attCategory">
+                    <option>Соответствие должности</option>
+                    <option>Первая категория</option>
+                    <option>Высшая категория</option>
+                  </select>
+                </div>
+                <div class="admin-form-group">
+                  <label>Срок действия</label>
+                  <input type="text" class="admin-input" id="attPeriod" placeholder="до 01.09.2026">
+                </div>
+              </div>
+              <button type="submit" class="admin-btn admin-btn-green"><i class="fa fa-save"></i> Добавить запись</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span><i class="fa fa-certificate"></i> Таблица аттестации</span>
+          </div>
+          <div class="admin-card-body">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ФИО педагога</th>
+                  <th>Должность</th>
+                  <th>Категория</th>
+                  <th>Срок действия</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="attestList">
+                <tr>
+                  <td colspan="5" style="text-align:center;color:#888;padding:20px">
+                    <i class="fa fa-info-circle"></i> Записи об аттестации не добавлены. Используйте форму выше.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-wrap -->
+
+<script>
+/* ── Admin password check ── */
+const ADMIN_PASS = 'Damir2009';
+
+function adminLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('adminPass').value;
+  const errEl = document.getElementById('loginError');
+  if (pass === ADMIN_PASS) {
+    sessionStorage.setItem('hh_admin', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'flex';
+    errEl.style.display = 'none';
+  } else {
+    errEl.style.display = 'block';
+    document.getElementById('adminPass').value = '';
+    document.getElementById('adminPass').focus();
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('hh_admin');
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPass').value = '';
+}
+
+/* Check if already logged in */
+if (sessionStorage.getItem('hh_admin') === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'flex';
+}
+
+/* ── Tab navigation ── */
+function showTab(name, link) {
+  document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+  const tabEl = document.getElementById('tab-' + name);
+  if (tabEl) tabEl.classList.add('active');
+  if (link) link.classList.add('active');
+
+  const titles = {
+    dashboard: 'Главная',
+    news: 'Новости',
+    gallery: 'Галерея',
+    director: 'Руководитель',
+    contacts: 'Контакты',
+    documents: 'Документы',
+    attestation: 'Аттестация',
+  };
+  document.getElementById('adminPageTitle').textContent = titles[name] || name;
+}
+
+/* ── Mobile sidebar toggle ── */
+function toggleAdminSidebar() {
+  document.getElementById('adminSidebar').classList.toggle('open');
+}
+
+/* ── News form ── */
+function addNews(e) {
+  e.preventDefault();
+  const title = document.getElementById('newsTitle').value;
+  const date = document.getElementById('newsDate').value;
+  const text = document.getElementById('newsText').value;
+  const img = document.getElementById('newsImg').value || 'images/photo1.jpg';
+
+  const tbody = document.getElementById('newsList');
+  const parts = date.split('-');
+  const dateRu = parts.length === 3 ? `${parts[2]}.${parts[1]}.${parts[0]}` : date;
+
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${dateRu}</td>
+    <td>${title}</td>
+    <td><span class="badge badge-green">Опубликовано</span></td>
+    <td>
+      <button class="admin-btn admin-btn-blue admin-btn-sm"><i class="fa fa-edit"></i> Изменить</button>
+      <button class="admin-btn admin-btn-red admin-btn-sm" style="margin-left:4px" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button>
+    </td>`;
+  tbody.insertBefore(tr, tbody.firstChild);
+
+  const alert = document.getElementById('newsAlert');
+  alert.textContent = '✓ Новость "' + title + '" добавлена!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+  e.target.reset();
+}
+
+/* ── Gallery form ── */
+function addPhoto(e) {
+  e.preventDefault();
+  const path = document.getElementById('photoPath').value;
+  const caption = document.getElementById('photoCaption').value;
+
+  const tbody = document.querySelector('#tab-gallery .admin-table tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${path}</td>
+    <td><img src="${path}" style="height:40px;width:60px;object-fit:cover;border:1px solid #ddd" onerror="this.style.display='none'"></td>
+    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i></button></td>`;
+  tbody.appendChild(tr);
+
+  const alert = document.getElementById('galleryAlert');
+  alert.textContent = '✓ Фото добавлено!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+  e.target.reset();
+}
+
+/* ── Director form ── */
+function saveDirector(e) {
+  e.preventDefault();
+  const alert = document.getElementById('directorAlert');
+  alert.textContent = '✓ Данные о руководителе сохранены!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+}
+
+/* ── Contacts form ── */
+function saveContacts(e) {
+  e.preventDefault();
+  const alert = document.getElementById('contactsAlert');
+  alert.textContent = '✓ Контактные данные сохранены!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+}
+
+/* ── Documents form ── */
+function addDocument(e) {
+  e.preventDefault();
+  const name = document.getElementById('docName').value;
+  const cat = document.getElementById('docCategory').value;
+  const url = document.getElementById('docUrl').value || '#';
+
+  const catBadge = cat.includes('Учред') ? 'badge-blue' : cat.includes('Образов') ? 'badge-green' : 'badge-gray';
+
+  const tbody = document.getElementById('docsList');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${name}</td>
+    <td><span class="badge ${catBadge}">${cat.split(' ')[0]}</span></td>
+    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button></td>`;
+  tbody.insertBefore(tr, tbody.firstChild);
+
+  const alert = document.getElementById('docsAlert');
+  alert.textContent = '✓ Документ "' + name + '" добавлен!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+  e.target.reset();
+}
+
+/* ── Attestation form ── */
+function addAttest(e) {
+  e.preventDefault();
+  const fio = document.getElementById('attFio').value;
+  const pos = document.getElementById('attPosition').value;
+  const cat = document.getElementById('attCategory').value;
+  const period = document.getElementById('attPeriod').value;
+
+  const tbody = document.getElementById('attestList');
+  const empty = tbody.querySelector('td[colspan]');
+  if (empty) empty.closest('tr').remove();
+
+  const catBadge = cat.includes('Высш') ? 'badge-blue' : cat.includes('Перв') ? 'badge-green' : 'badge-gray';
+
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${fio}</td>
+    <td>${pos}</td>
+    <td><span class="badge ${catBadge}">${cat}</span></td>
+    <td>${period}</td>
+    <td><button class="admin-btn admin-btn-red admin-btn-sm" onclick="this.closest('tr').remove()"><i class="fa fa-trash"></i> Удалить</button></td>`;
+  tbody.appendChild(tr);
+
+  const alert = document.getElementById('attestAlert');
+  alert.textContent = '✓ Запись для "' + fio + '" добавлена!';
+  alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', 3000);
+  e.target.reset();
+}
+</script>
+</body>
+</html>
