@@ -1,11 +1,7 @@
-const { ghGet, ghUpload, b64ToUtf8, utf8ToB64, cors } = require('./_gh');
+import { ghGet, ghUpload, b64ToUtf8, utf8ToB64, cors } from './_gh.js';
 
 const CAT_ANCHORS = {
   cat1: 'docs.cat1', cat2: 'docs.cat2', cat3: 'docs.cat3', cat4: 'docs.cat4'
-};
-const CAT_LABELS = {
-  cat1: 'Учредительные документы', cat2: 'Образовательные программы',
-  cat3: 'Внутренние документы',    cat4: 'Отчёты и планы'
 };
 
 function parseDocItems(html) {
@@ -32,7 +28,7 @@ function parseDocItems(html) {
   return items;
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -40,8 +36,7 @@ module.exports = async (req, res) => {
     if (req.method === 'GET') {
       const data = await ghGet('public/documents.html');
       const html = b64ToUtf8(data.content);
-      const items = parseDocItems(html);
-      return res.json({ ok: true, documents: items });
+      return res.json({ ok: true, documents: parseDocItems(html) });
     }
 
     if (req.method === 'POST') {
@@ -74,8 +69,7 @@ module.exports = async (req, res) => {
       const item = items.find(i => i.name === name);
       if (!item) throw new Error('Document not found');
 
-      const newHtml = html.replace(item.block, '');
-      await ghUpload('public/documents.html', utf8ToB64(newHtml), `Docs: remove ${name}`, data.sha);
+      await ghUpload('public/documents.html', utf8ToB64(html.replace(item.block, '')), `Docs: remove ${name}`, data.sha);
       return res.json({ ok: true });
     }
 
@@ -84,4 +78,4 @@ module.exports = async (req, res) => {
     console.error(e);
     return res.status(500).json({ ok: false, error: e.message });
   }
-};
+}
