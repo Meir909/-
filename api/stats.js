@@ -1,6 +1,6 @@
-import { ghGet, b64ToUtf8, cors } from './_gh.js';
+const { ghGet, b64ToUtf8, cors } = require('./_gh');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -20,4 +20,4 @@ export default async function handler(req, res) {
     console.error(e);
     return res.status(500).json({ ok: false, error: e.message });
   }
-}
+};

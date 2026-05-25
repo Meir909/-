@@ -1,4 +1,4 @@
-import { ghGet, ghUpload, b64ToUtf8, utf8ToB64, cors } from './_gh.js';
+const { ghGet, ghUpload, b64ToUtf8, utf8ToB64, cors } = require('./_gh');
 
 const CAT_ANCHORS = {
   cat1: 'docs.cat1', cat2: 'docs.cat2', cat3: 'docs.cat3', cat4: 'docs.cat4'
@@ -28,7 +28,7 @@ function parseDocItems(html) {
   return items;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -78,4 +78,4 @@ export default async function handler(req, res) {
     console.error(e);
     return res.status(500).json({ ok: false, error: e.message });
   }
-}
+};

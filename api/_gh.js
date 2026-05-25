@@ -3,7 +3,7 @@ const GH_REPO   = 'Meir909/-';
 const GH_BRANCH = 'main';
 const GH_API    = 'https://api.github.com';
 
-export async function ghGet(path) {
+async function ghGet(path) {
   const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g,'/')}?ref=${GH_BRANCH}`, {
     headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json' }
   });
@@ -11,7 +11,7 @@ export async function ghGet(path) {
   return r.json();
 }
 
-export async function ghUpload(path, base64content, message, sha) {
+async function ghUpload(path, base64content, message, sha) {
   for (let attempt = 0; attempt < 3; attempt++) {
     const body = { message, content: base64content, branch: GH_BRANCH };
     if (sha) body.sha = sha;
@@ -30,7 +30,7 @@ export async function ghUpload(path, base64content, message, sha) {
   }
 }
 
-export async function ghDelete(path, message, sha) {
+async function ghDelete(path, message, sha) {
   const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g,'/')}`, {
     method: 'DELETE',
     headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
@@ -40,16 +40,18 @@ export async function ghDelete(path, message, sha) {
   return r.json();
 }
 
-export function b64ToUtf8(b64) {
+function b64ToUtf8(b64) {
   return Buffer.from(b64.replace(/\n/g, ''), 'base64').toString('utf-8');
 }
 
-export function utf8ToB64(str) {
+function utf8ToB64(str) {
   return Buffer.from(str, 'utf-8').toString('base64');
 }
 
-export function cors(res) {
+function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
+
+module.exports = { ghGet, ghUpload, ghDelete, b64ToUtf8, utf8ToB64, cors };
