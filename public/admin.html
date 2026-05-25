@@ -735,6 +735,10 @@
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Перейти на сайт
       </a>
+      <a href="#" onclick="updateToken();return false" style="color:#93c5fd">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Обновить токен
+      </a>
       <a href="#" class="logout" onclick="adminLogout();return false">
         <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Выйти
@@ -1199,6 +1203,7 @@ function adminLogin(e) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'flex';
     errEl.style.display = 'none';
+    renderGallery();
   } else {
     errEl.style.display = 'block';
     document.getElementById('adminPass').value = '';
@@ -1211,6 +1216,15 @@ function adminLogout() {
   document.getElementById('adminPanel').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('adminPass').value = '';
+}
+
+function updateToken() {
+  const t = prompt('Введите новый GitHub Token (ghp_...):');
+  if (t && t.trim()) {
+    localStorage.setItem('gh_token', t.trim());
+    showToast('✓ Токен сохранён! Обновляю галерею...');
+    renderGallery();
+  }
 }
 
 if (sessionStorage.getItem('hh_admin') === '1') {
@@ -1341,8 +1355,14 @@ function buildGalleryItem(src, ghPath) {
 
 async function renderGallery() {
   const grid = document.getElementById('adminGalleryGrid');
+  if (!grid) return;
   const addBtn = grid.querySelector('.gi-add-btn');
   grid.querySelectorAll('.admin-gallery-item').forEach(el => el.remove());
+
+  if (!getGhToken()) {
+    showToast('Введите GitHub Token при входе в систему', true);
+    return;
+  }
 
   showGallerySpinner(true);
   try {
@@ -1352,8 +1372,9 @@ async function renderGallery() {
       const src = 'images/' + f.name;
       grid.insertBefore(buildGalleryItem(src, f.path), addBtn);
     });
+    if (!imgs.length) showToast('Фотографии не найдены в репозитории', true);
   } catch(e) {
-    console.warn('Gallery load error:', e);
+    showToast('Ошибка загрузки галереи: ' + e.message, true);
   }
   showGallerySpinner(false);
   updateGalleryCount();
@@ -1556,7 +1577,6 @@ function showToast(msg, isError) {
 
 /* ── Drag & drop ── */
 document.addEventListener('DOMContentLoaded', function() {
-  renderGallery();
   const grid = document.getElementById('adminGalleryGrid');
   if (!grid) return;
   grid.addEventListener('dragover', e => { e.preventDefault(); grid.classList.add('drag-over'); });
