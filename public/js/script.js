@@ -915,12 +915,40 @@ function loadTeachers() {
     .catch(() => {});
 }
 
+/* ── Dynamic hero stats ── */
+const FOUNDED_YEAR = 2015;
+
+function updateHeroStats() {
+  // Years of experience — auto-increments every year
+  const yearsEl = document.querySelector('.stat-num[data-years]');
+  if (yearsEl) {
+    const years = new Date().getFullYear() - FOUNDED_YEAR;
+    yearsEl.dataset.count = years;
+    const span = yearsEl.querySelector('.count-num');
+    if (span) span.textContent = years;
+  }
+
+  // Teachers count — load from JSON
+  const teachersEl = document.querySelector('.stat-num[data-count="28"]');
+  if (!teachersEl) return;
+  fetch('/data/teachers.json?_=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (!Array.isArray(data)) return;
+      teachersEl.dataset.count = data.length;
+      const span = teachersEl.querySelector('.count-num');
+      if (span) span.textContent = data.length;
+    })
+    .catch(() => {});
+}
+
 /* ── Init all ── */
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();
   applyLang(false);
   loadContacts();
   loadTeachers();
+  updateHeroStats();
   hideLoader();
   initHeader();
   initProgressBar();
