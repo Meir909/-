@@ -676,8 +676,6 @@
     <div class="subtitle">Вход в административную панель</div>
     <form onsubmit="adminLogin(event)">
       <input type="password" id="adminPass" placeholder="Введите пароль" autocomplete="current-password">
-      <input type="password" id="adminToken" placeholder="GitHub Token (ghp_...)" autocomplete="off" style="margin-top:8px">
-      <div style="font-size:0.75rem;color:#9ca3af;margin:-4px 0 4px;text-align:left">Токен нужен для синхронизации фото и документов</div>
       <button type="submit">Войти</button>
       <div class="login-error" id="loginError" style="display:none">Неверный пароль. Попробуйте ещё раз.</div>
     </form>
@@ -734,10 +732,6 @@
       <a href="index.html">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Перейти на сайт
-      </a>
-      <a href="#" onclick="updateToken();return false" style="color:#93c5fd">
-        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Обновить токен
       </a>
       <a href="#" class="logout" onclick="adminLogout();return false">
         <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1195,11 +1189,9 @@ const ADMIN_PASS = 'Damir2009';
 function adminLogin(e) {
   e.preventDefault();
   const pass = document.getElementById('adminPass').value;
-  const token = document.getElementById('adminToken').value.trim();
   const errEl = document.getElementById('loginError');
   if (pass === ADMIN_PASS) {
     sessionStorage.setItem('hh_admin', '1');
-    if (token) localStorage.setItem('gh_token', token);
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'flex';
     errEl.style.display = 'none';
@@ -1279,75 +1271,10 @@ function addNews(e) {
   e.target.reset();
 }
 
-/* ── GitHub API config ── */
-const GH_REPO   = 'Meir909/-';
-const GH_BRANCH = 'main';
-const GH_API    = 'https://api.github.com';
-function getGhToken() { return localStorage.getItem('gh_token') || ''; }
+/* ── Backend API ── */
+const API = '';  /* same origin — /api/... */
 
-async function ghGet(path) {
-  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`, {
-    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json' }
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-async function ghUpload(path, base64content, message, sha) {
-  /* On 409 (stale sha), fetch fresh sha and retry — but only if file exists */
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const body = { message, content: base64content, branch: GH_BRANCH };
-    if (sha) body.sha = sha;
-    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g,'/')}`, {
-      method: 'PUT',
-      headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (r.ok) return r.json();
-    if (r.status === 409 && attempt < 2) {
-      /* Fetch fresh sha, wait briefly to let GitHub settle */
-      await new Promise(res => setTimeout(res, 800 * (attempt + 1)));
-      try { const fresh = await ghGet(path); sha = fresh.sha; } catch(_) {}
-      continue;
-    }
-    const errText = await r.text();
-    throw new Error(`HTTP ${r.status}: ${errText}`);
-  }
-}
-
-async function ghDelete(path, message, sha) {
-  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
-    method: 'DELETE',
-    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, sha, branch: GH_BRANCH })
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-/* Декодировать base64 → UTF-8 строку (безопасно для кириллицы и спецсимволов) */
-function b64ToUtf8(b64) {
-  const bin = atob(b64.replace(/\n/g, ''));
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-
-/* Кодировать UTF-8 строку → base64 */
-function utf8ToB64(str) {
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin);
-}
-
-/* Получить SHA файла gallery.html для обновления */
-async function getGalleryHtmlSha() {
-  const data = await ghGet('public/gallery.html');
-  return { sha: data.sha, content: b64ToUtf8(data.content) };
-}
-
-/* ── Gallery render ── */
+/* ── Gallery ── */
 function buildGalleryItem(src, ghPath) {
   const div = document.createElement('div');
   div.className = 'admin-gallery-item';
@@ -1368,21 +1295,13 @@ async function renderGallery() {
   if (!grid) return;
   const addBtn = grid.querySelector('.gi-add-btn');
   grid.querySelectorAll('.admin-gallery-item').forEach(el => el.remove());
-
-  if (!getGhToken()) {
-    showToast('Введите GitHub Token при входе в систему', true);
-    return;
-  }
-
   showGallerySpinner(true);
   try {
-    const files = await ghGet('public/images');
-    const imgs = files.filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f.name));
-    imgs.forEach(f => {
-      const src = 'images/' + f.name;
-      grid.insertBefore(buildGalleryItem(src, f.path), addBtn);
-    });
-    if (!imgs.length) showToast('Фотографии не найдены в репозитории', true);
+    const res = await fetch(API + '/api/gallery');
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    data.images.forEach(f => grid.insertBefore(buildGalleryItem(f.src, f.path), addBtn));
+    if (!data.images.length) showToast('Фотографии не найдены', true);
   } catch(e) {
     showToast('Ошибка загрузки галереи: ' + e.message, true);
   }
@@ -1398,25 +1317,20 @@ function showGallerySpinner(on) {
     sp.style.cssText = 'grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted);font-size:0.9rem';
     sp.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;display:block;margin:0 auto 8px"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>Загрузка...';
     const grid = document.getElementById('adminGalleryGrid');
-    const addBtn = grid.querySelector('.gi-add-btn');
-    grid.insertBefore(sp, addBtn);
+    grid.insertBefore(sp, grid.querySelector('.gi-add-btn'));
   }
   sp.style.display = on ? 'block' : 'none';
 }
 
-function toggleGalleryItem(el) {
-  el.classList.toggle('selected');
-}
+function toggleGalleryItem(el) { el.classList.toggle('selected'); }
 
 async function deleteGalleryItem(e, btn) {
   e.stopPropagation();
   const item = btn.closest('.admin-gallery-item');
   const ghPath = item.dataset.ghpath;
   const delSrc = item.dataset.src;
+  if (!confirm('Удалить это фото?')) return;
 
-  if (!confirm('Удалить это фото? Оно заменится следующим на сайте.')) return;
-
-  /* Найти замену — следующее фото, или предыдущее если удаляем последнее */
   const allItems = Array.from(document.querySelectorAll('#adminGalleryGrid .admin-gallery-item'));
   const idx = allItems.indexOf(item);
   const replItem = allItems[idx + 1] || allItems[idx - 1];
@@ -1426,52 +1340,15 @@ async function deleteGalleryItem(e, btn) {
 
   item.style.opacity = '0.4';
   btn.disabled = true;
-
   try {
-    /* 1. Удалить файл из репозитория */
-    const fileData = await ghGet(ghPath);
-    await ghDelete(ghPath, `Delete ${delSrc}`, fileData.sha);
+    const res = await fetch(API + '/api/gallery', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ghPath, replaceSrc: replSrc, replacePath: replPath })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
 
-    /* 2. В gallery.html: заменить src удалённого на src замены,
-          затем удалить блок замены (она теперь стоит на месте удалённой) */
-    const delName  = delSrc.replace('images/', '');
-    const replName = replSrc.replace('images/', '');
-    const { sha, content } = await getGalleryHtmlSha();
-
-    /* Парсим все gallery-item блоки */
-    function parseBlocks(text) {
-      const result = [];
-      const re = /(<div class="gallery-item"[\s\S]*?<\/div>\s*<\/div>)/g;
-      let m;
-      while ((m = re.exec(text)) !== null) {
-        result.push({ full: m[0], index: m.index });
-      }
-      return result;
-    }
-
-    const blocks = parseBlocks(content);
-    const delBlock  = blocks.find(b => b.full.includes(delName));
-    const replBlock = blocks.find(b => b.full.includes(replName));
-    if (!delBlock || !replBlock) throw new Error('Блок не найден в gallery.html');
-
-    /* Заменяем src в блоке удалённого фото */
-    const escapedDel = delName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const newDelBlock = delBlock.full.replace(
-      new RegExp('src="images/' + escapedDel + '"'),
-      `src="${replSrc}"`
-    ).replace(
-      new RegExp('alt="[^"]*"'),
-      `alt="Фото"`
-    );
-
-    /* Строим новый контент: заменяем delBlock → newDelBlock, удаляем replBlock */
-    let newContent = content.replace(delBlock.full, newDelBlock);
-    newContent = newContent.replace(replBlock.full, '');
-
-    await ghUpload('public/gallery.html', utf8ToB64(newContent),
-      `Replace ${delName} with ${replName}`, sha);
-
-    /* 3. DOM: плавно меняем src на месте, удаляем replItem */
     const imgEl = item.querySelector('img');
     imgEl.style.transition = 'opacity 0.25s';
     imgEl.style.opacity = '0';
@@ -1486,8 +1363,7 @@ async function deleteGalleryItem(e, btn) {
       replItem.remove();
       updateGalleryCount();
     }, 250);
-
-    showToast('✓ Фото заменено! Сайт обновится через ~30 сек.');
+    showToast('✓ Фото удалено! Сайт обновится через ~30 сек.');
   } catch(err) {
     item.style.opacity = '1';
     btn.disabled = false;
@@ -1511,67 +1387,32 @@ async function addPhotoFromFile(input) {
   addBtn.style.opacity = '0.5';
   addBtn.style.pointerEvents = 'none';
 
-  /* Получить текущий gallery.html один раз */
-  let galSha, galContent;
-  try {
-    const g = await getGalleryHtmlSha();
-    galSha = g.sha; galContent = g.content;
-  } catch(e) {
-    showToast('Ошибка получения gallery.html: ' + e.message, true);
-    addBtn.style.opacity = ''; addBtn.style.pointerEvents = '';
-    return;
-  }
-
-  const uploaded = [];
-
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    showToast(`Загружаю ${i + 1}/${files.length}: ${file.name}`);
-
+    showToast(`Загружаю ${i + 1}/${files.length}...`);
     const base64 = await new Promise(res => {
       const r = new FileReader();
       r.onload = ev => res(ev.target.result.split(',')[1]);
       r.readAsDataURL(file);
     });
-
-    const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
-    const ts = Date.now() + i;
-    const ghPath = `public/images/upload_${ts}.${ext}`;
-    const imgName = `upload_${ts}.${ext}`;
-    const imgSrc  = `images/${imgName}`;
-
     try {
-      await ghUpload(ghPath, base64, `Add photo ${imgName}`);
-      uploaded.push({ imgSrc, ghPath });
-      /* Добавить в DOM сразу */
-      grid.insertBefore(buildGalleryItem(imgSrc, ghPath), addBtn);
+      const resp = await fetch(API + '/api/gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: file.name, base64 })
+      });
+      const data = await resp.json();
+      if (!data.ok) throw new Error(data.error);
+      grid.insertBefore(buildGalleryItem(data.src, data.ghPath), addBtn);
+      showToast(`✓ ${i + 1}/${files.length} загружено`);
     } catch(e) {
-      showToast('Не удалось загрузить ' + file.name + ': ' + e.message, true);
+      showToast('Ошибка: ' + e.message, true);
     }
   }
 
-  if (uploaded.length > 0) {
-    /* Взять свежий SHA gallery.html и обновить одним коммитом */
-    try {
-      const g = await getGalleryHtmlSha();
-      let newContent = g.content;
-      let newBlocks = '';
-      for (const { imgSrc } of uploaded) {
-        newBlocks += `\n      <div class="gallery-item" data-cat="play">\n        <img src="${imgSrc}" alt="Фото" loading="lazy">\n        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>\n      </div>`;
-      }
-      const anchor = '    </div>\n  </div>\n</section>';
-      const idx = newContent.indexOf(anchor);
-      if (idx === -1) throw new Error('Anchor not found in gallery.html');
-      newContent = newContent.slice(0, idx) + newBlocks + '\n' + newContent.slice(idx);
-      await ghUpload('public/gallery.html', utf8ToB64(newContent), `Add ${uploaded.length} photo(s) to gallery`, g.sha);
-      showToast(`✓ ${uploaded.length} фото загружено! Сайт обновится через ~30 сек.`);
-    } catch(e) {
-      showToast('Фото загружены, но gallery.html не обновился: ' + e.message, true);
-    }
-    updateGalleryCount();
-  }
-
+  updateGalleryCount();
   addBtn.style.opacity = ''; addBtn.style.pointerEvents = '';
+  showToast('✓ Готово! Сайт обновится через ~30 сек.');
 }
 
 /* ── Toast notification ── */
@@ -1647,9 +1488,10 @@ async function loadDocsList() {
   if (!wrap) return;
   wrap.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">Загрузка...</div>';
   try {
-    const data = await ghGet('public/documents.html');
-    const html = b64ToUtf8(data.content);
-    const items = parseDocItems(html);
+    const res = await fetch(API + '/api/documents');
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    const items = data.documents;
     if (!items.length) {
       wrap.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">Документы не найдены</div>';
       return;
@@ -1672,30 +1514,6 @@ async function loadDocsList() {
   }
 }
 
-function parseDocItems(html) {
-  const items = [];
-  const catKeys = ['cat1','cat2','cat3','cat4'];
-  const catAnchors = Object.values(DOC_CAT_ANCHORS);
-  const re = /<div class="doc-item">([\s\S]*?)<\/div>\s*<\/div>/g;
-  let m;
-  while ((m = re.exec(html)) !== null) {
-    const block = m[0];
-    const blockStart = m.index;
-    const nameMatch = block.match(/class="doc-item-name"[^>]*>([^<]+)</);
-    const hrefMatch = block.match(/href="([^"#][^"]+)"/);
-    const name = nameMatch ? nameMatch[1].trim() : '';
-    if (!name) continue;
-    let catKey = 'cat1';
-    for (let i = catAnchors.length - 1; i >= 0; i--) {
-      const anchor = 'data-i18n="' + catAnchors[i] + '"';
-      const catIdx = html.lastIndexOf(anchor, blockStart);
-      if (catIdx !== -1) { catKey = catKeys[i]; break; }
-    }
-    items.push({ name, href: hrefMatch ? hrefMatch[1] : '#', block: m[0], catKey });
-  }
-  return items;
-}
-
 async function deleteDocument(idx) {
   const wrap = document.getElementById('docsListWrap');
   const items = wrap._docItems;
@@ -1705,13 +1523,14 @@ async function deleteDocument(idx) {
   const btn = wrap.querySelector(`tr[data-doc-idx="${idx}"] button`);
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
   try {
-    const data = await ghGet('public/documents.html');
-    const sha = data.sha;
-    let content = b64ToUtf8(data.content);
-    const newContent = content.replace(item.block, '');
-    if (newContent === content) throw new Error('Блок не найден в файле');
-    await ghUpload('public/documents.html', utf8ToB64(newContent), sha, `Remove doc: ${item.name}`);
-    showAlert('docsAlert', `Документ "${item.name}" удалён и сохранён на сайте.`, 'success');
+    const res = await fetch(API + '/api/documents', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: item.name })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    showAlert('docsAlert', `Документ "${item.name}" удалён.`, 'success');
     await loadDocsList();
   } catch(err) {
     showAlert('docsAlert', `Ошибка: ${err.message}`, 'error');
@@ -1729,20 +1548,14 @@ async function addDocument(e) {
   btn.disabled = true;
   btn.textContent = 'Сохранение...';
   try {
-    const data = await ghGet('public/documents.html');
-    const sha = data.sha;
-    let content = b64ToUtf8(data.content);
-    const anchor = DOC_CAT_ANCHORS[catKey];
-    const catLabel = DOC_CAT_LABELS[catKey];
-    const sectionTitleRe = new RegExp(`(<div class="docs-section-title">[\\s\\S]*?data-i18n="${anchor}"[\\s\\S]*?<\\/div>)`);
-    const match = sectionTitleRe.exec(content);
-    if (!match) throw new Error('Раздел не найден');
-    const newDocHtml = `\n      <div class="doc-item"><div class="doc-item-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="doc-item-name">${name}</span><a href="${url}" class="doc-item-dl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Скачать</span></a></div>`;
-    const insertAfter = match[0];
-    const insertPos = content.indexOf(insertAfter) + insertAfter.length;
-    const newContent = content.slice(0, insertPos) + newDocHtml + content.slice(insertPos);
-    await ghUpload('public/documents.html', utf8ToB64(newContent), sha, `Add doc: ${name}`);
-    showAlert('docsAlert', `Документ "${name}" добавлен в раздел "${catLabel}".`, 'success');
+    const res = await fetch(API + '/api/documents', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, catKey, url })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    showAlert('docsAlert', `Документ "${name}" добавлен.`, 'success');
     e.target.reset();
     await loadDocsList();
   } catch(err) {
