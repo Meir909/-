@@ -1294,15 +1294,23 @@ async function ghGet(path) {
 }
 
 async function ghUpload(path, base64content, message, sha) {
-  const body = { message, content: base64content, branch: GH_BRANCH };
-  if (sha) body.sha = sha;
-  const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
-    method: 'PUT',
-    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
+  /* If sha is stale (409 conflict), fetch fresh sha and retry once */
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const body = { message, content: base64content, branch: GH_BRANCH };
+    if (sha) body.sha = sha;
+    const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (r.ok) return r.json();
+    if (r.status === 409 && attempt === 0) {
+      const fresh = await ghGet(path);
+      sha = fresh.sha;
+      continue;
+    }
+    throw new Error(await r.text());
+  }
 }
 
 async function ghDelete(path, message, sha) {
