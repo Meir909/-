@@ -1,14 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "public/**", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/ping", "dest": "/api/ping.js" },
-    { "src": "/api/stats", "dest": "/api/stats.js" },
-    { "src": "/api/gallery", "dest": "/api/gallery.js" },
-    { "src": "/api/documents", "dest": "/api/documents.js" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }
