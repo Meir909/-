@@ -1247,6 +1247,7 @@ function showTab(name, link) {
   if (name === 'dashboard') loadDashboard();
   if (name === 'gallery') renderGallery();
   if (name === 'documents') loadDocsList();
+  if (name === 'contacts') loadContactsForm();
   if (window.innerWidth <= 900) {
     document.getElementById('adminSidebar').classList.remove('open');
   }
@@ -1482,6 +1483,20 @@ function saveDirector(e) {
   al.textContent = '✓ Данные о руководителе сохранены!';
   al.style.display = 'block';
   setTimeout(() => al.style.display = 'none', 3000);
+}
+
+async function loadContactsForm() {
+  try {
+    const res = await fetch(API + '/api/contacts');
+    const data = await res.json();
+    if (!data.ok) return;
+    const c = data.contacts;
+    if (c.addr)     document.getElementById('cAddr').value = c.addr;
+    if (c.phone)    document.getElementById('cPhone').value = c.phone;
+    if (c.email)    document.getElementById('cEmail').value = c.email;
+    if (c.whatsapp) document.getElementById('cWhatsapp').value = c.whatsapp;
+    if (c.hours)    document.getElementById('cHours').value = c.hours;
+  } catch(_) {}
 }
 
 async function saveContacts(e) {

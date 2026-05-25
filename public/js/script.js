@@ -564,10 +564,43 @@ function applyLang(animate = false) {
 }
 
 function updateWaLink() {
+  const num = (window._contacts && window._contacts.whatsapp) ? window._contacts.whatsapp : '77014860000';
   const msg = encodeURIComponent(t('wa.msg'));
   document.querySelectorAll('.wa-btn').forEach(a => {
-    a.href = `https://wa.me/77014860000?text=${msg}`;
+    a.href = `https://wa.me/${num}?text=${msg}`;
   });
+}
+
+function applyContacts(c) {
+  window._contacts = c;
+  /* Update i18n values for all languages */
+  ['kk','ru','en'].forEach(lang => {
+    if (TRANSLATIONS[lang]) {
+      if (c.addr)  { TRANSLATIONS[lang]['contact.addr.v']  = c.addr; }
+      if (c.phone) { TRANSLATIONS[lang]['contact.phone.v'] = c.phone; }
+      if (c.email) { TRANSLATIONS[lang]['contact.email.v'] = c.email; }
+      if (c.hours) { TRANSLATIONS[lang]['contact.hours.v'] = c.hours; }
+    }
+  });
+  /* Re-apply text content */
+  document.querySelectorAll('[data-i18n="contact.addr.v"]').forEach(el => { el.textContent = c.addr; });
+  document.querySelectorAll('[data-i18n="contact.phone.v"]').forEach(el => { el.textContent = c.phone; });
+  document.querySelectorAll('[data-i18n="contact.email.v"]').forEach(el => { el.textContent = c.email; });
+  document.querySelectorAll('[data-i18n="contact.hours.v"]').forEach(el => { el.textContent = c.hours; });
+  /* tel: and mailto: links */
+  document.querySelectorAll('a[href^="tel:"]').forEach(a => { a.href = 'tel:' + c.phone_raw; });
+  document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+    a.href = 'mailto:' + c.email;
+    if (a.textContent && a.textContent.includes('@')) a.textContent = c.email;
+  });
+  updateWaLink();
+}
+
+function loadContacts() {
+  fetch('/data/contacts.json?_=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(c => { if (c) applyContacts(c); })
+    .catch(() => {});
 }
 
 /* ── Theme (light only) ── */
@@ -855,6 +888,7 @@ function initParallax() {
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();
   applyLang(false);
+  loadContacts();
   hideLoader();
   initHeader();
   initProgressBar();
