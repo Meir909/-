@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
 
     const photos = galData.filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f.name)).length;
     const docs = (b64ToUtf8(docsData.content).match(/class="doc-item"/g) || []).length;
-    const teachers = (b64ToUtf8(teachersData.content).match(/class="teacher-card"/g) || []).length;
+    const teachers = (b64ToUtf8(teachersData.content).match(/class="teacher-card\b/g) || []).length;
 
     return res.json({ ok: true, photos, docs, teachers });
   } catch (e) {
