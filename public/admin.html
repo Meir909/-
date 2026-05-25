@@ -779,7 +779,7 @@
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </div>
             <div class="stat-info">
-              <div class="stat-num">16</div>
+              <div class="stat-num" id="ds-photos">—</div>
               <div class="stat-label">Фото в галерее</div>
             </div>
           </div>
@@ -788,7 +788,7 @@
               <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2z"/><path d="M18 14h-8"/><path d="M15 18h-5"/></svg>
             </div>
             <div class="stat-info">
-              <div class="stat-num">6</div>
+              <div class="stat-num" id="ds-news">—</div>
               <div class="stat-label">Новостей</div>
             </div>
           </div>
@@ -797,7 +797,7 @@
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <div class="stat-info">
-              <div class="stat-num">11</div>
+              <div class="stat-num" id="ds-docs">—</div>
               <div class="stat-label">Документов</div>
             </div>
           </div>
@@ -806,8 +806,8 @@
               <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <div class="stat-info">
-              <div class="stat-num">4</div>
-              <div class="stat-label">Специалистов</div>
+              <div class="stat-num" id="ds-teachers">—</div>
+              <div class="stat-label">Воспитателей</div>
             </div>
           </div>
         </div>
@@ -828,9 +828,9 @@
                   <th>Раздел</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="dashboardLog">
                 <tr>
-                  <td>24.05.2026</td>
+                  <td id="loginDateCell">—</td>
                   <td>Вход в систему</td>
                   <td><span class="badge badge-blue">Система</span></td>
                 </tr>
@@ -1195,7 +1195,7 @@ function adminLogin(e) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'flex';
     errEl.style.display = 'none';
-    renderGallery();
+    loadDashboard();
   } else {
     errEl.style.display = 'block';
     document.getElementById('adminPass').value = '';
@@ -1236,6 +1236,7 @@ function showTab(name, link) {
     documents: 'Документы', attestation: 'Аттестация'
   };
   document.getElementById('adminPageTitle').textContent = titles[name] || name;
+  if (name === 'dashboard') loadDashboard();
   if (name === 'gallery') renderGallery();
   if (name === 'documents') loadDocsList();
   if (window.innerWidth <= 900) {
@@ -1273,6 +1274,33 @@ function addNews(e) {
 
 /* ── Backend API ── */
 const API = '';  /* same origin — /api/... */
+
+async function loadDashboard() {
+  /* Real login date */
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric' });
+  const cell = document.getElementById('loginDateCell');
+  if (cell) cell.textContent = dateStr;
+
+  /* Load stats from backend */
+  try {
+    const r = await fetch(API + '/api/stats');
+    const d = await r.json();
+    if (d.ok) {
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      set('ds-photos',   d.photos);
+      set('ds-docs',     d.docs);
+      set('ds-teachers', d.teachers);
+    }
+  } catch(e) {
+    console.warn('Stats error:', e.message);
+  }
+
+  /* News count — count rows added in this session */
+  const newsRows = document.querySelectorAll('#newsList tr');
+  const newsEl = document.getElementById('ds-news');
+  if (newsEl && newsEl.textContent === '—') newsEl.textContent = newsRows.length || 0;
+}
 
 /* ── Gallery ── */
 function buildGalleryItem(src, ghPath) {
