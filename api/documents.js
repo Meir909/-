@@ -59,6 +59,16 @@ module.exports = async function handler(req, res) {
       return res.json({ ok: true });
     }
 
+    if (req.method === 'PUT') {
+      const { filename, base64 } = req.body;
+      if (!filename || !base64) return res.status(400).json({ ok: false, error: 'Missing filename or base64' });
+      const safeName = `${Date.now()}_${filename.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      const ghPath = `public/documents/${safeName}`;
+      await ghUpload(ghPath, base64, `Docs: upload file ${safeName}`);
+      const url = `https://cdn.jsdelivr.net/gh/Meir909/-@main/public/documents/${encodeURIComponent(safeName)}`;
+      return res.json({ ok: true, url });
+    }
+
     if (req.method === 'DELETE') {
       const { name } = req.body;
       if (!name) return res.status(400).json({ ok: false, error: 'Missing name' });

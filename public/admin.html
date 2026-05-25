@@ -1076,8 +1076,16 @@
                   </select>
                 </div>
                 <div class="admin-form-group">
-                  <label>Ссылка на файл (необязательно)</label>
-                  <input type="text" class="admin-input" id="docUrl" placeholder="docs/document.pdf">
+                  <label>Файл (PDF, Word, Excel…)</label>
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <label class="admin-btn admin-btn-secondary" style="cursor:pointer;margin:0;flex-shrink:0">
+                      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                      Выбрать файл
+                      <input type="file" id="docFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip" style="display:none" onchange="onDocFileChange(this)">
+                    </label>
+                    <span id="docFileName" style="color:var(--text-muted);font-size:0.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Файл не выбран</span>
+                  </div>
+                  <input type="hidden" id="docUrl">
                 </div>
               </div>
               <button type="submit" class="admin-btn admin-btn-primary" id="docAddBtn">
@@ -1574,16 +1582,41 @@ async function deleteDocument(idx) {
   }
 }
 
+function onDocFileChange(input) {
+  const label = document.getElementById('docFileName');
+  label.textContent = input.files[0] ? input.files[0].name : 'Файл не выбран';
+}
+
 async function addDocument(e) {
   e.preventDefault();
   const name = document.getElementById('docName').value.trim();
   const catKey = document.getElementById('docCategory').value;
-  const url = document.getElementById('docUrl').value.trim() || '#';
+  const fileInput = document.getElementById('docFile');
+  const file = fileInput.files[0];
   if (!name) return;
   const btn = document.getElementById('docAddBtn');
   btn.disabled = true;
   btn.textContent = 'Сохранение...';
   try {
+    let url = '#';
+    if (file) {
+      btn.textContent = 'Загрузка файла...';
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const uploadRes = await fetch(API + '/api/documents', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, base64 })
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadData.ok) throw new Error(uploadData.error);
+      url = uploadData.url;
+      btn.textContent = 'Сохранение документа...';
+    }
     const res = await fetch(API + '/api/documents', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1593,6 +1626,7 @@ async function addDocument(e) {
     if (!data.ok) throw new Error(data.error);
     showAlert('docsAlert', `Документ "${name}" добавлен.`, 'success');
     e.target.reset();
+    document.getElementById('docFileName').textContent = 'Файл не выбран';
     await loadDocsList();
   } catch(err) {
     showAlert('docsAlert', `Ошибка: ${err.message}`, 'error');
