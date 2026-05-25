@@ -676,6 +676,8 @@
     <div class="subtitle">Вход в административную панель</div>
     <form onsubmit="adminLogin(event)">
       <input type="password" id="adminPass" placeholder="Введите пароль" autocomplete="current-password">
+      <input type="password" id="adminToken" placeholder="GitHub Token (ghp_...)" autocomplete="off" style="margin-top:8px">
+      <div style="font-size:0.75rem;color:#9ca3af;margin:-4px 0 4px;text-align:left">Токен нужен для синхронизации фото и документов</div>
       <button type="submit">Войти</button>
       <div class="login-error" id="loginError" style="display:none">Неверный пароль. Попробуйте ещё раз.</div>
     </form>
@@ -1189,9 +1191,11 @@ const ADMIN_PASS = 'Damir2009';
 function adminLogin(e) {
   e.preventDefault();
   const pass = document.getElementById('adminPass').value;
+  const token = document.getElementById('adminToken').value.trim();
   const errEl = document.getElementById('loginError');
   if (pass === ADMIN_PASS) {
     sessionStorage.setItem('hh_admin', '1');
+    if (token) localStorage.setItem('gh_token', token);
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'flex';
     errEl.style.display = 'none';
@@ -1262,14 +1266,14 @@ function addNews(e) {
 }
 
 /* ── GitHub API config ── */
-const GH_TOKEN  = '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';
 const GH_REPO   = 'Meir909/-';
 const GH_BRANCH = 'main';
 const GH_API    = 'https://api.github.com';
+function getGhToken() { return localStorage.getItem('gh_token') || ''; }
 
 async function ghGet(path) {
   const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`, {
-    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json' }
+    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json' }
   });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
@@ -1280,7 +1284,7 @@ async function ghUpload(path, base64content, message, sha) {
   if (sha) body.sha = sha;
   const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
     method: 'PUT',
-    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
   if (!r.ok) throw new Error(await r.text());
@@ -1290,7 +1294,7 @@ async function ghUpload(path, base64content, message, sha) {
 async function ghDelete(path, message, sha) {
   const r = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
     method: 'DELETE',
-    headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    headers: { Authorization: `token ${getGhToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ message, sha, branch: GH_BRANCH })
   });
   if (!r.ok) throw new Error(await r.text());
