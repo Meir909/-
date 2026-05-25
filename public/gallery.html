@@ -60,15 +60,6 @@
 
 <section class="section">
   <div class="container">
-    <!-- Filters -->
-    <div class="gallery-filter">
-      <button class="filter-btn active" data-filter="all">Все</button>
-      <button class="filter-btn" data-filter="play">Игры</button>
-      <button class="filter-btn" data-filter="study">Занятия</button>
-      <button class="filter-btn" data-filter="art">Творчество</button>
-      <button class="filter-btn" data-filter="sport">Спорт</button>
-    </div>
-
     <div class="gallery-grid" id="galleryGrid">
       
       <div class="gallery-item" data-cat="play">
@@ -214,23 +205,6 @@
 <button class="back-top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
 
 <script src="js/script.js"></script>
-<script>
-  // Gallery filter
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      document.querySelectorAll('#galleryGrid .gallery-item').forEach(item => {
-        if (filter === 'all' || item.dataset.cat === filter) {
-          item.classList.remove('hidden');
-        } else {
-          item.classList.add('hidden');
-        }
-      });
-    });
-  });
-</script>
 </body>
 </html>
 

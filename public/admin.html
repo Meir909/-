@@ -1284,6 +1284,11 @@ async function loadDashboard() {
 
   /* Load stats from backend */
   try {
+    const ping = await fetch(API + '/api/ping').then(r => r.json()).catch(() => null);
+    if (ping && !ping.token) {
+      showToast('GH_TOKEN не найден в Vercel — добавьте переменную окружения', true);
+      return;
+    }
     const r = await fetch(API + '/api/stats');
     const d = await r.json();
     if (d.ok) {
@@ -1291,9 +1296,12 @@ async function loadDashboard() {
       set('ds-photos',   d.photos);
       set('ds-docs',     d.docs);
       set('ds-teachers', d.teachers);
+    } else {
+      showToast('Ошибка статистики: ' + d.error, true);
     }
   } catch(e) {
     console.warn('Stats error:', e.message);
+    showToast('Ошибка статистики: ' + e.message, true);
   }
 
   /* News count — count rows added in this session */
