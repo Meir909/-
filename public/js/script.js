@@ -916,7 +916,7 @@ function loadTeachers() {
 }
 
 /* ── Dynamic hero stats ── */
-const FOUNDED_YEAR = 2015;
+const FOUNDED_YEAR = 2021;
 
 function updateHeroStats() {
   // Years of experience — auto-increments every year
