@@ -8,7 +8,7 @@ function parseDocItems(html) {
   const items = [];
   const catKeys = ['cat1', 'cat2', 'cat3', 'cat4'];
   const catAnchors = Object.values(CAT_ANCHORS);
-  const re = /<div class="doc-item">([\s\S]*?)<\/div>\s*<\/div>/g;
+  const re = /<div class="doc-item">[\s\S]*?<\/a><\/div>/g;
   let m;
   while ((m = re.exec(html)) !== null) {
     const block = m[0];
