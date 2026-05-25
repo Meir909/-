@@ -25,7 +25,8 @@ module.exports = async function handler(req, res) {
 
       const galData = await ghGet('public/gallery.html');
       const content = b64ToUtf8(galData.content);
-      const newBlock = `\n      <div class="gallery-item">\n        <img src="images/${safeName}" alt="Фото" loading="lazy">\n        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>\n      </div>`;
+      const encodedName = safeName.replace(/ /g,'%20').replace(/\(/g,'%28').replace(/\)/g,'%29');
+      const newBlock = `\n      <div class="gallery-item">\n        <img src="images/${encodedName}" alt="Фото" loading="lazy">\n        <div class="gallery-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>\n      </div>`;
       const anchor = '    </div>\n  </div>\n</section>';
       const idx = content.indexOf(anchor);
       if (idx === -1) throw new Error('Anchor not found in gallery.html');

@@ -884,11 +884,43 @@ function initParallax() {
   }, { passive: true });
 }
 
+/* ── Teachers ── */
+function loadTeachers() {
+  const grid = document.getElementById('teachersGrid');
+  if (!grid) return;
+  fetch('/data/teachers.json?_=' + Date.now())
+    .then(r => r.ok ? r.json() : [])
+    .then(teachers => {
+      if (!Array.isArray(teachers) || !teachers.length) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 0">Воспитатели скоро появятся.</p>';
+        return;
+      }
+      grid.innerHTML = teachers.map(t => `
+        <div class="teacher-card reveal">
+          <div class="teacher-photo">
+            ${t.photo
+              ? `<img src="${t.photo}" alt="${t.name}" loading="lazy">`
+              : `<div style="width:100%;height:100%;background:var(--primary-light);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="var(--primary)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>`
+            }
+            <div class="teacher-overlay"></div>
+          </div>
+          <div class="teacher-info">
+            <h3>${t.name}</h3>
+            ${t.role ? `<div class="teacher-role">${t.role}</div>` : ''}
+            ${t.desc ? `<p class="teacher-desc">${t.desc}</p>` : ''}
+          </div>
+        </div>`).join('');
+      initReveal();
+    })
+    .catch(() => {});
+}
+
 /* ── Init all ── */
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();
   applyLang(false);
   loadContacts();
+  loadTeachers();
   hideLoader();
   initHeader();
   initProgressBar();

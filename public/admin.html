@@ -714,6 +714,10 @@
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Руководитель
       </a>
+      <a href="#" onclick="showTab('teachers',this);return false">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Воспитатели
+      </a>
       <a href="#" onclick="showTab('contacts',this);return false">
         <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         Контакты
@@ -947,6 +951,58 @@
                 Добавить фото
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEACHERS TAB -->
+      <div id="tab-teachers" class="admin-tab-content">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <span>
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Воспитатели <span id="teachersCount"></span>
+            </span>
+          </div>
+          <div class="admin-card-body">
+            <div id="teachersAlert" class="admin-alert admin-alert-success" style="display:none"></div>
+
+            <!-- Add form -->
+            <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-md);padding:18px;margin-bottom:20px">
+              <div style="font-weight:600;margin-bottom:12px;font-size:0.92rem">Добавить воспитателя</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="admin-form-group">
+                  <label>ФИО *</label>
+                  <input type="text" class="admin-input" id="tcName" placeholder="Иванова Мария Ивановна">
+                </div>
+                <div class="admin-form-group">
+                  <label>Должность</label>
+                  <input type="text" class="admin-input" id="tcRole" placeholder="Воспитатель старшей группы">
+                </div>
+                <div class="admin-form-group" style="grid-column:1/-1">
+                  <label>Описание</label>
+                  <input type="text" class="admin-input" id="tcDesc" placeholder="Педагогический стаж 10 лет...">
+                </div>
+                <div class="admin-form-group" style="grid-column:1/-1">
+                  <label>Фото</label>
+                  <input type="file" id="tcPhotoInput" accept="image/*" style="display:none" onchange="onTcPhotoChange(this)">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <button type="button" class="admin-btn" style="padding:8px 14px;font-size:0.82rem" onclick="document.getElementById('tcPhotoInput').click()">
+                      <svg viewBox="0 0 24 24" width="14" height="14"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      Выбрать фото
+                    </button>
+                    <span id="tcPhotoName" style="font-size:0.8rem;color:var(--text-muted)">Файл не выбран</span>
+                  </div>
+                </div>
+              </div>
+              <button class="admin-btn admin-btn-primary" style="margin-top:10px" onclick="addTeacher()">
+                <svg viewBox="0 0 24 24" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Добавить
+              </button>
+            </div>
+
+            <!-- List -->
+            <div id="teachersList" style="display:flex;flex-direction:column;gap:10px"></div>
           </div>
         </div>
       </div>
@@ -1241,13 +1297,14 @@ function showTab(name, link) {
   const titles = {
     dashboard: 'Главная', news: 'Новости', gallery: 'Галерея',
     director: 'Руководитель', contacts: 'Контакты',
-    documents: 'Документы', attestation: 'Аттестация'
+    documents: 'Документы', attestation: 'Аттестация', teachers: 'Воспитатели'
   };
   document.getElementById('adminPageTitle').textContent = titles[name] || name;
   if (name === 'dashboard') loadDashboard();
   if (name === 'gallery') renderGallery();
   if (name === 'documents') loadDocsList();
   if (name === 'contacts') loadContactsForm();
+  if (name === 'teachers') loadTeachersList();
   if (window.innerWidth <= 900) {
     document.getElementById('adminSidebar').classList.remove('open');
   }
@@ -1525,6 +1582,124 @@ async function saveContacts(e) {
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Сохранить изменения';
+  }
+}
+
+/* ── TEACHERS GITHUB API ── */
+
+function onTcPhotoChange(input) {
+  const name = input.files[0] ? input.files[0].name : 'Файл не выбран';
+  document.getElementById('tcPhotoName').textContent = name;
+}
+
+async function loadTeachersList() {
+  const list = document.getElementById('teachersList');
+  list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted)">Загрузка...</div>';
+  try {
+    const res = await fetch(API + '/api/teachers');
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    renderTeachersList(data.teachers);
+  } catch(e) {
+    list.innerHTML = '<div style="color:red;padding:12px">Ошибка: ' + e.message + '</div>';
+  }
+}
+
+function renderTeachersList(teachers) {
+  const list = document.getElementById('teachersList');
+  const cnt = document.getElementById('teachersCount');
+  if (cnt) cnt.textContent = '(' + teachers.length + ')';
+  if (!teachers.length) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted)">Воспитатели не добавлены</div>';
+    return;
+  }
+  list.innerHTML = teachers.map(t => `
+    <div class="admin-card" style="margin:0" data-tid="${t.id}">
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 16px">
+        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--primary-light);display:flex;align-items:center;justify-content:center">
+          ${t.photo
+            ? `<img src="${t.photo}" alt="${t.name}" style="width:100%;height:100%;object-fit:cover">`
+            : `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--primary)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+          }
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:0.93rem">${t.name}</div>
+          ${t.role ? `<div style="font-size:0.8rem;color:var(--primary);margin-top:2px">${t.role}</div>` : ''}
+          ${t.desc ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.desc}</div>` : ''}
+        </div>
+        <button onclick="deleteTeacher('${t.id}','${t.photo || ''}')" style="background:none;border:none;cursor:pointer;padding:6px;color:var(--text-muted);border-radius:6px;flex-shrink:0" title="Удалить">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+async function addTeacher() {
+  const name = document.getElementById('tcName').value.trim();
+  if (!name) { showAlert('teachersAlert', 'Введите ФИО воспитателя', 'error'); return; }
+
+  const role = document.getElementById('tcRole').value.trim();
+  const desc = document.getElementById('tcDesc').value.trim();
+  const fileInput = document.getElementById('tcPhotoInput');
+  const file = fileInput.files[0];
+
+  const btn = document.querySelector('#tab-teachers .admin-btn-primary');
+  btn.disabled = true;
+  btn.textContent = 'Добавляем...';
+
+  try {
+    const body = { name, role, desc };
+    if (file) {
+      const b64 = await new Promise(res => {
+        const r = new FileReader();
+        r.onload = () => res(r.result.split(',')[1]);
+        r.readAsDataURL(file);
+      });
+      body.photoBase64 = b64;
+      body.photoExt = file.name.split('.').pop().toLowerCase();
+    }
+    const res = await fetch(API + '/api/teachers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    document.getElementById('tcName').value = '';
+    document.getElementById('tcRole').value = '';
+    document.getElementById('tcDesc').value = '';
+    fileInput.value = '';
+    document.getElementById('tcPhotoName').textContent = 'Файл не выбран';
+    showAlert('teachersAlert', 'Воспитатель добавлен!', 'success');
+    loadTeachersList();
+  } catch(e) {
+    showAlert('teachersAlert', 'Ошибка: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Добавить';
+  }
+}
+
+async function deleteTeacher(id, photo) {
+  if (!confirm('Удалить воспитателя?')) return;
+  try {
+    const res = await fetch(API + '/api/teachers', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, photo })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    const item = document.querySelector(`[data-tid="${id}"]`);
+    if (item) item.remove();
+    const cnt = document.getElementById('teachersCount');
+    if (cnt) {
+      const cur = parseInt(cnt.textContent.replace(/\D/g,'')) || 0;
+      cnt.textContent = '(' + Math.max(0, cur - 1) + ')';
+    }
+    showAlert('teachersAlert', 'Воспитатель удалён', 'success');
+  } catch(e) {
+    showAlert('teachersAlert', 'Ошибка: ' + e.message, 'error');
   }
 }
 
